@@ -29,23 +29,6 @@ Route::middleware('auth')->prefix('admin')->group(function (){
         return view('profile');
     })->name('profile');
 
-    // Route::get('/persona', [PersonaController::class, 'index'])->name('persona_index');
-
-    // Route::get('/persona_agregar', function (){
-    //    return view(view: 'persona.agregar');
-    // })->name('persona_agregar');
-
-    // Route::get('/persona_plantilla', function (){
-    //    return view(view: 'persona.plantilla');
-    //})->name('persona_plantilla');
-
-    //Route::get('/empresa', function (){
-    //    return view(view: 'empresa');
-    //})->name('empresa');
-
-    //Route::resource('persona', PersonaController::class)
-    //    ->only(['index','create','show']);
-
     Route::prefix('persona')->name('persona.')->controller(EmpresaController::class)->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
@@ -70,9 +53,3 @@ Route::middleware('auth')->prefix('admin')->group(function (){
         return view(view: 'events');
     })->name('events');
 });
-
-
-
-//Route::get('/home', function() {
-//    return view('home');
-//})->name('home')->middleware('auth');
