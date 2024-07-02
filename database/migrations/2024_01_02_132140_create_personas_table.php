@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('DNI')->unique()->nullable();
             $table->string('Nombres')->nullable();
             $table->string('Apellidos')->nullable();
+            $table->date('FechaNacimiento')->nullable();
+            $table->string('Avatar')->nullable();
+            $table->boolean('Eliminado')->default(0);
             $table->timestamps();
+            $table->date('deleted_at')->nullable();
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';

@@ -29,7 +29,7 @@ Route::middleware('auth')->prefix('admin')->group(function (){
         return view('profile');
     })->name('profile');
 
-    Route::prefix('persona')->name('persona.')->controller(EmpresaController::class)->group(function(){
+    Route::prefix('persona')->name('persona.')->controller(PersonaController::class)->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
