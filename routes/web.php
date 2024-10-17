@@ -2,11 +2,24 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PersonaController;
+use App\Models\admin\TelefonoMovil;
+use App\Models\admin\TelefonoTipoOperadora;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/prueba', function () {
+    //$Numeros = TelefonoMovil::all();
+
+    //return view('prueba', compact('Numeros'));
+
+    $Operadoras = TelefonoTipoOperadora::all();
+    return view('prueba', compact('Operadoras'));
+//    return $Operadoras->numeros();
+    
 });
 
 Route::middleware([

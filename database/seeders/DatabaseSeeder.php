@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);*/
         $this->call([
             UserSeeder::class,
+            TelefonoTipoOperadoraSeeder::class,
             /*ContinenteSeeder::class,
             PaisSeeder::class,
             ProvinciaSeeder::class,
