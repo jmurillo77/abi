@@ -16,7 +16,7 @@ class TelefonoTipoOperadora extends Model
     protected $fillable = [
         'Nombre'
     ];
-    public function numeros()
+    public function numeros(): HasMany
     {
         return $this->hasMany(TelefonoMovil::class);
     }
