@@ -19,7 +19,8 @@ class TelefonoMovil extends Model
         'WhatsappValido'
     ];
 
-    public function operadora(){
-        return $this->belongsTo(TelefonoTipoOperadora::class);
+    public function operadora()
+    {
+        return $this->hasOne(TelefonoTipoOperadora::class, 'IdOperadora', 'IdOperadora');
     }
 }

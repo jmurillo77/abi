@@ -16,8 +16,9 @@ Route::get('/prueba', function () {
 
     //return view('prueba', compact('Numeros'));
 
-    $Operadoras = TelefonoTipoOperadora::all();
-    return view('prueba', compact('Operadoras'));
+    $Numeros = TelefonoMovil::all();
+    
+    return view('prueba', compact('Numeros'));
 //    return $Operadoras->numeros();
     
 });
