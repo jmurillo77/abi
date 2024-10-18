@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id('IdTelefonoMovil');
             $table->string('Numero')->unique();
             //$table->unsignedBigInteger('IdOperadora')->default('1');
-            //$table->foreign('IdOperadora')->references('IdOperadora')->on('telefono_tipo_operadoras');
-            $table->foreignId('IdOperadora')->constrained(table: 'telefono_tipo_operadoras', indexName: 'IdOperadora')->default('1');
+            $table->foreignId('IdOperadora')->references('IdOperadora')->on('telefono_tipo_operadoras')->default('1');
             $table->enum('PhoneValido', ['0', '1'])->default('1');
             $table->enum('WhatsappValido', ['0', '1'])->default('1');
             $table->string('cUser')->nullable();

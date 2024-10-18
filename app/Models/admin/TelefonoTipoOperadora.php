@@ -18,7 +18,7 @@ class TelefonoTipoOperadora extends Model
     ];
     public function numeros(): HasMany
     {
-        return $this->hasMany(TelefonoMovil::class);
+        return $this->hasMany(TelefonoMovil::class, 'IdOperadora', 'IdOperadora');
     }
 
 }
