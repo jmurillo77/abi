@@ -12,14 +12,11 @@ Route::get('/', function () {
 });
 
 Route::get('/prueba', function () {
+    $Operadoras = TelefonoTipoOperadora::all();
+    return view('prueba', compact('Operadoras'));
+
     //$Numeros = TelefonoMovil::all();
-
     //return view('prueba', compact('Numeros'));
-
-    $Numeros = TelefonoMovil::all();
-    
-    return view('prueba', compact('Numeros'));
-//    return $Operadoras->numeros();
     
 });
 
