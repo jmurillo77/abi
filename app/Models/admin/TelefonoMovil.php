@@ -23,4 +23,7 @@ class TelefonoMovil extends Model
     {
         return $this->hasOne(TelefonoTipoOperadora::class, 'IdOperadora', 'IdOperadora');
     }
+    public function personas(){
+        return $this->belongsToMany(Persona::class, 'persona_telefono_movils');
+    }
 }

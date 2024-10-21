@@ -18,4 +18,9 @@ class Persona extends Model
             'Eliminado' => 'boolean'
         ];
     }
+
+    public function telefono_movils(){
+        return $this->belongsToMany(TelefonoMovil::class, 'persona_telefono_movils');
+    }
+
 }

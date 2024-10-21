@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('persona_telefono_movils', function (Blueprint $table) {
             $table->id('IdPersonaTelefono');
-            $table->unsignedBigInteger('IdPersona');
-            $table->foreign('IdPersona')->references('IdPersona')->on('personas');
-            $table->unsignedBigInteger('IdTelefonoMovil');
-            $table->foreign('IdTelefonoMovil')->references('IdTelefonoMovil')->on('telefono_movils');
+            $table->foreignId('IdPersona')->references('IdPersona')->on('personas');
+            $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on('telefono_movils');
             $table->timestamps();
         });
     }
