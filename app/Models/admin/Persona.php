@@ -9,8 +9,14 @@ class Persona extends Model
 {
     use HasFactory;
 
-    protected $table = 'Personas';
+    protected $table = 'personas';
     protected $primaryKey = 'IdPersona';
+
+    protected $fillable = [
+        'DNI',
+        'Nombres',
+        'Apellidos'
+    ];
 
     protected function casts(): array{
         return [
@@ -20,7 +26,7 @@ class Persona extends Model
     }
 
     public function telefono_movils(){
-        return $this->belongsToMany(TelefonoMovil::class, 'persona_telefono_movils');
+        return $this->belongsToMany(TelefonoMovil::class, 'persona_telefono_movils', 'IdPersona', 'IdTelefonoMovil');
     }
 
 }

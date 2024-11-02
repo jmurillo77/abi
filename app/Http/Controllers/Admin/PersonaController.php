@@ -38,7 +38,7 @@ class PersonaController extends Controller
      */
     public function show(Persona $persona)
     {
-        $persona = Persona::find($persona);        
+        $persona = Persona::find($persona);
         return view('admin.persona.show', compact('persona'));
     }
 

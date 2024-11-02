@@ -28,6 +28,20 @@
             <li>Apellidos: {{$persona->first()->Apellidos}}</li> 
             <li>Fecha de Nacimiento: {{$persona->first()->FechaNacimiento}}</li> 
         </div>
+        <table>
+            <thead>
+                <th>Numeros</th>
+            </thead>
+            <tbody>
+                @foreach($persona->first()->telefono_movils as $telefono)
+                <tr>
+                    <td>
+                        {{$telefono->Numero}}
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </x-adminlte-card>
 
 @endsection
