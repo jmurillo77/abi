@@ -321,14 +321,14 @@ return [
             'icon' => 'fas fa-fw fa-home',
         ],
         [
-            'text' => 'Personas',
-            'url' => 'admin/persona',
+            'text' => 'Empresas',
+            'url' => 'admin/empresa',
             'icon' => 'fas fa-fw fa-user',
             'label_color' => 'success',
         ],
         [
-            'text' => 'Empresas',
-            'url' => 'admin/empresa',
+            'text' => 'Personas',
+            'url' => 'admin/persona',
             'icon' => 'fas fa-fw fa-user',
             'label_color' => 'success',
         ],
