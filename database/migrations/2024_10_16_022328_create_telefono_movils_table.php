@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('telefono_movils', function (Blueprint $table) {
             $table->id('IdTelefonoMovil');
-            $table->string('Numero')->unique();
-            $table->foreignId('IdOperadora')->references('IdOperadora')->on('telefono_tipo_operadoras');
+            $table->string('Numero', length: 10)->unique();
+            $table->foreignId('IdOperadora')->references('IdOperadora')->on('telefono_tipo_operadoras')->default('1');
             $table->enum('PhoneValido', ['0', '1'])->default('1');
             $table->enum('WhatsappValido', ['0', '1'])->default('1');
             $table->string('cUser')->nullable();

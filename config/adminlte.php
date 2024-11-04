@@ -456,7 +456,7 @@ return [
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => 'vendor/datatables/css/dataTables.bootstrap4.min.css',
                 ],
             ],
@@ -501,7 +501,7 @@ return [
                 ],
                 [
                     'type' => 'css',
-                    'asset' => true,
+                    'asset' => false,
                     'location' => 'vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css',
                 ],
             ],

@@ -26,7 +26,7 @@
             <li>DNI: {{$persona->first()->DNI}}</li> 
             <li>Nombres: {{$persona->first()->Nombres}}</li> 
             <li>Apellidos: {{$persona->first()->Apellidos}}</li> 
-            <li>Fecha de Nacimiento: {{$persona->first()->FechaNacimiento}}</li> 
+            <li>Fecha de Nacimiento: {{$persona->first()->FechaNacimiento}}</li>
         </div>
         <table>
             <thead>
@@ -37,6 +37,7 @@
                 <tr>
                     <td>
                         {{$telefono->Numero}}
+                        {{$telefono->operadora->Nombre}}
                     </td>
                 </tr>
                 @endforeach

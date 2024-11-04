@@ -28,5 +28,8 @@ class Persona extends Model
     public function telefono_movils(){
         return $this->belongsToMany(TelefonoMovil::class, 'persona_telefono_movils', 'IdPersona', 'IdTelefonoMovil');
     }
+    public function correos(){
+        return $this->belongsToMany(Correo::class, 'persona_correos', 'IdPersona', 'IdCorreo');
+    }
 
 }

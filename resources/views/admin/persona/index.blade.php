@@ -5,6 +5,7 @@
 @section('css')
     <link rel="stylesheet" href="../vendor/datatables/css/dataTables.bootstrap4.min.css">    
     <link rel="stylesheet" href="../vendor/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="../vendor/datatables-plugins/buttons/css/buttons.bootstrap4.min.css">
 @endsection
 
 @section('content_header')
@@ -40,6 +41,8 @@
                         <th style="width: 15px">DNI</th>
                         <th style="width: 50px">Nombres</th>
                         <th style="width: 50px">Apellidos</th>
+                        <th style="width: 50px">Numero</th>
+                        <th style="width: 50px">Correo</th>
                         <th >Ver</th>
                         <th >Editar</th>
                         <th >Eliminar</th>
@@ -54,12 +57,22 @@
                                     href="persona/{{ $persona->IdPersona }}">{{ $persona->DNI }}</a></td>
                             <td style="vertical-align: middle;">{{ $persona->Nombres }}</td>
                             <td style="vertical-align: middle;">{{ $persona->Apellidos }}</td>
+                                @if(isset($persona->telefono_movils->first()->Numero))
+                                    <td style="vertical-align: middle;">{{ $persona->telefono_movils->first()->Numero }}</td>
+                                @else
+                                <td style="vertical-align: middle;"></td>
+                                @endif
+                                @if(isset($persona->correos->first()->Correo))
+                                    <td style="vertical-align: middle;">{{ $persona->correos->first()->Correo }}</td>
+                                @else
+                                <td style="vertical-align: middle;"></td>
+                                @endif
                             <td width="10px"><a href="persona/{{ $persona->IdPersona }}" class="btn btn-xs btn-teal mx-1 shadow">
                                 <i class="fa fa-lg fa-fw fa-eye"></i></a></td>
                             <td width="10px"><a href="persona/{{ $persona->IdPersona }}" class="btn btn-xs btn-primary mx-1 shadow">
                                 <i class="fa fa-lg fa-fw fa-pen"></i></a></td>
                             <td width="10px"><a href="persona/{{ $persona->IdPersona }}" class="btn btn-xs btn-danger mx-1 shadow">
-                                <i class="fa fa-lg fa-fw fa-trash"></i></a></td>    
+                                <i class="fa fa-lg fa-fw fa-trash"></i></a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -69,6 +82,9 @@
                         <th style="width: 15px">DNI</th>
                         <th style="width: 50px">Nombres</th>
                         <th style="width: 50px">Apellidos</th>
+                        <th style="width: 50px">Numero</th>
+                        <th style="width: 50px">Correo</th>
+
                         <th >Ver</th>
                         <th >Editar</th>
                         <th >Eliminar</th>
@@ -81,22 +97,25 @@
 @endsection
 
 @section('js')
-<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
-<script src="../vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
-<script src="../vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script>
-$(function () {
-      $('#personas').DataTable({
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');;
-    });
-  </script>
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../vendor/datatables-plugins/buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../vendor/datatables-plugins/buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../vendor/datatables-plugins/jszip/jszip.min.js"></script>
+    <script src="../vendor/datatables-plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../vendor/datatables-plugins/buttons/js/buttons.html5.min.js"></script>
+    <script>
+        $('#personas').DataTable({
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    </script>
 @endsection

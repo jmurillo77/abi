@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('personas', function (Blueprint $table) {
             $table->id('IdPersona');
-            $table->string('DNI')->unique()->nullable();
-            $table->string('Nombres')->nullable();
-            $table->string('Apellidos')->nullable();
+            $table->string('DNI', length: 10)->unique()->nullable();
+            $table->string('Nombres', length: 100)->nullable();
+            $table->string('Apellidos', length: 100)->nullable();
             $table->date('FechaNacimiento')->nullable();
-            $table->boolean('Eliminado')->default(0);
+            $table->enum('Eliminado', ['S','N'])->default('N');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
             $table->engine = 'InnoDB';

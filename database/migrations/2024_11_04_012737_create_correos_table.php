@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('telefono_tipo_operadoras', function (Blueprint $table) {
-            $table->id('IdOperadora');
-            $table->string('Nombre', length: 50)->nullable();
+        Schema::create('correos', function (Blueprint $table) {
+            $table->id('IdCorreo');
+            $table->string('Correo', length: 200)->unique();
+            $table->enum('Valido', ['0', '1'])->default('1');
             $table->string('cUser')->nullable();
             $table->string('uUser')->nullable();
             $table->string('dUser')->nullable();
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla Operadoras Telefonicas');
+            $table->comment('Tabla de Correos');
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('telefono_tipo_operadoras');
+        Schema::dropIfExists('correos');
     }
 };
