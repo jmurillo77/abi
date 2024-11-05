@@ -320,10 +320,11 @@ return [
             'route' => 'admin',
             'icon' => 'fas fa-fw fa-home',
         ],
+        ['header' => 'Principal'],
         [
             'text' => 'Empresas',
             'url' => 'admin/empresa',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-building',
             'label_color' => 'success',
         ],
         [
@@ -332,8 +333,9 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
-        [
+        ['header' => 'Transacciones'],
+        ['header' => 'Procesos'],
+        /*[
             'text' => 'profile',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
@@ -403,7 +405,7 @@ return [
             'text' => 'information',
             'icon_color' => 'cyan',
             'url' => '#',
-        ],
+        ],*/
     ],
 
     /*
