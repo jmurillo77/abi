@@ -333,6 +333,18 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'label_color' => 'success',
         ],
+        [
+            'text' => 'Numeros',
+            'url' => 'admin/movil',
+            'icon' => 'fas fa-fw fa-user',
+            'label_color' => 'success',
+        ],
+        [
+            'text' => 'Correos',
+            'url' => 'admin/correo',
+            'icon' => 'fas fa-fw fa-user',
+            'label_color' => 'success',
+        ],
         ['header' => 'Transacciones'],
         ['header' => 'Procesos'],
         /*[
