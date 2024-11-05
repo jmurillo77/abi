@@ -347,6 +347,7 @@ return [
         ],
         ['header' => 'Transacciones'],
         ['header' => 'Procesos'],
+        ['header' => 'No'],
         /*[
             'text' => 'profile',
             'url' => 'admin/settings',
