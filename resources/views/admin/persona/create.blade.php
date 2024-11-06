@@ -3,32 +3,38 @@
 @section('tituloPagina', 'Crear nueva persona')
 
 
-@section('contenido')
+@section('content')
 
 
-    <div class="m-3  "></div>
-    <div class="card m-3 ">
-        <div class="card-header d-flex flex-row">
-            <a href="{{ route('persona.index') }}" style="color:#5C636A; margin: 10px 0 0 0px;">
-                <span class="fas fa-arrow-left fa-lg"></span></a>
-            <div style="margin: 10px 0 0 15px;">
-                <h5>Agregar Persona</h5>
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-9">
+                <h3 class="card-title">Agregar Personas</h3>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-12">
-                    @if ($errors->any())
-                        <ul>
-                            @foreach($errors->all() as $error)
-                            <li>{{$error}}</li>
-                            @endforeach
-                        </ul>
-                    @endif
+            <div class="col-md-3">
+                <div class="float-right">
+                    <a href="{{ route('persona.index') }}" style="color:#0970d6; margin: 5px 0 0 0px;"><span class="fas fa-arrow-left fa-lg"></span>  Regresar</a>
                 </div>
             </div>
-            <p class="card-text">
-            <form class="form-horizontal" role="form" method="POST" action="{{ route('persona.store') }}">
+        </div>
+    </div>
+        <div class="card m-3 ">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        @if ($errors->any())
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+                <p class="card-text">
+                <form class="form-horizontal" role="form" method="POST" action="{{ route('persona.store') }}">
                 <!-- Add csrf token -->
                 {{ csrf_field() }}
                 <div class="input-group mb-3">

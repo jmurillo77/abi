@@ -45,8 +45,8 @@ Route::middleware('auth')->prefix('admin')->group(function (){
     Route::get('/', [AdminController::class, 'index'])->name('admin');
     Route::prefix('empresa')->name('empresa.')->controller(EmpresaController::class)->group(function(){
         Route::get('/', 'index')->name('index');
-        //Route::get('/create', 'create')->name('create');
-        //Route::post('/', 'store')->name('store');
+        Route::get('/create', 'create')->name('crear');
+        Route::post('/', 'store')->name('store');
         Route::get('/{empresa}', 'show')->name('show');
         //Route::get('/{empresa}/edit', 'edit')->name('edit');
         //Route::put('/{empresa}', 'update')->name('update');
@@ -54,8 +54,8 @@ Route::middleware('auth')->prefix('admin')->group(function (){
     });
     Route::prefix('persona')->name('persona.')->controller(PersonaController::class)->group(function(){
         Route::get('/', 'index')->name('index');
-        //Route::get('/create', 'create')->name('create');
-        //Route::post('/', 'store')->name('store');
+        Route::get('/create', 'create')->name('crear');
+        Route::post('/', 'store')->name('store');
         Route::get('/{persona}', 'show')->name('show');
         //Route::get('/{persona}/edit', 'edit')->name('edit');
         //Route::put('/{persona}', 'update')->name('update');
