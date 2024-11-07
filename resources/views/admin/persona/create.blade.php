@@ -84,6 +84,7 @@
                 {{-- <a href="{{ route('persona.index') }}" class="btn btn-secondary"><span class="fas fa-undo fa-lg"></span>
                     Regresar</a> --}}
                 <button class="btn btn-primary"><span class="fas fa-user-plus fa-lg"></span> Agregar</button>
+                <button class="btn btn-primary" formaction="{{ route('persona.index') }}"><span class="fas fa-user-plus fa-lg"></span> Cancelar</button>
             </form>
 
             </p>
