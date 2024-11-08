@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\TelefonoMovil;
 use Illuminate\Http\Request;
 
-class TelefonomovilController extends Controller
+class ContinenteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $numeros = TelefonoMovil::all();
-        return view('admin.telefono_movil.index', compact('numeros'));
+        $continentes = Continente::all();
+        return view('admin.continente.index', compact('continentes'));
     }
 
     /**
@@ -38,8 +37,7 @@ class TelefonomovilController extends Controller
      */
     public function show(string $id)
     {
-        $telefonosmoviles = TelefonoMovil::find($telefonoMovil);
-        return view('admin.telefono_movil.show', compact('telefonosmoviles'));
+        //
     }
 
     /**
