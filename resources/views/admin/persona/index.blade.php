@@ -30,7 +30,16 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Lista de Personas</h3>
+            <div class="row">
+                <div class="col-md-9">
+                    <h3 class="card-title">Lista de Personas</h3>
+                </div>
+                <div class="col-md-3">
+                    <div class="float-right">
+                        <a href="{{ route('persona.crear') }}"><i class="fa fa-s fa-fw fa-user-plus text-primary"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="card-body">
@@ -92,7 +101,6 @@
                 </tfoot>
             </table>
         </div>
-
     </div>
 @endsection
 
