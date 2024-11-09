@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Correo extends Model
 {
     use HasFactory;
+    protected $connection = 'matriz';
     protected $table = 'correos';
     protected $primaryKey = 'IdCorreo';
 

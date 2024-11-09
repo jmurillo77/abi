@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('telefono_movils', function (Blueprint $table) {
-            $table->id('IdTelefonoMovil');
-            $table->string('Numero', length: 10)->unique();
-            $table->foreignId('IdOperadora')->references('IdOperadora')->on('telefono_tipo_operadoras')->default('1');
-            $table->enum('PhoneValido', ['0', '1'])->default('1');
-            $table->enum('WhatsappValido', ['0', '1'])->default('1');
+        Schema::connection(name: 'matriz')->create('telefono_tipo_operadoras', function (Blueprint $table) {
+            $table->id('IdOperadora');
+            $table->string('Nombre', length: 50)->nullable();
             $table->string('cUser')->nullable();
             $table->string('uUser')->nullable();
             $table->string('dUser')->nullable();
@@ -25,7 +22,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla de Telefonos Movil');
+            $table->comment('Tabla Operadoras Telefonicas');
         });
     }
 
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('telefono_movils');
+        Schema::connection(name: 'matriz')->dropIfExists('telefono_tipo_operadoras');
     }
 };

@@ -21,7 +21,7 @@ class TelefonoTipoOperadoraSeeder extends Seeder
     public function run(): void
     {
         foreach (self::$data as $key => $value) {
-            DB::table('telefono_tipo_operadoras')->insert([
+            DB::connection(name: 'matriz')->table('telefono_tipo_operadoras')->insert([
                 'Nombre' => $value[0],
             ]);
         }

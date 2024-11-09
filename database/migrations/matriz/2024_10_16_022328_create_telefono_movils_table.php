@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('correos', function (Blueprint $table) {
-            $table->id('IdCorreo');
-            $table->string('Correo', length: 200)->unique();
-            $table->enum('Valido', ['0', '1'])->default('1');
+        Schema::connection(name: 'matriz')->create('telefono_movils', function (Blueprint $table) {
+            $MatrizDB = Config::get(key: 'database.connections.matriz.database');
+            $table->id('IdTelefonoMovil');
+            $table->string('Numero', length: 10)->unique();
+            $table->foreignId('IdOperadora')->references('IdOperadora')->on("{$MatrizDB}.telefono_tipo_operadoras")->default('1');
+            $table->enum('PhoneValido', ['0', '1'])->default('1');
+            $table->enum('WhatsappValido', ['0', '1'])->default('1');
             $table->string('cUser')->nullable();
             $table->string('uUser')->nullable();
             $table->string('dUser')->nullable();
@@ -23,7 +26,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla de Correos');
+            $table->comment('Tabla de Telefonos Movil');
         });
     }
 
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('correos');
+        Schema::connection(name: 'matriz')->dropIfExists('telefono_movils');
     }
 };

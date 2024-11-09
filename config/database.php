@@ -62,6 +62,26 @@ return [
             ]) : [],
         ],
 
+        'matriz' => [
+            'driver' => 'mysql',
+            'url' => env('DB_URL_MATRIZ'),
+            'host' => env('DB_HOST_MATRIZ', '127.0.0.1'),
+            'port' => env('DB_PORT_MATRIZ', '3306'),
+            'database' => env('DB_DATABASE_MATRIZ', 'laravel'),
+            'username' => env('DB_USERNAME_MATRIZ', 'root'),
+            'password' => env('DB_PASSWORD_MATRIZ', ''),
+            'unix_socket' => env('DB_SOCKET_MATRIZ', ''),
+            'charset' => env('DB_CHARSET_MATRIZ', 'utf8mb4'),
+            'collation' => env('DB_COLLATION_MATRIZ', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => env('DB_ENGINE', 'InnoDB'),
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),

@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('persona_telefono_movils', function (Blueprint $table) {
-            $table->id('IdPersonaTelefono');
-            $table->foreignId('IdPersona')->references('IdPersona')->on('personas');
-            $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on('telefono_movils');
+        Schema::create('campaignwp', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('persona_telefono_movils');
+        Schema::dropIfExists('campaignwp');
     }
 };

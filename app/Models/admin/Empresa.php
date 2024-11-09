@@ -9,6 +9,7 @@ class Empresa extends Model
 {
     use HasFactory;
 
+    protected $connection = 'matriz';
     protected $table = 'empresas';
     protected $primaryKey = 'IdEmpresa';
 

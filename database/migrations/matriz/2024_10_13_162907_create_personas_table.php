@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('telefono_tipo_operadoras', function (Blueprint $table) {
-            $table->id('IdOperadora');
-            $table->string('Nombre', length: 50)->nullable();
+        Schema::connection(name: 'matriz')->create('personas', function (Blueprint $table) {
+            $table->id('IdPersona');
+            $table->string('DNI', length: 10)->unique()->nullable();
+            $table->string('Nombres', length: 100)->nullable();
+            $table->string('Apellidos', length: 100)->nullable();
+            $table->date('FechaNacimiento')->nullable();
+            $table->enum('Eliminado', ['S','N'])->default('N');
             $table->string('cUser')->nullable();
             $table->string('uUser')->nullable();
             $table->string('dUser')->nullable();
@@ -22,7 +26,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla Operadoras Telefonicas');
+            $table->comment('Tabla de Personas');
         });
     }
 
@@ -31,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('telefono_tipo_operadoras');
+        Schema::connection(name: 'matriz')->dropIfExists('personas');
     }
 };

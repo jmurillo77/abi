@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TelefonoMovil extends Model
 {
     use HasFactory;
+    protected $connection = 'matriz';
     protected $table = 'telefono_movils';
     protected $primaryKey = 'IdTelefonoMovil';
 

@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('empresa_telefono_movils', function (Blueprint $table) {
-            $table->id('IdEmpresaTelefono');
-            $table->foreignId('IdEmpresa')->references('IdEmpresa')->on('empresas');
-            $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on('telefono_movils');
+        Schema::create('pais', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('empresa_telefono_movils');
+        Schema::dropIfExists('pais');
     }
 };

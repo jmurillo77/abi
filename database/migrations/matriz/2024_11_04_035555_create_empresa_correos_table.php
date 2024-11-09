@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('persona_correos', function (Blueprint $table) {
-            $table->id('IdPersonaCorreo');
-            $table->foreignId('IdPersona')->references('IdPersona')->on('personas');
+        Schema::connection(name: 'matriz')->create('empresa_correos', function (Blueprint $table) {
+            $table->id('IdEmpresaCorreo');
+            $table->foreignId('IdEmpresa')->references('IdEmpresa')->on('empresas');
             $table->foreignId('IdCorreo')->references('IdCorreo')->on('correos');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('persona_correos');
+        Schema::connection(name: 'matriz')->dropIfExists('empresa_correos');
     }
 };

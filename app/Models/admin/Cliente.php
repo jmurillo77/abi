@@ -5,8 +5,7 @@ namespace App\Models\admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PersonaCorreo extends Model
+class Cliente extends Model
 {
     use HasFactory;
-    protected $connection = 'matriz';
 }

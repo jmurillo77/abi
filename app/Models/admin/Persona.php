@@ -9,6 +9,7 @@ class Persona extends Model
 {
     use HasFactory;
 
+    protected $connection = 'matriz';
     protected $table = 'personas';
     protected $primaryKey = 'IdPersona';
 

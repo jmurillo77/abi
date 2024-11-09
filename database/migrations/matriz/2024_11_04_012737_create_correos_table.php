@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('empresa_correos', function (Blueprint $table) {
-            $table->id('IdEmpresaCorreo');
-            $table->foreignId('IdEmpresa')->references('IdEmpresa')->on('empresas');
-            $table->foreignId('IdCorreo')->references('IdCorreo')->on('correos');
+        Schema::connection(name: 'matriz')->create('correos', function (Blueprint $table) {
+            $table->id('IdCorreo');
+            $table->string('Correo', length: 200)->unique();
+            $table->enum('Valido', ['0', '1'])->default('1');
+            $table->string('cUser')->nullable();
+            $table->string('uUser')->nullable();
+            $table->string('dUser')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla Empresa Correo');
+            $table->comment('Tabla de Correos');
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('empresa_correos');
+        Schema::connection(name: 'matriz')->dropIfExists('correos');
     }
 };

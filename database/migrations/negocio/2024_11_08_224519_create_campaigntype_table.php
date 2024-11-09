@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('continentes', function (Blueprint $table) {
-            $table->id();
-            $table->string('Nombre', length: 50)->nullable();
+        Schema::create('campaigntype', function (Blueprint $table) {
+            $table->id('IdCampaignType');
+            $table->string('Nombre', length: 100);
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('continentes');
+        Schema::dropIfExists('campaigntype');
     }
 };
