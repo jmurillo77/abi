@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('direcciontipo', function (Blueprint $table) {
-            $table->id('IdDireccionTipo');
-            $table->string('Nombre', length: 50)->nullable();
-            $table->enum('Eliminado', ['S','N'])->default('N');
+        Schema::connection(name: 'matriz')->create('telefono_fijo', function (Blueprint $table) {
+            $table->id('IdTelefonoFijo');
+            $table->string('Numero', length: 10)->unique();
+            $table->enum('PhoneValido', ['0', '1'])->default('1');
             $table->string('cUser')->nullable();
             $table->string('uUser')->nullable();
             $table->string('dUser')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla Tipo de Direcciones');
+            $table->comment('Tabla de Telefonos Fijo');
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('direcciontipo');
+        Schema::connection(name: 'matriz')->dropIfExists('telefono_fijo');
     }
 };

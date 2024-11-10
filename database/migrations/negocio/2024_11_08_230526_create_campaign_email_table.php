@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection(name: 'mysql')->create('clientes', function (Blueprint $table) {
+        Schema::create('campaign_email', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
-            $table->id();
-            $table->foreignId('IdPersona')->references('IdPersona')->on(new Expression($MatrizDB.'.personas'));
+            $table->id('CampaignEmail');
+            $table->foreignId('IdCampaign')->references('IdCampaign')->on("campaign");
+            $table->foreignId('IdCorreo')->references('IdCorreo')->on(new Expression($MatrizDB.'.correos'));
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'mysql')->dropIfExists('clientes');
+        Schema::dropIfExists('campaign_email');
     }
 };

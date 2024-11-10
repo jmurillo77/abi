@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('empresadireccion', function (Blueprint $table) {
-            $table->id();
+        Schema::create('campaign_type', function (Blueprint $table) {
+            $table->id('IdCampaignType');
+            $table->string('Nombre', length: 100);
             $table->timestamps();
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('empresadireccion');
+        Schema::dropIfExists('campaign_type');
     }
 };

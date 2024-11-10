@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('campaignwp', function (Blueprint $table) {
+        Schema::connection(name: 'matriz')->create('persona_direccion', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaignwp');
+        Schema::connection(name: 'matriz')->dropIfExists('persona_direccion');
     }
 };

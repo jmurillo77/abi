@@ -335,7 +335,7 @@ return [
         ],
         [
             'text' => 'Numeros',
-            'url' => 'admin/movil',
+            'url' => 'admin/telefono_movil',
             'icon' => 'fas fa-fw fa-user',
             'label_color' => 'success',
         ],

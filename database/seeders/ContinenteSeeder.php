@@ -12,10 +12,11 @@ class ContinenteSeeder extends Seeder
      * Run the database seeds.
      */
     static $data = [
-        ['America'],
-        ['Europa'],
-        ['Africa'],
         ['Asia'],
+        ['Africa'],
+        ['America'],
+        ['Antartida'],
+        ['Europa'],
         ['Oceania'],
     ];
     public function run(): void

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('campaign', function (Blueprint $table) {
             $table->id('IdCampaign');
             $table->string('Nombre', length: 100);
-            $table->foreignId('IdCampaignType')->references('IdCampaignType')->on("campaigntype");
+            $table->foreignId('IdCampaignType')->references('IdCampaignType')->on("campaign_type");
             $table->timestamps();
         });
     }

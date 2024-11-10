@@ -17,7 +17,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a> </li>
-                    <li class="breadcrumb-item active">Personas</li>
+                    <li class="breadcrumb-item active">Empresas</li>
                 </ol>
             </div>
         </div>
@@ -30,7 +30,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Lista de Personas</h3>
+            <h3 class="card-title">Lista de Empresas</h3>
         </div>
 
         <div class="card-body">
@@ -38,8 +38,8 @@
                 <thead>
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th style="width: 15px">RUC</th>
-                        <th style="width: 50px">Razon Social</th>
+                        <th style="width: 10px">RUC</th>
+                        <th style="width: 150px">Razon Social</th>
                         <th style="width: 50px">Numero</th>
                         <th style="width: 50px">Correo</th>
                         <th >Ver</th>
