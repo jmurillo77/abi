@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -12,11 +14,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::connection(name: 'matriz')->create('empresas', function (Blueprint $table) {
-            $MatrizDB = Config::get(key: 'database.connections.matriz.database');
+            $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdEmpresa');
             $table->string('RUC', length: 13)->unique()->nullable();
             $table->string('RazonSocial', length: 200)->nullable();
-            $table->foreignId('RepresentanteLegal')->nullable()->references('IdPersona')->on("{$MatrizDB}.personas");
+            $table->foreignId('RepresentanteLegal')->nullable()->references('IdPersona')->on(new Expression($MatrizDB.'.personas'));
             $table->enum('Eliminado', ['S','N'])->default('N');
             $table->string('cUser')->nullable();
             $table->string('uUser')->nullable();

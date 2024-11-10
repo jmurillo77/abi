@@ -11,9 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('direcciontipo', function (Blueprint $table) {
-            $table->id();
+        Schema::connection(name: 'matriz')->create('direcciontipo', function (Blueprint $table) {
+            $table->id('IdDireccionTipo');
+            $table->string('Nombre', length: 50)->nullable();
+            $table->enum('Eliminado', ['S','N'])->default('N');
+            $table->string('cUser')->nullable();
+            $table->string('uUser')->nullable();
+            $table->string('dUser')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
+            $table->comment('Tabla Tipo de Direcciones');
         });
     }
 
@@ -22,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('direcciontipo');
+        Schema::connection(name: 'matriz')->dropIfExists('direcciontipo');
     }
 };

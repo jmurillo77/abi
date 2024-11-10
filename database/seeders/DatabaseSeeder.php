@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             TelefonoTipoOperadoraSeeder::class,
-            /*ContinenteSeeder::class,
+            ContinenteSeeder::class,
             PaisSeeder::class,
             ProvinciaSeeder::class,
             CantonSeeder::class,
-            ParroquiaSeeder::class,*/
+            ParroquiaSeeder::class,
         ]);
     }
 }
