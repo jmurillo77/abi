@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PersonaController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\TelefonomovilController;
 use App\Http\Controllers\Admin\CorreoController;
+use App\Http\Controllers\Admin\CampaignController;
 use App\Models\admin\Empresa;
 use App\Models\admin\Persona;
 use App\Models\admin\TelefonoMovil;
@@ -75,9 +76,18 @@ Route::middleware('auth')->prefix('admin')->group(function (){
         //Route::get('/create', 'create')->name('create');
         //Route::post('/', 'store')->name('store');
         Route::get('/{correo}', 'show')->name('show');
-        //Route::get('/{empresa}/edit', 'edit')->name('edit');
-        //Route::put('/{empresa}', 'update')->name('update');
-        //Route::delete('/{empresa}', 'destroy')->name('destroy');
+        //Route::get('/{correo}/edit', 'edit')->name('edit');
+        //Route::put('/{correo}', 'update')->name('update');
+        //Route::delete('/{correo}', 'destroy')->name('destroy');
+    });
+    Route::prefix('campaign')->name('campaign.')->controller(CampaignController::class)->group(function(){
+        Route::get('/', 'index')->name('index');
+        //Route::get('/create', 'create')->name('create');
+        //Route::post('/', 'store')->name('store');
+        Route::get('/{campaign}', 'show')->name('show');
+        //Route::get('/{campaign}/edit', 'edit')->name('edit');
+        //Route::put('/{campaign}', 'update')->name('update');
+        //Route::delete('/{campaign}', 'destroy')->name('destroy');
     });
 });
 

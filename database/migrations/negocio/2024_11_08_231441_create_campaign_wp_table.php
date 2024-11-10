@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -12,7 +14,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('campaign_wp', function (Blueprint $table) {
-            $table->id();
+            $MatrizDB = DB::connection('matriz')->getDatabaseName();
+            $table->id('IdCampaignWP');
+            $table->foreignId('IdCampaign')->references('IdCampaign')->on("campaign");
+            $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on(new Expression($MatrizDB.'.telefono_movils'));
+            $table->enum('Estado', ['A','I','T'])->default('A');
             $table->timestamps();
         });
     }

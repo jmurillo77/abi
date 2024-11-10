@@ -62,7 +62,6 @@
             </div>
 
             <div class="col-lg-3 col-6">
-
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3>{{ $TotalCorreo }}</h3>
@@ -74,13 +73,18 @@
                     <a href="{{ route ('correo.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-
-            {{-- 
-
-            
-
-            
- --}}
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>{{ $TotalCampaign }}</h3>
+                        <p>Campañas</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                    <a href="{{ route ('campaign.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
         </div>
     </div>
 @stop

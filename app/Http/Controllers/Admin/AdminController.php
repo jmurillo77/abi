@@ -7,6 +7,7 @@ use App\Models\admin\Persona;
 use App\Models\admin\TelefonoMovil;
 use App\Models\admin\Correo;
 use App\Models\admin\Empresa;
+use App\Models\admin\Campaign;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -17,7 +18,8 @@ class AdminController extends Controller
         $TotalPersona = Persona::count();
         $TotalTelefono = TelefonoMovil::count();
         $TotalCorreo = Correo::count();
-        return view('admin.admin', compact('TotalEmpresa','TotalPersona', 'TotalTelefono', 'TotalCorreo'));
+        $TotalCampaign = Campaign::count();
+        return view('admin.admin', compact('TotalEmpresa','TotalPersona', 'TotalTelefono', 'TotalCorreo', 'TotalCampaign'));
     }
     public function menu()
     {

@@ -346,8 +346,13 @@ return [
             'label_color' => 'success',
         ],
         ['header' => 'Transacciones'],
+        [
+            'text' => 'Envios Whatsapp',
+            'url' => 'admin/correo',
+            'icon' => 'fas fa-fw fa-user',
+            'label_color' => 'success',
+        ],
         ['header' => 'Procesos'],
-        ['header' => 'No'],
         /*[
             'text' => 'profile',
             'url' => 'admin/settings',
