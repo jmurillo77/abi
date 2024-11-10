@@ -81,11 +81,7 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-<<<<<<< HEAD
-
-=======
         
->>>>>>> 4f8f505 (202411)
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
