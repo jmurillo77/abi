@@ -38,7 +38,7 @@
                 <thead>
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th style="width: 15px">Nombre</th>
+                        <th style="width: 100px">Nombre</th>
                         <th style="width: 15px">Tipo</th>
                         <th style="width: 15px">Estado</th>
                         <th >Ver</th>
@@ -51,7 +51,7 @@
                         <tr>
                             <td style="vertical-align: middle"><a href="campaign/{{ $campaign->IdCampaign }}">{{ $campaign->IdCampaign }}</a></td>
                             <td style="vertical-align: middle;">{{ $campaign->Nombre }}</td>
-                            <td style="vertical-align: middle;">{{ $campaign->TipoCampaign()->Nombre }}</td>
+                            <td style="vertical-align: middle;">{{ $campaign->TipoCampaign->Nombre }}</td>
                             <td style="vertical-align: middle;">{{ $campaign->Estado }}</td>
                             <td width="10px"><a href="campaign/{{ $campaign->IdCampaign }}" class="btn btn-xs btn-teal mx-1 shadow">
                                 <i class="fa fa-lg fa-fw fa-eye"></i></a></td>
@@ -99,6 +99,7 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
+            "fixedHeader": true,
         });
     </script>
 @endsection

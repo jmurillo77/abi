@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\admin\Campaign;
+use App\Models\admin\CampaignWp;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
@@ -36,9 +37,12 @@ class CampaignController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $IdCampaign)
     {
-        //
+        $campaign = Campaign::find($IdCampaign);
+        $campaign_wp = CampaignWp::where('IdCampaign',$IdCampaign)->get();
+        //dump($campaign_wp);
+        return view('admin.campaign.show', compact('campaign','campaign_wp'));
     }
 
     /**

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('IdCampaign');
             $table->string('Nombre', length: 100);
             $table->foreignId('IdCampaignType')->references('IdCampaignType')->on("campaign_type");
+            $table->enum('Estado', ['A','I','T'])->default('A');
             $table->timestamps();
         });
     }

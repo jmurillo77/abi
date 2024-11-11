@@ -345,10 +345,16 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'label_color' => 'success',
         ],
+        [
+            'text' => 'Campañas',
+            'url' => 'admin/campaign',
+            'icon' => 'fas fa-fw fa-user',
+            'label_color' => 'success',
+        ],
         ['header' => 'Transacciones'],
         [
             'text' => 'Envios Whatsapp',
-            'url' => 'admin/correo',
+            'url' => 'admin/campaign',
             'icon' => 'fas fa-fw fa-user',
             'label_color' => 'success',
         ],

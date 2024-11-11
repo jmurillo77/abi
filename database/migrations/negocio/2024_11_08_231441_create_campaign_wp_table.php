@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id('IdCampaignWP');
             $table->foreignId('IdCampaign')->references('IdCampaign')->on("campaign");
             $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on(new Expression($MatrizDB.'.telefono_movils'));
-            $table->enum('Estado', ['A','I','T'])->default('A');
+            $table->enum('Estado', ['E','N','P'])->default('N');
             $table->timestamps();
         });
     }

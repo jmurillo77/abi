@@ -11,8 +11,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a> </li>
-                    <li class="breadcrumb-item"><a href="{{ route('persona.index') }}">Personas</a></li>
-                    <li class="breadcrumb-item active">{{$persona->first()->DNI}} | {{$persona->first()->Nombres}} {{$persona->first()->Apellidos}}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('campaign.index') }}">Campañas</a></li>
+                    <li class="breadcrumb-item active">{{$campaign->IdCampaign}} | {{$campaign->Nombre}} </li>
                 </ol>
             </div>
         </div>
@@ -23,25 +23,25 @@
 
     <x-adminlte-card title="Datos de Persona">
         <div class="card-body">
-            <li>DNI: {{$persona->first()->DNI}}</li> 
-            <li>Nombres: {{$persona->first()->Nombres}}</li> 
-            <li>Apellidos: {{$persona->first()->Apellidos}}</li> 
-            <li>Fecha de Nacimiento: {{$persona->first()->FechaNacimiento}}</li>
+            <li>Campaña: {{$campaign->IdCampaign}}</li> 
+            <li>Nombre: {{$campaign->Nombre}}</li>
+            <li>Tipo: {{$campaign->TipoCampaign->Nombre}}</li> 
         </div>
         <table>
             <thead>
                 <th>Numeros</th>
             </thead>
-            <tbody>
-                @foreach($persona->first()->telefono_movils as $telefono)
-                <tr>
-                    <td>
-                        {{$telefono->Numero}}
-                        {{$telefono->operadora->Nombre}}
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
+            @foreach($campaign_wp as $numeros)
+        <tr>
+            <td>
+                {{$numeros->IdCampaign}}
+            </td>
+        </tr>
+        @endforeach
+            
+        
+
+            
         </table>
     </x-adminlte-card>
 

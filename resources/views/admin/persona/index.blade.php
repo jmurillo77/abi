@@ -69,12 +69,12 @@
                                 @if(isset($persona->telefono_movils->first()->Numero))
                                     <td style="vertical-align: middle;">{{ $persona->telefono_movils->first()->Numero }}</td>
                                 @else
-                                <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
                                 @endif
                                 @if(isset($persona->correos->first()->Correo))
                                     <td style="vertical-align: middle;">{{ $persona->correos->first()->Correo }}</td>
                                 @else
-                                <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
                                 @endif
                             <td width="10px"><a href="persona/{{ $persona->IdPersona }}" class="btn btn-xs btn-teal mx-1 shadow">
                                 <i class="fa fa-lg fa-fw fa-eye"></i></a></td>

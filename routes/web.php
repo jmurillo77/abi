@@ -97,6 +97,5 @@ Route::middleware('auth')->group(function (){
     Route::get('/menu', [AdminController::class, 'menu'])->name('menu');
 });
 
-
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 */

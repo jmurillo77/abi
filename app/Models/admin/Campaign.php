@@ -16,8 +16,10 @@ class Campaign extends Model
         'Estado'
     ];
 
-   public function TipoCampaign()
-    {
+    public function TipoCampaign(){
         return $this->hasOne(Campaign_Type::class, 'IdCampaignType', 'IdCampaignType');
+    }
+    public function campaign_numeros()    {
+        return $this->hasMany(TelefonoMovil::class, 'IdOperadora', 'IdOperadora');
     }
 }
