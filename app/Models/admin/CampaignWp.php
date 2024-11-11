@@ -4,6 +4,7 @@ namespace App\Models\admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class CampaignWp extends Model
 {
@@ -13,6 +14,7 @@ class CampaignWp extends Model
     protected $primaryKey = 'IdCampaignWP';
 
     public function telefono_movils(){
-        return $this->belongsToMany(TelefonoMovil::class, 'jmurillo_bitscopy.campaign_wp', 'IdCampaign', 'IdTelefonoMovil');
+        $MatrizDB = DB::connection('mysql')->getDatabaseName();
+        return $this->belongsToMany(TelefonoMovil::class, "$MatrizDB.campaign_wp", 'IdTelefonoMovil', 'IdTelefonoMovil');
     }
 }

@@ -27,4 +27,7 @@ class TelefonoMovil extends Model
     public function personas(){
         return $this->belongsToMany(Persona::class, 'persona_telefono_movils', 'IdTelefonoMovil', 'IdTelefonoMovil');
     }
+    public function campaignwp(){
+        return $this->belongsToMany(CampaignWp::class, 'campaign_wp', 'IdCampaign', 'IdCampaign');
+    }
 }

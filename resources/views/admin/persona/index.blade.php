@@ -93,7 +93,6 @@
                         <th style="width: 50px">Apellidos</th>
                         <th style="width: 50px">Numero</th>
                         <th style="width: 50px">Correo</th>
-
                         <th >Ver</th>
                         <th >Editar</th>
                         <th >Eliminar</th>
