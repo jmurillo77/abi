@@ -34,7 +34,10 @@
             @foreach($campaign_wp as $numeros)
         <tr>
             <td>
+                {{$numeros->IdCampaignWP}}
                 {{$numeros->IdCampaign}}
+                {{$numeros->IdTelefonoMovil}}
+                {{$numeros->Estado}}
             </td>
         </tr>
         @endforeach
