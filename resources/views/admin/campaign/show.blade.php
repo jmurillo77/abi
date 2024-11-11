@@ -37,9 +37,7 @@
                 {{$numeros->IdCampaignWP}}
                 {{$numeros->IdTelefonoMovil}}
                 {{$numeros->Estado}}
-                @foreach($numeros->telefono_movils as $num)
-                {{$num->Numero}}
-                @endforeach
+                {{$numeros->telefono_movils}}                
             </td>
         </tr>
         @endforeach

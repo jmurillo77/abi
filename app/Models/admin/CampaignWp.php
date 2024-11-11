@@ -13,6 +13,6 @@ class CampaignWp extends Model
     protected $primaryKey = 'IdCampaignWP';
 
     public function telefono_movils(){
-        return $this->belongsToMany(TelefonoMovil::class, 'jmurillo_bitscopy.campaign_wp', 'IdTelefonoMovil', 'IdTelefonoMovil');
+        return $this->belongsToMany(TelefonoMovil::class, 'jmurillo_bitscopy.campaign_wp', 'IdCampaign', 'IdTelefonoMovil');
     }
 }
