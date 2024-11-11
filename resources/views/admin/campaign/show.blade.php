@@ -35,9 +35,11 @@
         <tr>
             <td>
                 {{$numeros->IdCampaignWP}}
-                {{$numeros->IdCampaign}}
                 {{$numeros->IdTelefonoMovil}}
                 {{$numeros->Estado}}
+                @foreach($numeros->telefono_movils as $num)
+                {{$num->Numero}}
+                @endforeach
             </td>
         </tr>
         @endforeach

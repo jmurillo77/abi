@@ -41,7 +41,6 @@ class CampaignController extends Controller
     {
         $campaign = Campaign::find($IdCampaign);
         $campaign_wp = CampaignWp::where('IdCampaign',$IdCampaign)->get();
-        //dump($campaign_wp);
         return view('admin.campaign.show', compact('campaign','campaign_wp'));
     }
 
