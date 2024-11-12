@@ -29,6 +29,7 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Lista de Campañas</h3>
+        <a href="exporta/{{ $campaign->IdCampaign }}" class="btn btn-info"> Descargar</a>
     </div>
 
     <div class="card-body">

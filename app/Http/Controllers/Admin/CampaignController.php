@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Exports\CampaignWpExport;
 use App\Http\Controllers\Controller;
 use App\Models\admin\Campaign;
 use App\Models\admin\CampaignWp;
@@ -66,5 +67,14 @@ class CampaignController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Exporta Numero de Campaña
+     */
+    public function exporta(string $id)
+    {
+        $campaign_wp = new CampaignWpExport;
+        return $campaign_wp->download('numeros.xls');
     }
 }

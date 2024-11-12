@@ -88,6 +88,7 @@ Route::middleware('auth')->prefix('admin')->group(function (){
         //Route::get('/{campaign}/edit', 'edit')->name('edit');
         //Route::put('/{campaign}', 'update')->name('update');
         //Route::delete('/{campaign}', 'destroy')->name('destroy');
+        Route::get('/exporta/{campaign}', 'exporta')->name('exporta');
     });
 });
 
