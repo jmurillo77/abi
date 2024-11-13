@@ -88,16 +88,18 @@
 @section('js')
     <script src="../../vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="../../vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../../vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../../vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="../../vendor/datatables-plugins/buttons/js/dataTables.buttons.min.js"></script>
     <script src="../../vendor/datatables-plugins/buttons/js/buttons.bootstrap4.min.js"></script>
     <script src="../../vendor/datatables-plugins/jszip/jszip.min.js"></script>
     <script src="../../vendor/datatables-plugins/pdfmake/pdfmake.min.js"></script>
     <script src="../../vendor/datatables-plugins/buttons/js/buttons.html5.min.js"></script>
+
+    <script src="../../vendor/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../../vendor/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+
     <script>
         $('#empresas').DataTable({
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            "buttons": ["copy", "csv", "excel", "pdf", "print"],
             "paging": true,
             "lengthChange": false,
             "searching": true,
