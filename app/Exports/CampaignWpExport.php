@@ -13,14 +13,7 @@ class CampaignWpExport implements FromQuery
     * @return \Illuminate\Support\Collection
     */
 
-    public function campaign(string $IdCampaign)
-    {
-        $this->IdCampaign = $IdCampaign;
-        return $this;
-    }
-
-    public function query()
-    {
-        return CampaignWp::query()->where('IdCampaign',$this->IdCampaign);
+    public function query(){
+        return CampaignWp::query();
     }
 }
