@@ -3,17 +3,16 @@
 namespace App\Exports;
 
 use App\Models\admin\CampaignWp;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class CampaignWpExport implements FromQuery
+
+class CampaignWpExport implements FromView
 {
-    use Exportable;
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-
-    public function query(){
-        return CampaignWp::query();
+    public function view(): View{
+        return view('export', [
+            'Users' -> User::all()
+        ]);
     }
 }
