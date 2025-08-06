@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace app\Http\Controllers\admin;
 
 use App\Exports\CampaignWpExport;
 use App\Http\Controllers\Controller;

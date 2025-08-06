@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "jeroennoten/laravel-adminlte": "^3.13",
-        "laravel/framework": "^11.9",
+        "jeroennoten/laravel-adminlte": "^3.14.1",
+        "laravel/framework": "^12.21.0",
         "laravel/jetstream": "^5.2",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
