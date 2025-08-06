@@ -18,6 +18,8 @@ return new class extends Migration
             $table->id('IdCampaignCallMovil');
             $table->foreignId('IdCampaign')->references('IdCampaign')->on("campaign");
             $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on(new Expression($MatrizDB.'.telefono_movils'));
+            $table->enum('LlamadaRealizada', ['S','N'])->default('N');
+            $table->enum('Status', ['Por Contactar','Interesado','No Interesado','Venta'])->nullable();
             $table->timestamps();
         });
     }
