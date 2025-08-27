@@ -1,0 +1,1 @@
+<a href="{{ route ('menu') }}" class="small-box-footer">Menu <i class="fas fa-arrow-circle-right"></i></a>   <br>

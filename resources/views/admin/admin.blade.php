@@ -32,7 +32,7 @@
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="{{ route ('empresa.index') }}" class="small-box-footer">Más Info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route ('admin.empresa.index') }}" class="small-box-footer">Más Info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -44,7 +44,7 @@
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="{{ route ('persona.index') }}" class="small-box-footer">Más Info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route ('admin.persona.index') }}" class="small-box-footer">Más Info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="{{ route ('telefono_movil.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route ('admin.telefono_movil.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -70,7 +70,7 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="{{ route ('correo.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route ('admin.correo.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -82,7 +82,7 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="{{ route ('campaign.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route ('crm.campaign.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
