@@ -1,44 +1,27 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Models\admin\Empresa;
-use App\Models\admin\Persona;
-use App\Models\admin\TelefonoMovil;
-use App\Models\admin\TelefonoTipoOperadora;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
-Route::get('/prueba', function () {
-    //$Operadoras = TelefonoTipoOperadora::all();
-    //return view('prueba', compact('Operadoras'));
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-    //$Numeros = TelefonoMovil::all();
-    //return view('prueba', compact('Numeros'));
-
-    $persona = Persona::find(1);
-    $numero = TelefonoMovil::find(2);
-    return view('prueba', compact('persona', 'numero'));
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    #Route::get('/admin', function () {
-    #    return view('admin.admin');
-    #})->name('admin');
-    Route::get('/menu', [AdminController::class, 'menu'])->name('dashboard');
-});
-
-#Route::get('/', function(){
-#    return view('admin.conf.dashboard');
-#})->name('dashboard');
-
-/*
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-*/
+require __DIR__.'/auth.php';

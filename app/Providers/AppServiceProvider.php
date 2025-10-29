@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,11 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        /** Organizar los directorios de las Migraciones */
-        $migrationsPath = database_path('migrations');
-        $directories    = glob($migrationsPath.'/*', GLOB_ONLYDIR);
-        $paths          = array_merge([$migrationsPath], $directories);
-
-        $this->loadMigrationsFrom($paths);
+        Vite::prefetch(concurrency: 3);
     }
 }
