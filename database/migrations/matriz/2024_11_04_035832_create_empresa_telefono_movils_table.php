@@ -15,7 +15,15 @@ return new class extends Migration
             $table->id('IdEmpresaTelefono');
             $table->foreignId('IdEmpresa')->references('IdEmpresa')->on('empresas');
             $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on('telefono_movils');
+            $table->string('cUser')->nullable();
+            $table->string('uUser')->nullable();
+            $table->string('dUser')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
+            $table->comment('Tabla Empresa Correo');
         });
     }
 

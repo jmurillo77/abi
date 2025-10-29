@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id('IdEmpresaCorreo');
             $table->foreignId('IdEmpresa')->references('IdEmpresa')->on('empresas');
             $table->foreignId('IdCorreo')->references('IdCorreo')->on('correos');
+            $table->string('cUser')->nullable();
+            $table->string('uUser')->nullable();
+            $table->string('dUser')->nullable();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
             $table->engine = 'InnoDB';
