@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.2",
         "inertiajs/inertia-laravel": "^2.0",
-        "jeroennoten/laravel-adminlte": "^3.14.1",
+        "jeroennoten/laravel-adminlte": "^3.15",
         "laravel/framework": "^12.21.0",
         "laravel/jetstream": "^5.2",
         "laravel/sanctum": "^4.0",

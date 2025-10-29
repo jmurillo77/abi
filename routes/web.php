@@ -4,6 +4,16 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\admin\Persona;
+use App\Models\admin\TelefonoMovil;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\EmpresaController;
+use App\Http\Controllers\Admin\PersonaController;
+use App\Http\Controllers\Admin\ContinenteController;
+use App\Http\Controllers\Admin\TelefonomovilController;
+use App\Http\Controllers\Admin\CorreoController;
+use App\Http\Controllers\Admin\CampaignController;  
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
