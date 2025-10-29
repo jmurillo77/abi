@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::connection(name: 'matriz')->create('personas', function (Blueprint $table) {
+            $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdPersona');
             $table->string('DNI', length: 10)->unique()->nullable();
             $table->string('Nombres', length: 100)->nullable();

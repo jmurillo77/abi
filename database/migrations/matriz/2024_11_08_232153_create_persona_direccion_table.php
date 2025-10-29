@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::connection(name: 'matriz')->create('persona_direccion', function (Blueprint $table) {
             $table->id();
+            $table->enum('Eliminado', ['S','N'])->default('N');
+            $table->string('cUser')->nullable();
+            $table->string('uUser')->nullable();
+            $table->string('dUser')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
+            $table->comment('Tabla Direccion de Persona');
         });
     }
 

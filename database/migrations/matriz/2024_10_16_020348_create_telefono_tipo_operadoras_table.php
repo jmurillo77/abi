@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::connection(name: 'matriz')->create('telefono_tipo_operadoras', function (Blueprint $table) {
+            $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdOperadora');
             $table->string('Nombre', length: 50)->nullable();
             $table->string('cUser')->nullable();
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla Operadoras Telefonicas');
+            $table->comment('Tabla Tipo Operadoras');
         });
     }
 
