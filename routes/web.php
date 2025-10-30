@@ -39,7 +39,7 @@ Route::middleware([
     #Route::get('/admin', function () {
     #    return view('admin.admin');
     #})->name('admin');
-    Route::get('/menu', [AdminController::class, 'menu'])->name('dashboard');
+    Route::get('/menu', [AdminController::class, 'menu'])->name('menu');
 });
 
 #Route::get('/', function(){

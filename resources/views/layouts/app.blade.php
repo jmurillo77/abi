@@ -61,6 +61,9 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a class="dropdown-item" href="{{ route('menu') }}">App</a>
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -79,10 +82,6 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
     </div>
 </body>
 </html>
