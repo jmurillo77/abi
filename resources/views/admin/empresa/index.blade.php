@@ -16,7 +16,8 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin') }}">CRM - Dashboard</a> </li>
                     <li class="breadcrumb-item active">Empresas</li>
                 </ol>
             </div>

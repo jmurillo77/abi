@@ -16,7 +16,8 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin') }}">CRM - Dashboard</a> </li>
                     <li class="breadcrumb-item active">Personas</li>
                 </ol>
             </div>
@@ -36,7 +37,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="float-right">
-                        <a href="{{ route('persona.crear') }}"><i class="fa fa-s fa-fw fa-user-plus text-primary"></i></a>
+                        <a href="{{ route('admin.persona.crear') }}"><i class="fa fa-s fa-fw fa-user-plus text-primary"></i></a>
                     </div>
                 </div>
             </div>
