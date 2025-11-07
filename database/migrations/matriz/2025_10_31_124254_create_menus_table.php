@@ -18,7 +18,15 @@ return new class extends Migration
             $table->string('Icono', 100)->nullable();
             $table->bigInteger('parent_id')->unsigned();
             $table->integer('order')->nullable();
+             $table->string('cUser')->nullable();
+            $table->string('uUser')->nullable();
+            $table->string('dUser')->nullable();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
+            $table->comment('Tabla Menus del Sistema');
         });
     }
 

@@ -13,12 +13,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         then: function () {
             Route::middleware(['web', 'auth'])
+                ->prefix('contacto')
+                ->name('contacto.')
+                ->group(function () {
+                    require base_path('routes/contacto.php');
+                });
+            Route::middleware(['web', 'auth'])
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(function () {
                     require base_path('routes/admin.php');
                 });
-                Route::middleware(['web', 'auth'])
+            Route::middleware(['web', 'auth'])
                 ->prefix('crm')
                 ->name('crm.')
                 ->group(function () {

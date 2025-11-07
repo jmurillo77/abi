@@ -7,8 +7,6 @@ use Inertia\Inertia;
 use App\Models\admin\Persona;
 use App\Models\admin\TelefonoMovil;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\EmpresaController;
-use App\Http\Controllers\Admin\PersonaController;
 use App\Http\Controllers\Admin\ContinenteController;
 use App\Http\Controllers\Admin\TelefonomovilController;
 use App\Http\Controllers\Admin\CorreoController;
@@ -18,6 +16,11 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Manejar expresiones regulares en las rutas
+//Route::get('/cursos/{curso}', function ($curso) {
+//    return "Bienvenido al curso de: " . $curso;
+//})->where('curso', '[A-Za-z]+');
 
 Route::get('/prueba', function () {
     //$Operadoras = TelefonoTipoOperadora::all();
@@ -55,24 +58,6 @@ Auth::routes();
 
 Route::middleware('auth')->prefix('admin')->group(function (){
     Route::get('/', [AdminController::class, 'index'])->name('admin');
-    Route::prefix('empresa')->name('empresa.')->controller(EmpresaController::class)->group(function(){
-        Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('crear');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{empresa}', 'show')->name('show');
-        //Route::get('/{empresa}/edit', 'edit')->name('edit');
-        //Route::put('/{empresa}', 'update')->name('update');
-        //Route::delete('/{empresa}', 'destroy')->name('destroy');
-    });
-    Route::prefix('persona')->name('persona.')->controller(PersonaController::class)->group(function(){
-        Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('crear');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{persona}', 'show')->name('show');
-        //Route::get('/{persona}/edit', 'edit')->name('edit');
-        //Route::put('/{persona}', 'update')->name('update');
-        //Route::delete('/{persona}', 'destroy')->name('destroy');
-    });
     Route::prefix('continente')->name('continente.')->controller(ContinenteController::class)->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');

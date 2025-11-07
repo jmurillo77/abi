@@ -1,20 +1,26 @@
 <?php
 
-namespace app\Http\Controllers\admin;
+namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Persona;
 use Illuminate\Http\Request;
+use App\Models\admin\Empresa;
+use App\Models\admin\Persona;
+use App\Models\admin\TelefonoMovil;
+use App\Models\admin\Correo;
 
-class PersonaController extends Controller
+class MainController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $personas = persona::all();
-        return view('admin.persona.index', compact('personas'));
+        $TotalEmpresa = Empresa::count();
+        $TotalPersona = Persona::count();
+        $TotalTelefono = TelefonoMovil::count();
+        $TotalCorreo = Correo::count();
+        return view('contacto.dashboard', compact('TotalEmpresa','TotalPersona', 'TotalTelefono', 'TotalCorreo'));
     }
 
     /**
@@ -22,7 +28,7 @@ class PersonaController extends Controller
      */
     public function create()
     {
-        return view('admin.persona.create');
+        //
     }
 
     /**
@@ -36,10 +42,9 @@ class PersonaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Persona $persona)
+    public function show(string $id)
     {
-        $persona = Persona::find($persona);
-        return view('admin.persona.show', compact('persona'));
+        //
     }
 
     /**

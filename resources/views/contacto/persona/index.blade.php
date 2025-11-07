@@ -17,8 +17,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a> </li>
-                    <li class="breadcrumb-item"><a href="{{ route('admin') }}">CRM - Dashboard</a> </li>
-                    <li class="breadcrumb-item active">Empresas</li>
+                    <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contacto - Dashboard</a> </li>
+                    <li class="breadcrumb-item active">Personas</li>
                 </ol>
             </div>
         </div>
@@ -31,16 +31,26 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Lista de Empresas</h3>
+            <div class="row">
+                <div class="col-md-9">
+                    <h3 class="card-title">Lista de Personas</h3>
+                </div>
+                <div class="col-md-3">
+                    <div class="float-right">
+                        <a href="{{ route('contacto.persona.crear') }}"><i class="fa fa-s fa-fw fa-user-plus text-primary"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="card-body">
-            <table id="empresas" class="table table-bordered table-striped">
+            <table id="personas" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th style="width: 10px">RUC</th>
-                        <th style="width: 150px">Razon Social</th>
+                        <th style="width: 15px">DNI</th>
+                        <th style="width: 50px">Nombres</th>
+                        <th style="width: 50px">Apellidos</th>
                         <th style="width: 50px">Numero</th>
                         <th style="width: 50px">Correo</th>
                         <th >Ver</th>
@@ -49,28 +59,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($empresas as $empresa)
+                    @foreach ($personas as $persona)
                         <tr>
                             <td style="vertical-align: middle"><a
-                                    href="persona/{{ $empresa->IdEmpresa }}">{{ $empresa->IdEmpresa }}</a></td>
+                                    href="persona/{{ $persona->IdPersona }}">{{ $persona->IdPersona }}</a></td>
                             <td style="vertical-align: middle;"><a
-                                    href="persona/{{ $empresa->IdEmpresa }}">{{ $empresa->RUC }}</a></td>
-                            <td style="vertical-align: middle;">{{ $empresa->RazonSocial }}</td>
-                                @if(isset($empresa->telefono_movils->first()->Numero))
-                                    <td style="vertical-align: middle;">{{ $empresa->telefono_movils->first()->Numero }}</td>
+                                    href="persona/{{ $persona->IdPersona }}">{{ $persona->DNI }}</a></td>
+                            <td style="vertical-align: middle;">{{ $persona->Nombres }}</td>
+                            <td style="vertical-align: middle;">{{ $persona->Apellidos }}</td>
+                                @if(isset($persona->telefono_movils->first()->Numero))
+                                    <td style="vertical-align: middle;">{{ $persona->telefono_movils->first()->Numero }}</td>
                                 @else
-                                <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
                                 @endif
-                                @if(isset($empresa->correos->first()->Correo))
-                                    <td style="vertical-align: middle;">{{ $empresa->correos->first()->Correo }}</td>
+                                @if(isset($persona->correos->first()->Correo))
+                                    <td style="vertical-align: middle;">{{ $persona->correos->first()->Correo }}</td>
                                 @else
-                                <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
                                 @endif
-                            <td width="10px"><a href="persona/{{ $empresa->IdEmpresa }}" class="btn btn-xs btn-teal mx-1 shadow">
+                            <td width="10px"><a href="persona/{{ $persona->IdPersona }}" class="btn btn-xs btn-teal mx-1 shadow">
                                 <i class="fa fa-lg fa-fw fa-eye"></i></a></td>
-                            <td width="10px"><a href="persona/{{ $empresa->IdEmpresa }}" class="btn btn-xs btn-primary mx-1 shadow">
+                            <td width="10px"><a href="persona/{{ $persona->IdPersona }}" class="btn btn-xs btn-primary mx-1 shadow">
                                 <i class="fa fa-lg fa-fw fa-pen"></i></a></td>
-                            <td width="10px"><a href="persona/{{ $empresa->IdEmpresa }}" class="btn btn-xs btn-danger mx-1 shadow">
+                            <td width="10px"><a href="persona/{{ $persona->IdPersona }}" class="btn btn-xs btn-danger mx-1 shadow">
                                 <i class="fa fa-lg fa-fw fa-trash"></i></a></td>
                         </tr>
                     @endforeach
@@ -78,8 +89,9 @@
                 <tfoot>
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th style="width: 15px">RUC</th>
-                        <th style="width: 50px">Razon Social</th>
+                        <th style="width: 15px">DNI</th>
+                        <th style="width: 50px">Nombres</th>
+                        <th style="width: 50px">Apellidos</th>
                         <th style="width: 50px">Numero</th>
                         <th style="width: 50px">Correo</th>
                         <th >Ver</th>
@@ -89,7 +101,6 @@
                 </tfoot>
             </table>
         </div>
-
     </div>
 @endsection
 
@@ -104,7 +115,7 @@
     <script src="../vendor/datatables-plugins/pdfmake/pdfmake.min.js"></script>
     <script src="../vendor/datatables-plugins/buttons/js/buttons.html5.min.js"></script>
     <script>
-        $('#empresas').DataTable({
+        $('#personas').DataTable({
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
             "paging": true,
             "lengthChange": false,

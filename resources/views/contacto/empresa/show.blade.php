@@ -10,9 +10,10 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a> </li>
-                    <li class="breadcrumb-item"><a href="{{ route('persona.index') }}">Personas</a></li>
-                    <li class="breadcrumb-item active">{{$persona->first()->DNI}} | {{$persona->first()->Nombres}} {{$persona->first()->Apellidos}}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contacto - Dashboard</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('contacto.persona.index') }}">Personas</a></li>
+                    <li class="breadcrumb-item active">{{$empresa->first()->DNI}} | {{$empresa->first()->Nombres}} {{$empresa->first()->Apellidos}}</li>
                 </ol>
             </div>
         </div>

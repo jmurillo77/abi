@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\admin;
+namespace app\Http\Controllers\contacto;
 
 use App\Http\Controllers\Controller;
 use App\Models\admin\Empresa;
@@ -14,7 +14,7 @@ class EmpresaController extends Controller
     public function index()
     {
         $empresas = Empresa::all();
-        return view('admin.empresa.index', compact('empresas'));
+        return view('contacto.empresa.index', compact('empresas'));
     }
 
     /**
@@ -22,15 +22,16 @@ class EmpresaController extends Controller
      */
     public function create()
     {
-        //
+        return view('contacto.empresa.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Empresa $empresa)
     {
-        //
+        $empresa = Empresa::find($empresa);
+        return view('contacto.empresa.show', compact('empresa'));
     }
 
     /**
