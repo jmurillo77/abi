@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-3">
                 <div class="float-right">
-                    <a href="{{ route('persona.index') }}" style="color:#0970d6; margin: 5px 0 0 0px;"><span class="fas fa-arrow-left fa-lg"></span>  Regresar</a>
+                    <a href="{{ route('contacto.persona.index') }}" style="color:#0970d6; margin: 5px 0 0 0px;"><span class="fas fa-arrow-left fa-lg"></span>  Regresar</a>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <p class="card-text">
-                <form class="form-horizontal" role="form" method="POST" action="{{ route('persona.store') }}">
+            <form class="form-horizontal" role="form" method="POST" action="{{ route('contacto.persona.store') }}">
                 <!-- Add csrf token -->
                 {{ csrf_field() }}
                 <div class="input-group mb-3">
@@ -69,8 +69,9 @@
                         <option value="2">Fijo</option>
                         <option value="3">Movil</option>
                     </select>
-                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-sim-card fa-lg"
-                            style="color: #0d4a87;"></i></span>
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-sim-card fa-lg" style="color: #0d4a87;"></i>
+                    </span>
                     <select name="id_operadora" class="form-select form-select-lg" aria-label="Tipo de operadora"
                         aria-describedby="basic-addon1" required>
                         <option hidden selected value="">Operadora</option>
@@ -83,8 +84,8 @@
                 <br>
                 {{-- <a href="{{ route('persona.index') }}" class="btn btn-secondary"><span class="fas fa-undo fa-lg"></span>
                     Regresar</a> --}}
-                <button class="btn btn-primary"><span class="fas fa-user-plus fa-lg"></span> Agregar</button>
-                <button class="btn btn-primary" formaction="{{ route('persona.index') }}"><span class="fas fa-user-plus fa-lg"></span> Cancelar</button>
+                <button class="btn btn-primary" formaction="{{ route('contacto.persona.index') }}"><span class="fas fa-user-plus fa-lg"></span> Agregar</button>
+                <button class="btn btn-primary" href="{{ route('contacto.persona.index') }}"><span class="fas fa-user-plus fa-lg"></span> Cancelar</button>
             </form>
 
             </p>
