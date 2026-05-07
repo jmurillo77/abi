@@ -440,12 +440,14 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                    'location' => '//https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js',
+                    /*'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',*/
                 ],
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                    'location' => '//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css',
+                    /*'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',*/
                 ],
             ],
         ],
