@@ -1,96 +1,240 @@
 @extends('adminlte::page')
 
-@section('tituloPagina', 'Crear nueva persona')
+@section('title', 'Crear nueva persona')
 
+@section('content_header')
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <h1>
+                <i class="fas fa-user-plus text-primary"></i>
+                Nueva Persona
+            </h1>
+        </div>
+
+        <div class="col-md-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menú</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contactos</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('contacto.persona.index') }}">Personas</a></li>
+                <li class="breadcrumb-item active">Crear</li>
+            </ol>
+        </div>
+    </div>
+</div>
+@stop
 
 @section('content')
 
+<div class="card card-outline card-primary shadow">
 
-<div class="card">
     <div class="card-header">
-        <div class="row">
-            <div class="col-md-9">
-                <h3 class="card-title">Agregar Personas</h3>
+        <h3 class="card-title">Agregar Persona</h3>
+    </div>
+
+    <form method="POST" action="{{ route('contacto.persona.store') }}">
+        @csrf
+
+        <div class="card-body">
+
+            {{-- Errores --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Se encontraron errores:</strong>
+                    <ul class="mb-0 mt-2">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            {{-- Datos personales --}}
+            <div class="form-group">
+                <label>Documento</label>
+                <input type="text" name="dni" class="form-control" value="{{ old('dni') }}" required>
             </div>
-            <div class="col-md-3">
-                <div class="float-right">
-                    <a href="{{ route('contacto.persona.index') }}" style="color:#0970d6; margin: 5px 0 0 0px;"><span class="fas fa-arrow-left fa-lg"></span>  Regresar</a>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Nombres</label>
+                    <input type="text" name="nombres" class="form-control" value="{{ old('nombres') }}" required>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>Apellidos</label>
+                    <input type="text" name="apellidos" class="form-control" value="{{ old('apellidos') }}" required>
                 </div>
             </div>
-        </div>
-    </div>
-        <div class="card m-3 ">
 
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        @if ($errors->any())
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        @endif
+            {{-- Teléfonos y Correos --}}
+            <div class="row mt-4">
+
+                {{-- TELÉFONOS --}}
+                <div class="col-md-6">
+                    <div class="card card-outline card-info">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-phone"></i> Teléfonos
+                            </h5>
+
+                            <button type="button" id="addTelefono" class="btn btn-success btn-sm">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+                            <div id="telefonos-container">
+
+                                <div class="telefono-item border rounded p-3 mb-3">
+                                    <input type="text"
+                                           name="telefonos[0][numero]"
+                                           class="form-control mb-2"
+                                           placeholder="Número">
+
+                                    <select name="telefonos[0][id_conectividad]" class="form-control mb-2">
+                                        <option value="">Conectividad</option>
+                                        <option value="1">NA</option>
+                                        <option value="2">Fijo</option>
+                                        <option value="3">Móvil</option>
+                                    </select>
+
+                                    <select name="telefonos[0][id_operadora]" class="form-control">
+                                        <option value="">Operadora</option>
+                                        @foreach($operadoras as $operadora)
+                                            <option value="{{ $operadora->IdOperadora }}">
+                                                {{ $operadora->Nombre }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <p class="card-text">
-            <form class="form-horizontal" role="form" method="POST" action="{{ route('contacto.persona.store') }}">
-                <!-- Add csrf token -->
-                {{ csrf_field() }}
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-id-card fa-lg"
-                            style="color: #0d4a87;"></i></span>
-                    <input type="text" name="dni" class="form-control form-control-lg"
-                        placeholder="Documento de identificación" aria-label="Documento de identificación"
-                        aria-describedby="basic-addon1" required>
-                        {{-- @error('dni'){{$message}} @enderror --}}
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-user fa-lg"
-                            style="color: #0d4a87;"></i></span>
-                    <input type="text" name="nombres" class="form-control form-control-lg" placeholder="Nombres"
-                        aria-label="Nombres" aria-describedby="basic-addon1" required>
-                    <input type="text" name="apellidos" class="form-control form-control-lg" placeholder="Apellidos"
-                        aria-label="Apellidos" aria-describedby="basic-addon1" required>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-phone-alt fa-lg"
-                            style="color: #0d4a87;"></i></span>
-                    <input type="text" name="numero" class="form-control form-control-lg"
-                        placeholder="Número de teléfono" aria-label="Número de teléfono" aria-describedby="basic-addon1"
-                        required>
-                        {{-- @error('numero'){{$message}} @enderror --}}
-                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-wifi fa-lg"
-                            style="color: #0d4a87;"></i></span>
-                    <select name="id_conectividad" class="form-select form-select-lg" aria-label="Tipo de conectividad"
-                        aria-describedby="basic-addon1" required>
-                        <option hidden selected value="">Conectividad</option>
-                        <option value="1">NA</option>
-                        <option value="2">Fijo</option>
-                        <option value="3">Movil</option>
-                    </select>
-                    <span class="input-group-text" id="basic-addon1">
-                        <i class="fas fa-sim-card fa-lg" style="color: #0d4a87;"></i>
-                    </span>
-                    <select name="id_operadora" class="form-select form-select-lg" aria-label="Tipo de operadora"
-                        aria-describedby="basic-addon1" required>
-                        <option hidden selected value="">Operadora</option>
-                        <option value="1">NA</option>
-                        <option value="2">Claro</option>
-                        <option value="3">Movistar</option>
-                        <option value="4">CNT</option>
-                    </select>
-                </div>
-                <br>
-                {{-- <a href="{{ route('persona.index') }}" class="btn btn-secondary"><span class="fas fa-undo fa-lg"></span>
-                    Regresar</a> --}}
-                <button class="btn btn-primary" formaction="{{ route('contacto.persona.index') }}"><span class="fas fa-user-plus fa-lg"></span> Agregar</button>
-                <button class="btn btn-primary" href="{{ route('contacto.persona.index') }}"><span class="fas fa-user-plus fa-lg"></span> Cancelar</button>
-            </form>
 
-            </p>
+                {{-- CORREOS --}}
+                <div class="col-md-6">
+                    <div class="card card-outline card-success">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="fas fa-envelope"></i> Correos
+                            </h5>
+
+                            <button type="button" id="addCorreo" class="btn btn-success btn-sm">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+                            <div id="correos-container">
+
+                                <div class="correo-item border rounded p-3 mb-3">
+                                    <input type="email"
+                                           name="correos[0][correo]"
+                                           class="form-control"
+                                           placeholder="Correo electrónico">
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
-    </div>
+        <div class="card-footer text-right">
+            <a href="{{ route('contacto.persona.index') }}" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
 
-@endsection
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+@stop
+
+@section('js')
+<script>
+let telefonoIndex = 1;
+let correoIndex = 1;
+
+const operadoras = `
+@foreach($operadoras as $operadora)
+<option value="{{ $operadora->IdOperadora }}">
+    {{ $operadora->Nombre }}
+</option>
+@endforeach
+`;
+
+document.getElementById('addTelefono').addEventListener('click', function () {
+    let html = `
+        <div class="telefono-item border rounded p-3 mb-3">
+            <input type="text"
+                   name="telefonos[${telefonoIndex}][numero]"
+                   class="form-control mb-2"
+                   placeholder="Número">
+
+            <select name="telefonos[${telefonoIndex}][id_conectividad]" class="form-control mb-2">
+                <option value="">Conectividad</option>
+                <option value="1">NA</option>
+                <option value="2">Fijo</option>
+                <option value="3">Móvil</option>
+            </select>
+
+            <select name="telefonos[${telefonoIndex}][id_operadora]" class="form-control mb-2">
+                <option value="">Operadora</option>
+                ${operadoras}
+            </select>
+
+            <button type="button" class="btn btn-danger btn-sm removeTelefono w-100">
+                Eliminar
+            </button>
+        </div>
+    `;
+
+    document.getElementById('telefonos-container').insertAdjacentHTML('beforeend', html);
+    telefonoIndex++;
+});
+
+document.getElementById('addCorreo').addEventListener('click', function () {
+    let html = `
+        <div class="correo-item border rounded p-3 mb-3">
+            <input type="email"
+                   name="correos[${correoIndex}][correo]"
+                   class="form-control mb-2"
+                   placeholder="Correo electrónico">
+
+            <button type="button" class="btn btn-danger btn-sm removeCorreo w-100">
+                Eliminar
+            </button>
+        </div>
+    `;
+
+    document.getElementById('correos-container').insertAdjacentHTML('beforeend', html);
+    correoIndex++;
+});
+
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.removeTelefono')) {
+        e.target.closest('.telefono-item').remove();
+    }
+
+    if (e.target.closest('.removeCorreo')) {
+        e.target.closest('.correo-item').remove();
+    }
+});
+</script>
+@stop

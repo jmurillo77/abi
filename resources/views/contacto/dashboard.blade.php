@@ -3,74 +3,150 @@
 @section('title', 'AbiSyS')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route ('menu') }}">Menu</a></li>
-                    <li class="breadcrumb-item active">Contactos - Dashboard</li>
-                </ol>
-            </div>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">
+                <i class="fas fa-address-book"></i> Dashboard de Contactos
+            </h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('menu') }}">Menú</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    Contactos
+                </li>
+            </ol>
         </div>
     </div>
+</div>
 @stop
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-info">
+
+@php
+    $cards = [
+        [
+            'titulo' => 'Personas',
+            'total' => $TotalPersona,
+            'color' => 'info',
+            'icono' => 'fas fa-user',
+            'ruta' => 'contacto.persona.index'
+        ],
+        [
+            'titulo' => 'Empresas',
+            'total' => $TotalEmpresa,
+            'color' => 'success',
+            'icono' => 'fas fa-building',
+            'ruta' => 'contacto.empresa.index'
+        ],
+        [
+            'titulo' => 'Teléfonos',
+            'total' => $TotalTelefono ?? 0,
+            'color' => 'warning',
+            'icono' => 'fas fa-phone',
+            'ruta' => 'contacto.telefono_movil.index'
+        ],
+        [
+            'titulo' => 'Correos',
+            'total' => $TotalCorreo ?? 0,
+            'color' => 'danger',
+            'icono' => 'fas fa-envelope',
+            'ruta' => 'contacto.correo.index'
+        ],
+    ];
+@endphp
+
+<div class="container-fluid">
+
+    {{-- Tarjetas principales --}}
+    <div class="row">
+        @foreach($cards as $card)
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="small-box bg-{{ $card['color'] }}">
                     <div class="inner">
-                        <h3>{{ $TotalPersona }}</h3>
-                        <p>Contactos Personas</p>
+                        <h3>{{ $card['total'] }}</h3>
+                        <p>{{ $card['titulo'] }}</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-bag"></i>
+                        <i class="{{ $card['icono'] }}"></i>
                     </div>
-                    <a href="{{ route ('contacto.persona.index') }}" class="small-box-footer">Más Info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route($card['ruta']) }}" class="small-box-footer">
+                        Ver detalle <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>{{ $TotalEmpresa }}</h3>
-                        <p>Contactos Empresas</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="{{ route ('contacto.empresa.index') }}" class="small-box-footer">Más Info <i class="fas fa-arrow-circle-right"></i></a>
+        @endforeach
+    </div>
+
+    {{-- Resumen rápido --}}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Resumen General
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Módulo</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Personas</td>
+                                <td>{{ $TotalPersona }}</td>
+                            </tr>
+                            <tr>
+                                <td>Empresas</td>
+                                <td>{{ $TotalEmpresa }}</td>
+                            </tr>
+                            <tr>
+                                <td>Teléfonos</td>
+                                <td>{{ $TotalTelefono ?? 0 }}</td>
+                            </tr>
+                            <tr>
+                                <td>Correos</td>
+                                <td>{{ $TotalCorreo ?? 0 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            {{-- <div class="col-lg-3 col-6">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ $TotalTelefono }}</h3>
-                        <p>Teléfonos</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="{{ route ('contacto.telefono_movil.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div> --}}
+        </div>
 
-            {{-- <div class="col-lg-3 col-6">
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>{{ $TotalCorreo }}</h3>
-                        <p>Correos</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="{{ route ('contacto.correo.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        {{-- Accesos rápidos --}}
+        <div class="col-md-4">
+            <div class="card card-outline card-success">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Accesos rápidos
+                    </h3>
                 </div>
-            </div> --}}
+                <div class="card-body">
+                    {{-- <a href="{{ route('contacto.persona.create') }}" class="btn btn-primary btn-block mb-2">
+                        <i class="fas fa-user-plus"></i> Nueva Persona
+                    </a>
 
+                    <a href="{{ route('contacto.empresa.create') }}" class="btn btn-success btn-block mb-2">
+                        <i class="fas fa-building"></i> Nueva Empresa
+                    </a>
+
+                    <a href="{{ route('menu') }}" class="btn btn-secondary btn-block">
+                        <i class="fas fa-home"></i> Volver al Menú
+                    </a>
+                     --}}
+                </div>
+            </div>
         </div>
     </div>
+
+</div>
+
 @stop

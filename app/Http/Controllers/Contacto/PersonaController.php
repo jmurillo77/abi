@@ -4,6 +4,8 @@ namespace app\Http\Controllers\contacto;
 
 use App\Http\Controllers\Controller;
 use App\Models\admin\Persona;
+use App\Models\admin\TelefonoMovil;
+use App\Models\admin\TelefonoTipoOperadora;
 use Illuminate\Http\Request;
 
 class PersonaController extends Controller
@@ -22,7 +24,8 @@ class PersonaController extends Controller
      */
     public function create()
     {
-        return view('contacto.persona.create');
+        $operadoras = TelefonoTipoOperadora::all();
+        return view('contacto.persona.create', compact('operadoras'));
     }
 
     /**
@@ -30,7 +33,35 @@ class PersonaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $request->validate([
+        'dni' => 'required|max:20|unique:matriz.personas,DNI',
+        'nombres' => 'required|max:100',
+        'apellidos' => 'required|max:100',
+        'numero' => 'required|max:20',
+        'id_conectividad' => 'nullable|exists:matriz.telefono_tipo_conectividads,IdConectividad',
+        'id_operadora' => 'nullable|exists:matriz.telefono_tipo_operadoras,IdOperadora',
+    ]);
+
+    // Crear persona
+    $persona = Persona::create([
+        'DNI' => $request->dni,
+        'Nombres' => $request->nombres,
+        'Apellidos' => $request->apellidos,
+    ]);
+
+    // Crear teléfono
+    $telefono = TelefonoMovil::create([
+        'Numero' => $request->numero,
+        'IdConectividad' => $request->id_conectividad ?: null,
+        'IdOperadora' => $request->id_operadora ?: null,
+    ]);
+
+    // Relacionar en tabla pivote
+    $persona->telefono_movils()->attach($telefono->IdTelefonoMovil);
+
+    return redirect()
+        ->route('contacto.persona.index')
+        ->with('success', 'Persona creada correctamente');
     }
 
     /**
