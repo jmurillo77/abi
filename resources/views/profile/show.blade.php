@@ -7,6 +7,13 @@
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+
+            @can('assign-menu-permissions')
+                <div class="mb-4">
+                    <a href="{{ route('menus.permissions.edit', auth()->id()) }}" class="btn btn-primary">Asignar permisos</a>
+                </div>
+            @endcan
+
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
                 @livewire('profile.update-profile-information-form')
 

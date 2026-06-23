@@ -84,6 +84,20 @@
                     <a href="{{ route ('crm.campaign.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
+            @can('assign-menu-permissions')
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h3>Usuarios</h3>
+                            <p>Administrar permisos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="{{ route('users.index') }}" class="small-box-footer">Ir al listado <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            @endcan
         </div>
     </div>
 @stop

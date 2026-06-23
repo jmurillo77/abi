@@ -81,9 +81,9 @@ class PersonaController extends Controller
 
             foreach ($request->correos as $correoData) {
                 if (!empty($correoData['correo'])) {
-                    $correo = Correo::create([
-                        'Correo' => $correoData['correo'],
-                    ]);
+                    $correo = Correo::firstOrCreate(
+                        ['Correo' => $correoData['correo']]
+                    );
 
                     $correosIds[] = $correo->IdCorreo;
                 }
@@ -239,9 +239,9 @@ class PersonaController extends Controller
                         $correosIdsActuales[] = $correo->IdCorreo;
                     }
                 } else {
-                    $nuevoCorreo = Correo::create([
-                        'Correo' => $correoData['correo'],
-                    ]);
+                    $nuevoCorreo = Correo::firstOrCreate(
+                        ['Correo' => $correoData['correo']]
+                    );
 
                     $persona->correos()->attach($nuevoCorreo->IdCorreo);
                     $correosIdsActuales[] = $nuevoCorreo->IdCorreo;

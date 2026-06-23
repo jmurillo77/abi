@@ -83,7 +83,7 @@
                 ['titulo'=>'Ventas','icono'=>'💰','ruta'=>'contacto.empresa.index'],
                 ['titulo'=>'CRM','icono'=>'📊','ruta'=>'admin'],
                 ['titulo'=>'Cocina','icono'=>'🍽️','ruta'=>'admin'],
-                ['titulo'=>'Configuración','icono'=>'⚙️','ruta'=>'contacto.empresa.index'],
+                ['titulo'=>'Configuración','icono'=>'⚙️','ruta'=>'configuracion.dashboard'],
             ];
         @endphp
 

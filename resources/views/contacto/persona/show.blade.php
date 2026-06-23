@@ -55,9 +55,14 @@
                         <a href="{{ route('contacto.persona.index') }}" class="btn btn-default">
                             <i class="fas fa-arrow-left"></i> Volver
                         </a>
-                        <a href="{{ route('contacto.persona.edit', $persona->IdPersona) }}" class="btn btn-warning text-white">
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('contacto.persona.edit', $persona->IdPersona) }}" class="btn btn-warning text-white">
                             <i class="fas fa-edit"></i> Editar
                         </a>
+                                <a href="{{ route('contacto.persona.crear') }}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Nueva
+                                </a>
+                            </div>
                     </div>
                 </div>
             </div>

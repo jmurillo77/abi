@@ -75,9 +75,9 @@ class EmpresaController extends Controller
             $correosIds = [];
             foreach ($request->correos as $correoData) {
                 if (!empty($correoData['correo'])) {
-                    $correo = Correo::create([
-                        'Correo' => $correoData['correo'],
-                    ]);
+                    $correo = Correo::firstOrCreate(
+                        ['Correo' => $correoData['correo']]
+                    );
                     $correosIds[] = $correo->IdCorreo;
                 }
             }
@@ -194,9 +194,9 @@ class EmpresaController extends Controller
                         $correosIds[] = $correo->IdCorreo;
                     }
                 } else {
-                    $correo = Correo::create([
-                        'Correo' => $correoData['correo'],
-                    ]);
+                    $correo = Correo::firstOrCreate(
+                        ['Correo' => $correoData['correo']]
+                    );
                     $correosIds[] = $correo->IdCorreo;
                 }
             }

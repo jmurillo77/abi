@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id('IdMenu');
-            $table->string('Nombre', 255);
-            $table->string('Url', 255)->nullable();
+            $table->string('Titulo', 255);
+            $table->string('Ruta', 255)->nullable();
             $table->string('Icono', 100)->nullable();
-            $table->bigInteger('parent_id')->unsigned();
+            $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->integer('order')->nullable();
              $table->string('cUser')->nullable();
             $table->string('uUser')->nullable();

@@ -10,7 +10,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ContinenteController;
 use App\Http\Controllers\Admin\TelefonomovilController;
 use App\Http\Controllers\Admin\CorreoController;
-use App\Http\Controllers\Admin\CampaignController;  
+use App\Http\Controllers\Admin\CampaignController;
+use App\Http\Controllers\Configuracion\MenuController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -95,6 +96,15 @@ Route::middleware('auth')->prefix('admin')->group(function (){
             //Route::put('/{campaign}', 'update')->name('update');
             //Route::delete('/{campaign}', 'destroy')->name('destroy');
             Route::get('/exporta/{campaign}', 'exporta')->name('exporta');
+        });
+        Route::prefix('menus')->name('menus.')->controller(MenuController::class)->group(function(){
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{menu}', 'show')->name('show');
+            Route::get('/{menu}/edit', 'edit')->name('edit');
+            Route::put('/{menu}', 'update')->name('update');
+            Route::delete('/{menu}', 'destroy')->name('destroy');
         });
     });
     Route::get('/profile', function () {
