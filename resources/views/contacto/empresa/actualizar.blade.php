@@ -79,7 +79,7 @@
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-wifi "
                                 style="color: #003A66;"></i></span>
                         <select name="id_conectividad" class="form-select form-select-lg" aria-label="Tipo de conectividad"
-                            aria-describedby="basic-addon1" required value="{{ $telefono->id_Conectividad }}">
+                            aria-describedby="basic-addon1" value="{{ $telefono->id_Conectividad }}">
                             <option value="1" @if ($telefono->id_Conectividad == '1') hidden selected @endif>NA
                             </option>
                             <option value="2" @if ($telefono->id_Conectividad == '2') hidden selected @endif>Fijo
@@ -90,7 +90,7 @@
                         <span class="input-group-text" id="basic-addon1"><i class="fas fa-sim-card "
                                 style="color: #003A66;"></i></span>
                         <select name="id_operadora" class="form-select form-select-lg" aria-label="Tipo de operadora"
-                            aria-describedby="basic-addon1" required value="{{ $telefono->id_Operadora }}">
+                            aria-describedby="basic-addon1" value="{{ $telefono->id_Operadora }}">
                             <option value="1" @if ($telefono->id_Operadora == '1') hidden selected @endif>NA
                             </option>
                             <option value="2" @if ($telefono->id_Operadora == '2') hidden selected @endif>

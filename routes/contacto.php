@@ -18,7 +18,7 @@ Route::middleware([
         Route::post('/', 'store')->name('store');
         Route::get('/{persona}', 'show')->name('show');
         Route::get('/{persona}/edit', 'edit')->name('edit');
-        //Route::put('/{persona}', 'update')->name('update');
+        Route::put('/{persona}', 'update')->name('update');
         Route::delete('/{persona}', 'destroy')->name('destroy');
     });
     Route::prefix('empresa')->name('empresa.')->controller(EmpresaController::class)->group(function(){
@@ -26,9 +26,9 @@ Route::middleware([
         Route::get('/create', 'create')->name('crear');
         Route::post('/', 'store')->name('store');
         Route::get('/{empresa}', 'show')->name('show');
-        //Route::get('/{empresa}/edit', 'edit')->name('edit');
-        //Route::put('/{empresa}', 'update')->name('update');
-        //Route::delete('/{empresa}', 'destroy')->name('destroy');
+        Route::get('/{empresa}/edit', 'edit')->name('edit');
+        Route::put('/{empresa}', 'update')->name('update');
+        Route::delete('/{empresa}', 'destroy')->name('destroy');
     });
 });
 

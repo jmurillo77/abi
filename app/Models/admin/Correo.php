@@ -18,6 +18,6 @@ class Correo extends Model
     ];
 
     public function personas(){
-        return $this->belongsToMany(Persona::class, 'persona_correos', 'IdCorreo', 'IdCorreo');
+        return $this->belongsToMany(Persona::class, 'persona_correos', 'IdCorreo', 'IdPersona');
     }
 }

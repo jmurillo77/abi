@@ -67,6 +67,18 @@
                 </div>
             </div>
 
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" name="fecha_nacimiento"
+                           class="form-control @error('fecha_nacimiento') is-invalid @enderror"
+                           value="{{ old('fecha_nacimiento') }}">
+                    @error('fecha_nacimiento')
+                        <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
+                    @enderror
+                </div>
+            </div>
+
             {{-- Teléfonos y Correos --}}
             <div class="row mt-4">
 
@@ -88,26 +100,39 @@
                             <div id="telefonos-container">
 
                                 <div class="telefono-item border rounded p-3 mb-3">
-                                    <input type="text"
-                                           name="telefonos[0][numero]"
-                                           class="form-control mb-2"
-                                           placeholder="Número">
+                                    <div class="row align-items-end">
 
-                                    <select name="telefonos[0][id_conectividad]" class="form-control mb-2">
-                                        <option value="">Conectividad</option>
-                                        <option value="1">NA</option>
-                                        <option value="2">Fijo</option>
-                                        <option value="3">Móvil</option>
-                                    </select>
+                                        <div class="col-md-5">
+                                            <label>Número</label>
+                                            <input type="text"
+                                                name="telefonos[0][numero]"
+                                                class="form-control"
+                                                placeholder="Número">
+                                        </div>
 
-                                    <select name="telefonos[0][id_operadora]" class="form-control">
-                                        <option value="">Operadora</option>
-                                        @foreach($operadoras as $operadora)
-                                            <option value="{{ $operadora->IdOperadora }}">
-                                                {{ $operadora->Nombre }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                        <div class="col-md-3">
+                                            <label>Conectividad</label>
+                                            <select name="telefonos[0][id_conectividad]" class="form-control">
+                                                <option value="">Conectividad</option>
+                                                <option value="1">NA</option>
+                                                <option value="2">Fijo</option>
+                                                <option value="3">Móvil</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>Operadora</label>
+                                            <select name="telefonos[0][id_operadora]" class="form-control">
+                                                <option value="">Operadora</option>
+                                                @foreach($operadoras as $operadora)
+                                                    <option value="{{ $operadora->IdOperadora }}">
+                                                        {{ $operadora->Nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                    </div>
                                 </div>
 
                             </div>
@@ -182,26 +207,41 @@ const operadoras = `
 document.getElementById('addTelefono').addEventListener('click', function () {
     let html = `
         <div class="telefono-item border rounded p-3 mb-3">
-            <input type="text"
-                   name="telefonos[${telefonoIndex}][numero]"
-                   class="form-control mb-2"
-                   placeholder="Número">
+            <div class="row align-items-end">
 
-            <select name="telefonos[${telefonoIndex}][id_conectividad]" class="form-control mb-2">
-                <option value="">Conectividad</option>
-                <option value="1">NA</option>
-                <option value="2">Fijo</option>
-                <option value="3">Móvil</option>
-            </select>
+                <div class="col-md-4">
+                    <label>Número</label>
+                    <input type="text"
+                        name="telefonos[${telefonoIndex}][numero]"
+                        class="form-control"
+                        placeholder="Número">
+                </div>
 
-            <select name="telefonos[${telefonoIndex}][id_operadora]" class="form-control mb-2">
-                <option value="">Operadora</option>
-                ${operadoras}
-            </select>
+                <div class="col-md-3">
+                    <label>Conectividad</label>
+                    <select name="telefonos[${telefonoIndex}][id_conectividad]" class="form-control">
+                        <option value="">Conectividad</option>
+                        <option value="1">NA</option>
+                        <option value="2">Fijo</option>
+                        <option value="3">Móvil</option>
+                    </select>
+                </div>
 
-            <button type="button" class="btn btn-danger btn-sm removeTelefono w-100">
-                Eliminar
-            </button>
+                <div class="col-md-3">
+                    <label>Operadora</label>
+                    <select name="telefonos[${telefonoIndex}][id_operadora]" class="form-control">
+                        <option value="">Operadora</option>
+                        ${operadoras}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-danger btn-sm removeTelefono w-100">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+
+            </div>
         </div>
     `;
 
