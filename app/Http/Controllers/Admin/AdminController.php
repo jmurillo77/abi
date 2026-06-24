@@ -8,7 +8,6 @@ use App\Models\admin\TelefonoMovil;
 use App\Models\admin\Correo;
 use App\Models\admin\Empresa;
 use App\Models\admin\Campaign;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -23,7 +22,6 @@ class AdminController extends Controller
     }
     public function menu()
     {
-        $TotalPersona = Persona::count();
         return view('admin.menu');
     }
 }

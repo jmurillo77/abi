@@ -10,7 +10,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ContinenteController;
 use App\Http\Controllers\Admin\TelefonomovilController;
 use App\Http\Controllers\Admin\CorreoController;
-use App\Http\Controllers\Admin\CampaignController;  
+use App\Http\Controllers\Admin\CampaignController;
+use App\Http\Controllers\Configuracion\MenuController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -58,42 +59,53 @@ Auth::routes();
 
 Route::middleware('auth')->prefix('admin')->group(function (){
     Route::get('/', [AdminController::class, 'index'])->name('admin');
-    Route::prefix('continente')->name('continente.')->controller(ContinenteController::class)->group(function(){
-        Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{continente}', 'show')->name('show');
-        Route::get('/{continente}/edit', 'edit')->name('edit');
-        Route::put('/{continente}', 'update')->name('update');
-        Route::delete('/{continente}', 'destroy')->name('destroy');
-    });
-    Route::prefix('telefono_movil')->name('telefono_movil.')->controller(TelefonomovilController::class)->group(function(){
-        Route::get('/', 'index')->name('index');
-        //Route::get('/create', 'create')->name('create');
-        //Route::post('/', 'store')->name('store');
-        Route::get('/{telefono_movil}', 'show')->name('show');
-        //Route::get('/{telefono_movil}/edit', 'edit')->name('edit');
-        //Route::put('/{telefono_movil}', 'update')->name('update');
-        //Route::delete('/{telefono_movil}', 'destroy')->name('destroy');
-    });
-    Route::prefix('correo')->name('correo.')->controller(CorreoController::class)->group(function(){
-        Route::get('/', 'index')->name('index');
-        //Route::get('/create', 'create')->name('create');
-        //Route::post('/', 'store')->name('store');
-        Route::get('/{correo}', 'show')->name('show');
-        //Route::get('/{correo}/edit', 'edit')->name('edit');
-        //Route::put('/{correo}', 'update')->name('update');
-        //Route::delete('/{correo}', 'destroy')->name('destroy');
-    });
-    Route::prefix('campaign')->name('campaign.')->controller(CampaignController::class)->group(function(){
-        Route::get('/', 'index')->name('index');
-        //Route::get('/create', 'create')->name('create');
-        //Route::post('/', 'store')->name('store');
-        Route::get('/{campaign}', 'show')->name('show');
-        //Route::get('/{campaign}/edit', 'edit')->name('edit');
-        //Route::put('/{campaign}', 'update')->name('update');
-        //Route::delete('/{campaign}', 'destroy')->name('destroy');
-        Route::get('/exporta/{campaign}', 'exporta')->name('exporta');
+    Route::prefix('contacto')->name('contacto.')->group(function () {
+        Route::prefix('continente')->name('continente.')->controller(ContinenteController::class)->group(function(){
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{continente}', 'show')->name('show');
+            Route::get('/{continente}/edit', 'edit')->name('edit');
+            Route::put('/{continente}', 'update')->name('update');
+            Route::delete('/{continente}', 'destroy')->name('destroy');
+        });
+        Route::prefix('telefono_movil')->name('telefono_movil.')->controller(TelefonomovilController::class)->group(function(){
+            Route::get('/', 'index')->name('index');
+            //Route::get('/create', 'create')->name('create');
+            //Route::post('/', 'store')->name('store');
+            Route::get('/{telefono_movil}', 'show')->name('show');
+            //Route::get('/{telefono_movil}/edit', 'edit')->name('edit');
+            //Route::put('/{telefono_movil}', 'update')->name('update');
+            //Route::delete('/{telefono_movil}', 'destroy')->name('destroy');
+        });
+        Route::prefix('correo')->name('correo.')->controller(CorreoController::class)->group(function(){
+            Route::get('/', 'index')->name('index');
+            //Route::get('/create', 'create')->name('create');
+            //Route::post('/', 'store')->name('store');
+            Route::get('/{correo}', 'show')->name('show');
+            //Route::get('/{correo}/edit', 'edit')->name('edit');
+            //Route::put('/{correo}', 'update')->name('update');
+            //Route::delete('/{correo}', 'destroy')->name('destroy');
+        });
+        Route::prefix('campaign')->name('campaign.')->controller(CampaignController::class)->group(function(){
+            Route::get('/', 'index')->name('index');
+            //Route::get('/create', 'create')->name('create');
+            //Route::post('/', 'store')->name('store');
+            Route::get('/{campaign}', 'show')->name('show');
+            //Route::get('/{campaign}/edit', 'edit')->name('edit');
+            //Route::put('/{campaign}', 'update')->name('update');
+            //Route::delete('/{campaign}', 'destroy')->name('destroy');
+            Route::get('/exporta/{campaign}', 'exporta')->name('exporta');
+        });
+        Route::prefix('menus')->name('menus.')->controller(MenuController::class)->group(function(){
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{menu}', 'show')->name('show');
+            Route::get('/{menu}/edit', 'edit')->name('edit');
+            Route::put('/{menu}', 'update')->name('update');
+            Route::delete('/{menu}', 'destroy')->name('destroy');
+        });
     });
     Route::get('/profile', function () {
         return view('profile');

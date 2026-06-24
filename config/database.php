@@ -16,7 +16,8 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    /*'default' => env('DB_CONNECTION', 'sqlite'),*/
+    'default' => env('DB_CONNECTION', 'negocio'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,17 +43,17 @@ return [
             'synchronous' => null,
         ],
 
-        'mysql' => [
+        'negocio' => [
             'driver' => 'mysql',
-            'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'url' => env('DB_URL_NEGOCIO'),
+            'host' => env('DB_HOST_NEGOCIO', '127.0.0.1'),
+            'port' => env('DB_PORT_NEGOCIO', '3306'),
+            'database' => env('DB_DATABASE_NEGOCIO', 'laravel'),
+            'username' => env('DB_USERNAME_NEGOCIO', 'root'),
+            'password' => env('DB_PASSWORD_NEGOCIO', ''),
+            'unix_socket' => env('DB_SOCKET_NEGOCIO', ''),
+            'charset' => env('DB_CHARSET_NEGOCIO', 'utf8mb4'),
+            'collation' => env('DB_COLLATION_NEGOCIO', 'utf8mb4_unicode_ci'),
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,

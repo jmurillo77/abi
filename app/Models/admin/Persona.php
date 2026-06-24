@@ -16,7 +16,8 @@ class Persona extends Model
     protected $fillable = [
         'DNI',
         'Nombres',
-        'Apellidos'
+        'Apellidos',
+        'FechaNacimiento'
     ];
 
     protected function casts(): array{

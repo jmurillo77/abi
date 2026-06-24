@@ -7,7 +7,7 @@
     <div class="row mb-2">
         <div class="col-sm-6">
             <h1 class="m-0">
-                <i class="fas fa-address-book"></i> Dashboard de Contactos
+                <i class="fas fa-address-book"></i> Dashboard de Menu
             </h1>
         </div>
         <div class="col-sm-6">
@@ -16,7 +16,7 @@
                     <a href="{{ route('menu') }}">Menú</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    Contactos
+                    Menu
                 </li>
             </ol>
         </div>
@@ -29,32 +29,11 @@
 @php
     $cards = [
         [
-            'titulo' => 'Personas',
-            'total' => $TotalPersona,
+            'titulo' => 'Menu',
+            'total' => $TotalMenu,
             'color' => 'info',
             'icono' => 'fas fa-user',
             'ruta' => 'contacto.persona.index'
-        ],
-        [
-            'titulo' => 'Empresas',
-            'total' => $TotalEmpresa,
-            'color' => 'success',
-            'icono' => 'fas fa-building',
-            'ruta' => 'contacto.empresa.index'
-        ],
-        [
-            'titulo' => 'Teléfonos',
-            'total' => $TotalTelefono ?? 0,
-            'color' => 'warning',
-            'icono' => 'fas fa-phone',
-            'ruta' => 'contacto.telefono_movil.index'
-        ],
-        [
-            'titulo' => 'Correos',
-            'total' => $TotalCorreo ?? 0,
-            'color' => 'danger',
-            'icono' => 'fas fa-envelope',
-            'ruta' => 'contacto.correo.index'
         ],
     ];
 @endphp
@@ -101,19 +80,7 @@
                         <tbody>
                             <tr>
                                 <td>Personas</td>
-                                <td>{{ $TotalPersona }}</td>
-                            </tr>
-                            <tr>
-                                <td>Empresas</td>
-                                <td>{{ $TotalEmpresa }}</td>
-                            </tr>
-                            <tr>
-                                <td>Teléfonos</td>
-                                <td>{{ $TotalTelefono ?? 0 }}</td>
-                            </tr>
-                            <tr>
-                                <td>Correos</td>
-                                <td>{{ $TotalCorreo ?? 0 }}</td>
+                                <td>{{ $TotalMenu }}</td>
                             </tr>
                         </tbody>
                     </table>

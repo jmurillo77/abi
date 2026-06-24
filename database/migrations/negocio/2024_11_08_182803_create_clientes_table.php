@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection(name: 'mysql')->create('clientes', function (Blueprint $table) {
+        Schema::connection(name: 'negocio')->create('clientes', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id();
             $table->foreignId('IdPersona')->references('IdPersona')->on(new Expression($MatrizDB.'.personas'));

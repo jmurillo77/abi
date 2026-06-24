@@ -64,6 +64,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function menus()
+    {
+        return $this->belongsToMany(
+            \App\Models\admin\Menu::class,
+            'menu_user',
+            'user_id',
+            'menu_id'
+        )->withPivot(['can_view', 'can_create', 'can_edit', 'can_delete'])->withTimestamps();
+    }
+
     public function adminlte_image(){
         return 'https://picsum.photos/300/300';
     }
