@@ -31,6 +31,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Email</th>
+                    <th>Rol</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -38,11 +39,12 @@
                 @foreach($users as $user)
                     <tr>
                         <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->name ?? 'Sin nombre' }}</td>
                         <td>{{ $user->email }}</td>
+                        <td>{{ $user->role->Nombre ?? 'Sin rol' }}</td>
                         <td class="text-nowrap">
                             @can('assign-menu-permissions')
-                                <a href="{{ route('users.permissions.edit', $user->id) }}" class="btn btn-sm btn-secondary">Asignar permisos</a>
+                                <a href="{{ route('users.permissions.edit', $user->id) }}
                             @endcan
                         </td>
                     </tr>

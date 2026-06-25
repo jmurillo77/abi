@@ -10,7 +10,10 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{{ route('menu') }}">Menú</a>
+                </li>
+                <li class="breadcrumb-item"><a href="{{ route('configuracion.dashboard') }}">Configuración</a></li>
                 <li class="breadcrumb-item active">Menús</li>
             </ol>
         </div>
@@ -22,7 +25,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title">Lista de Menús</h3>
-        <a href="{{ route('menus.create') }}" class="btn btn-primary">Nuevo Menú</a>
+        <a href="{{ route('configuracion.menus.create') }}" class="btn btn-primary">Nuevo Menú</a>
     </div>
     <div class="card-body">
         @if(session('success'))
@@ -45,15 +48,15 @@
                 @foreach($menus as $menu)
                     <tr>
                         <td>{{ $menu->IdMenu }}</td>
-                        <td>{{ $menu->Nombre }}</td>
-                        <td>{{ $menu->Url }}</td>
+                        <td>{{ $menu->Titulo }}</td>
+                        <td>{{ $menu->Ruta }}</td>
                         <td>{{ $menu->Icono }}</td>
                         <td>{{ $menu->parent?->Nombre ?? '-' }}</td>
                         <td>{{ $menu->order }}</td>
                         <td class="text-nowrap">
-                            <a href="{{ route('menus.show', $menu->IdMenu) }}" class="btn btn-sm btn-info">Ver</a>
-                            <a href="{{ route('menus.edit', $menu->IdMenu) }}" class="btn btn-sm btn-warning">Editar</a>
-                            <form action="{{ route('menus.destroy', $menu->IdMenu) }}" method="POST" class="d-inline-block" onsubmit="return confirm('¿Eliminar este menú?');">
+                            <a href="{{ route('configuracion.menus.show', $menu->IdMenu) }}" class="btn btn-sm btn-info">Ver</a>
+                            <a href="{{ route('configuracion.menus.edit', $menu->IdMenu) }}" class="btn btn-sm btn-warning">Editar</a>
+                            <form action="{{ route('configuracion.menus.destroy', $menu->IdMenu) }}" method="POST" class="d-inline-block" onsubmit="return confirm('¿Eliminar este menú?');">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-danger">Eliminar</button>

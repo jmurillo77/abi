@@ -16,15 +16,15 @@ class MenuController extends Controller
 
     public function create()
     {
-        $parents = Menu::orderBy('Nombre')->get();
+        $parents = Menu::orderBy('Titulo')->get();
         return view('admin.menu.agregar', compact('parents'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'Nombre' => 'required|string|max:255',
-            'Url' => 'nullable|string|max:255',
+            'Titulo' => 'required|string|max:255',
+            'Ruta' => 'nullable|string|max:255',
             'Icono' => 'nullable|string|max:100',
             'parent_id' => 'nullable|integer|exists:matriz.menus,IdMenu',
             'order' => 'nullable|integer',
@@ -56,8 +56,8 @@ class MenuController extends Controller
         $menu = Menu::findOrFail($id);
 
         $data = $request->validate([
-            'Nombre' => 'required|string|max:255',
-            'Url' => 'nullable|string|max:255',
+            'Titulo' => 'required|string|max:255',
+            'Ruta' => 'nullable|string|max:255',
             'Icono' => 'nullable|string|max:100',
             'parent_id' => 'nullable|integer|exists:matriz.menus,IdMenu',
             'order' => 'nullable|integer',
@@ -82,33 +82,26 @@ class MenuController extends Controller
 
     public function editPermissions(string $userId)
     {
-        $user = \App\Models\User::findOrFail($userId);
-        $menus = Menu::with('children')->orderBy('order')->get();
+        $user = \App\Models\User::with('role.submenus')->findOrFail($userId);
+        abort_if(! $user->role, 422, 'El usuario no tiene un rol asignado.');
 
-        // load existing pivot data
-        // pivot data will be accessed in the view through $user->menus
+        $menus = Menu::with(['children' => function ($query) {
+            $query->where('Activo', 1)->orderBy('Orden');
+        }])->where('Activo', 1)->orderByRaw('COALESCE(Orden, 999999)')->get();
+        $permittedSubmenuIds = $user->permittedSubmenus()->pluck('IdSubMenu')->all();
 
-        return view('configuracion.menus.permissions', compact('user', 'menus'));
+        return view('configuracion.menus.permissions', compact('user', 'menus', 'permittedSubmenuIds'));
     }
 
     public function updatePermissions(\Illuminate\Http\Request $request, string $userId)
     {
-        $user = \App\Models\User::findOrFail($userId);
+        $user = \App\Models\User::with('role')->findOrFail($userId);
+        abort_if(! $user->role, 422, 'El usuario no tiene un rol asignado.');
 
-        $data = $request->input('permissions', []);
+        $submenuIds = array_map('intval', $request->input('permissions', []));
 
-        $sync = [];
-        foreach ($data as $menuId => $perms) {
-            $sync[$menuId] = [
-                'can_view' => isset($perms['can_view']) ? 1 : 0,
-                'can_create' => isset($perms['can_create']) ? 1 : 0,
-                'can_edit' => isset($perms['can_edit']) ? 1 : 0,
-                'can_delete' => isset($perms['can_delete']) ? 1 : 0,
-            ];
-        }
+        $user->role->submenus()->sync($submenuIds);
 
-        $user->menus()->sync($sync);
-
-        return redirect()->route('menus.index')->with('success', 'Permisos actualizados');
+        return redirect()->route('menus.index')->with('success', 'Permisos del rol actualizados');
     }
 }

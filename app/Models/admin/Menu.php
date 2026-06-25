@@ -18,7 +18,8 @@ class Menu extends Model
         'Ruta',
         'Icono',
         'parent_id',
-        'order',
+        'Orden',
+        'Activo',
         'cUser',
         'uUser',
         'dUser',
@@ -31,16 +32,6 @@ class Menu extends Model
 
     public function children()
     {
-        return $this->hasMany(Menu::class, 'parent_id', 'IdMenu');
-    }
-
-    public function users()
-    {
-        return $this->belongsToMany(
-            \App\Models\User::class,
-            'menu_user',
-            'menu_id',
-            'user_id'
-        )->withPivot(['can_view', 'can_create', 'can_edit', 'can_delete'])->withTimestamps();
+        return $this->hasMany(Submenu::class, 'IdMenu', 'IdMenu');
     }
 }

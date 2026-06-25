@@ -34,4 +34,9 @@ class Persona extends Model
         return $this->belongsToMany(Correo::class, 'persona_correos', 'IdPersona', 'IdCorreo');
     }
 
+    public function users()
+    {
+        return $this->hasMany(\App\Models\User::class, 'persona_id', 'IdPersona');
+    }
+
 }

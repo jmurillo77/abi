@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'IdPersona',
     ];
 
     /**
@@ -65,14 +66,48 @@ class User extends Authenticatable
         ];
     }
 
-    public function menus()
+    public function persona()
     {
-        return $this->belongsToMany(
-            \App\Models\admin\Menu::class,
-            'menu_user',
-            'user_id',
-            'menu_id'
-        )->withPivot(['can_view', 'can_create', 'can_edit', 'can_delete'])->withTimestamps();
+        return $this->belongsTo(\App\Models\admin\Persona::class, 'IdPersona', 'IdPersona');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(\App\Models\Role::class, 'IdRol', 'IdRol');
+    }
+
+    public function permittedSubmenus()
+    {
+        if (! $this->relationLoaded('role')) {
+            $this->load('role.submenus');
+        }
+
+        return $this->role?->submenus ?? collect();
+    }
+
+    public function canViewMenu(int $menuId): bool
+    {
+        return $this->permittedSubmenus()->contains('IdMenu', $menuId);
+    }
+
+    public function canViewSubmenu(int $submenuId): bool
+    {
+        return $this->permittedSubmenus()->contains('IdSubMenu', $submenuId);
+    }
+
+    public function canCreateMenu(int $menuId): bool
+    {
+        return false;
+    }
+
+    public function canEditMenu(int $menuId): bool
+    {
+        return false;
+    }
+
+    public function canDeleteMenu(int $menuId): bool
+    {
+        return false;
     }
 
     public function adminlte_image(){

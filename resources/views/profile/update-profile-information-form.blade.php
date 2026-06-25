@@ -28,7 +28,7 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ trim(($this->user->persona->Nombres ?? '').' '.($this->user->persona->Apellidos ?? '')) ?: $this->user->email }}" class="rounded-full h-20 w-20 object-cover">
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -52,11 +52,18 @@
             </div>
         @endif
 
-        <!-- Name -->
+        <!-- First Name -->
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="name" value="{{ __('Name') }}" />
-            <x-input id="name" type="text" class="mt-1 block w-full" wire:model="state.name" required autocomplete="name" />
-            <x-input-error for="name" class="mt-2" />
+            <x-label for="Nombres" value="{{ __('Nombres') }}" />
+            <x-input id="Nombres" type="text" class="mt-1 block w-full" wire:model="state.Nombres" required autocomplete="given-name" />
+            <x-input-error for="Nombres" class="mt-2" />
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="Apellidos" value="{{ __('Apellidos') }}" />
+            <x-input id="Apellidos" type="text" class="mt-1 block w-full" wire:model="state.Apellidos" required autocomplete="family-name" />
+            <x-input-error for="Apellidos" class="mt-2" />
         </div>
 
         <!-- Email -->

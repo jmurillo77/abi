@@ -11,7 +11,7 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('menus.index') }}">Menús</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('configuracion.menus.index') }}">Menús</a></li>
                 <li class="breadcrumb-item active">Agregar</li>
             </ol>
         </div>
@@ -22,15 +22,15 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('menus.store') }}" method="POST">
+        <form action="{{ route('configuracion.menus.store') }}" method="POST">
             @csrf
             <div class="form-group mb-3">
-                <label for="Nombre">Nombre</label>
-                <input type="text" class="form-control" name="Nombre" id="Nombre" value="{{ old('Nombre') }}" required>
+                <label for="Titulo">Título</label>
+                <input type="text" class="form-control" name="Titulo" id="Titulo" value="{{ old('Titulo') }}" required>
             </div>
             <div class="form-group mb-3">
-                <label for="Url">URL</label>
-                <input type="text" class="form-control" name="Url" id="Url" value="{{ old('Url') }}">
+                <label for="Ruta">Ruta</label>
+                <input type="text" class="form-control" name="Ruta" id="Ruta" value="{{ old('Ruta') }}">
             </div>
             <div class="form-group mb-3">
                 <label for="Icono">Icono</label>
@@ -50,7 +50,7 @@
                 <input type="number" class="form-control" name="order" id="order" value="{{ old('order') }}">
             </div>
             <button class="btn btn-primary">Guardar</button>
-            <a href="{{ route('menus.index') }}" class="btn btn-secondary">Cancelar</a>
+            <a href="{{ route('configuracion.menus.index') }}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 </div>

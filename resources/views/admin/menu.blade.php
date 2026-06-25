@@ -45,12 +45,12 @@
 
         <div class="dropdown ms-auto">
             <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
-                {{ Auth::user()->name }}
+                {{ trim(($user->persona->Nombres ?? '').' '.($user->persona->Apellidos ?? '')) ?: ($user->name ?? $user->email) }}
             </button>
 
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                    <a class="dropdown-item" href="{{ route('menu') }}">
+                    <a class="dropdown-item" href="{{ route('profile') }}">
                         Perfil
                     </a>
                 </li>
@@ -75,29 +75,39 @@
 
     <div class="row g-4">
 
-        @php
-            $menus = [
-                ['titulo'=>'Contactos','icono'=>'👥','ruta'=>'contacto.dashboard'],
-                ['titulo'=>'Compras','icono'=>'🛒','ruta'=>'contacto.empresa.index'],
-                ['titulo'=>'Inventario','icono'=>'📦','ruta'=>'contacto.empresa.index'],
-                ['titulo'=>'Ventas','icono'=>'💰','ruta'=>'contacto.empresa.index'],
-                ['titulo'=>'CRM','icono'=>'📊','ruta'=>'admin'],
-                ['titulo'=>'Cocina','icono'=>'🍽️','ruta'=>'admin'],
-                ['titulo'=>'Configuración','icono'=>'⚙️','ruta'=>'configuracion.dashboard'],
-            ];
-        @endphp
+        @if($menus->isEmpty())
+            <div class="col-12">
+                <div class="alert alert-warning text-center mb-0">
+                    No hay submenús asignados al rol de este usuario.
+                </div>
+            </div>
+        @endif
 
         @foreach($menus as $menu)
             <div class="col-md-3 col-sm-6">
-                <a href="{{ route($menu['ruta']) }}" class="menu-link">
+                <a href="{{ $menu->link }}" class="menu-link">
                     <div class="card menu-card shadow text-center p-4">
                         <div class="menu-icon mb-3">
-                            {{ $menu['icono'] }}
+                            {{ $menu->Icono ?? '📁' }}
                         </div>
-                        <h5>{{ $menu['titulo'] }}</h5>
+                        <h5>{{ $menu->Titulo }}</h5>
                     </div>
                 </a>
             </div>
+
+            @foreach($menu->visible_children as $child)
+                <div class="col-md-3 col-sm-6">
+                    <a href="{{ $child->link }}" class="menu-link">
+                        <div class="card menu-card shadow text-center p-4">
+                            <div class="menu-icon mb-3">
+                                {{ $child->Icono ?? '🔹' }}
+                            </div>
+                            <h5>{{ $child->Titulo }}</h5>
+                            <p class="text-muted small">Opción de {{ $menu->Titulo }}</p>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
         @endforeach
 
     </div>

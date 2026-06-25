@@ -1,117 +1,41 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CampaignController;
+use App\Http\Controllers\Admin\ContinenteController;
+use App\Http\Controllers\Admin\CorreoController;
+use App\Http\Controllers\Admin\TelefonomovilController;
+use App\Http\Controllers\Configuracion\MenuController;
 use App\Models\admin\Persona;
 use App\Models\admin\TelefonoMovil;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\ContinenteController;
-use App\Http\Controllers\Admin\TelefonomovilController;
-use App\Http\Controllers\Admin\CorreoController;
-use App\Http\Controllers\Admin\CampaignController;
-use App\Http\Controllers\Configuracion\MenuController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-//Manejar expresiones regulares en las rutas
-//Route::get('/cursos/{curso}', function ($curso) {
-//    return "Bienvenido al curso de: " . $curso;
-//})->where('curso', '[A-Za-z]+');
-
-Route::get('/prueba', function () {
-    //$Operadoras = TelefonoTipoOperadora::all();
-    //return view('prueba', compact('Operadoras'));
-
-    //$Numeros = TelefonoMovil::all();
-    //return view('prueba', compact('Numeros'));
-
-    $persona = Persona::find(1);
-    $numero = TelefonoMovil::find(2);
-    return view('prueba', compact('persona', 'numero'));
-});
+Route::view('/', 'welcome');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    #Route::get('/admin', function () {
-    #    return view('admin.admin');
-    #})->name('admin');
     Route::get('/menu', [AdminController::class, 'menu'])->name('menu');
 });
 
-#Route::get('/', function(){
-#    return view('admin.conf.dashboard');
-#})->name('dashboard');
+Auth::routes();
 
-/*
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-*/
-
-
-Auth::routes(); 
-
-Route::middleware('auth')->prefix('admin')->group(function (){
+Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin');
-    Route::prefix('contacto')->name('contacto.')->group(function () {
-        Route::prefix('continente')->name('continente.')->controller(ContinenteController::class)->group(function(){
-            Route::get('/', 'index')->name('index');
-            Route::get('/create', 'create')->name('create');
-            Route::post('/', 'store')->name('store');
-            Route::get('/{continente}', 'show')->name('show');
-            Route::get('/{continente}/edit', 'edit')->name('edit');
-            Route::put('/{continente}', 'update')->name('update');
-            Route::delete('/{continente}', 'destroy')->name('destroy');
-        });
-        Route::prefix('telefono_movil')->name('telefono_movil.')->controller(TelefonomovilController::class)->group(function(){
-            Route::get('/', 'index')->name('index');
-            //Route::get('/create', 'create')->name('create');
-            //Route::post('/', 'store')->name('store');
-            Route::get('/{telefono_movil}', 'show')->name('show');
-            //Route::get('/{telefono_movil}/edit', 'edit')->name('edit');
-            //Route::put('/{telefono_movil}', 'update')->name('update');
-            //Route::delete('/{telefono_movil}', 'destroy')->name('destroy');
-        });
-        Route::prefix('correo')->name('correo.')->controller(CorreoController::class)->group(function(){
-            Route::get('/', 'index')->name('index');
-            //Route::get('/create', 'create')->name('create');
-            //Route::post('/', 'store')->name('store');
-            Route::get('/{correo}', 'show')->name('show');
-            //Route::get('/{correo}/edit', 'edit')->name('edit');
-            //Route::put('/{correo}', 'update')->name('update');
-            //Route::delete('/{correo}', 'destroy')->name('destroy');
-        });
-        Route::prefix('campaign')->name('campaign.')->controller(CampaignController::class)->group(function(){
-            Route::get('/', 'index')->name('index');
-            //Route::get('/create', 'create')->name('create');
-            //Route::post('/', 'store')->name('store');
-            Route::get('/{campaign}', 'show')->name('show');
-            //Route::get('/{campaign}/edit', 'edit')->name('edit');
-            //Route::put('/{campaign}', 'update')->name('update');
-            //Route::delete('/{campaign}', 'destroy')->name('destroy');
-            Route::get('/exporta/{campaign}', 'exporta')->name('exporta');
-        });
-        Route::prefix('menus')->name('menus.')->controller(MenuController::class)->group(function(){
-            Route::get('/', 'index')->name('index');
-            Route::get('/create', 'create')->name('create');
-            Route::post('/', 'store')->name('store');
-            Route::get('/{menu}', 'show')->name('show');
-            Route::get('/{menu}/edit', 'edit')->name('edit');
-            Route::put('/{menu}', 'update')->name('update');
-            Route::delete('/{menu}', 'destroy')->name('destroy');
-        });
-    });
-    Route::get('/profile', function () {
-        return view('profile');
-    })->name('profile');
 
-    Route::get('/events', function (){
-        return view(view: 'events');
-    })->name('events');
+    Route::prefix('contacto')->name('contacto.')->group(function () {
+        Route::resource('continente', ContinenteController::class);
+        Route::resource('telefono_movil', TelefonomovilController::class)->only(['index', 'show']);
+        Route::resource('correo', CorreoController::class)->only(['index', 'show']);
+        Route::resource('campaign', CampaignController::class)->only(['index', 'show']);
+        Route::get('campaign/exporta/{campaign}', [CampaignController::class, 'exporta'])->name('campaign.exporta');
+        Route::resource('menus', MenuController::class);
+    });
+
+    Route::view('/profile', 'profile.show')->name('profile');
+
+    Route::view('/events', 'events')->name('events');
 });
