@@ -79,7 +79,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Personas</td>
+                                <td>Menu</td>
                                 <td>{{ $TotalMenu }}</td>
                             </tr>
                         </tbody>
