@@ -6,6 +6,7 @@ use App\Http\Controllers\Contacto\EmpresaController;
 use App\Http\Controllers\Contacto\PersonaController;
 use App\Http\Controllers\Contacto\ContinenteController;
 use App\Http\Controllers\Contacto\PaisController;
+use App\Http\Controllers\Contacto\ProvinciaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware([
@@ -49,5 +50,14 @@ Route::middleware([
         Route::get('/{pais}/edit', 'edit')->name('edit')->middleware('submenu.permission:edit,contacto.pais.index');
         Route::put('/{pais}', 'update')->name('update')->middleware('submenu.permission:edit,contacto.pais.index');
         Route::delete('/{pais}', 'destroy')->name('destroy')->middleware('submenu.permission:delete,contacto.pais.index');
+    });
+    Route::prefix('provincia')->name('provincia.')->controller(ProvinciaController::class)->group(function(){
+        Route::get('/', 'index')->name('index')->middleware('submenu.permission:view,contacto.provincia.index');
+        Route::get('/create', 'create')->name('crear')->middleware('submenu.permission:create,contacto.provincia.index');
+        Route::post('/', 'store')->name('store')->middleware('submenu.permission:create,contacto.provincia.index');
+        Route::get('/{provincia}', 'show')->name('show')->middleware('submenu.permission:view,contacto.provincia.index');
+        Route::get('/{provincia}/edit', 'edit')->name('edit')->middleware('submenu.permission:edit,contacto.provincia.index');
+        Route::put('/{provincia}', 'update')->name('update')->middleware('submenu.permission:edit,contacto.provincia.index');
+        Route::delete('/{provincia}', 'destroy')->name('destroy')->middleware('submenu.permission:delete,contacto.provincia.index');
     });
 });

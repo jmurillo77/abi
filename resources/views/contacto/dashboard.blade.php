@@ -130,18 +130,15 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    {{-- <a href="{{ route('contacto.persona.create') }}" class="btn btn-primary btn-block mb-2">
-                        <i class="fas fa-user-plus"></i> Nueva Persona
-                    </a>
-
-                    <a href="{{ route('contacto.empresa.create') }}" class="btn btn-success btn-block mb-2">
-                        <i class="fas fa-building"></i> Nueva Empresa
-                    </a>
+                    @submenuCan('view', 'contacto.provincia.index')
+                        <a href="{{ route('contacto.provincia.index') }}" class="btn btn-primary btn-block mb-2">
+                            <i class="fas fa-map-marked-alt"></i> Ir a Provincias
+                        </a>
+                    @endsubmenuCan
 
                     <a href="{{ route('menu') }}" class="btn btn-secondary btn-block">
                         <i class="fas fa-home"></i> Volver al Menú
                     </a>
-                     --}}
                 </div>
             </div>
         </div>

@@ -12,6 +12,10 @@ class Continente extends Model
     protected $table = 'continentes';
     protected $primaryKey = 'IdContinente';
 
+    protected $fillable = [
+        'Nombre',
+    ];
+
     public function paises()
     {
         return $this->hasMany(Pais::class, 'IdContinente', 'IdContinente');

@@ -22,4 +22,9 @@ class Pais extends Model
     {
         return $this->belongsTo(Continente::class, 'IdContinente', 'IdContinente');
     }
+
+    public function provincias()
+    {
+        return $this->hasMany(Provincia::class, 'IdPais', 'IdPais');
+    }
 }

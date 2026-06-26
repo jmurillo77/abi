@@ -8,60 +8,67 @@ use Illuminate\Http\Request;
 
 class ContinenteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $continentes = Continente::all();
+        $continentes = Continente::orderBy('Nombre')->get();
         return view('contacto.continente.index', compact('continentes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('contacto.continente.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:50|unique:matriz.continentes,Nombre',
+        ]);
+
+        Continente::create([
+            'Nombre' => $validated['nombre'],
+        ]);
+
+        return redirect()->route('contacto.continente.index')
+            ->with('success', 'Continente creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(string $continente)
     {
-        //
+        $continente = Continente::findOrFail($continente);
+
+        return view('contacto.continente.show', compact('continente'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(string $continente)
     {
-        //
+        $continente = Continente::findOrFail($continente);
+
+        return view('contacto.continente.edit', compact('continente'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $continente)
     {
-        //
+        $continente = Continente::findOrFail($continente);
+
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:50|unique:matriz.continentes,Nombre,'.$continente->IdContinente.',IdContinente',
+        ]);
+
+        $continente->update([
+            'Nombre' => $validated['nombre'],
+        ]);
+
+        return redirect()->route('contacto.continente.index')
+            ->with('success', 'Continente actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(string $continente)
     {
-        //
+        $continente = Continente::findOrFail($continente);
+        $continente->delete();
+
+        return redirect()->route('contacto.continente.index')
+            ->with('success', 'Continente eliminado correctamente.');
     }
 }
