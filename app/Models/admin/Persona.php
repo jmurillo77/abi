@@ -36,7 +36,7 @@ class Persona extends Model
 
     public function users()
     {
-        return $this->hasMany(\App\Models\User::class, 'persona_id', 'IdPersona');
+        return $this->hasMany(\App\Models\User::class, 'IdPersona', 'IdPersona');
     }
 
 }

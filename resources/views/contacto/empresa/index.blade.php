@@ -44,9 +44,11 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="card-title">Lista de Empresas</h3>
 
-                <a href="{{ route('contacto.empresa.crear') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Nueva Empresa
-                </a>
+                @submenuCan('create', 'contacto.empresa.index')
+                    <a href="{{ route('contacto.empresa.crear') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Nueva Empresa
+                    </a>
+                @endsubmenuCan
             </div>
         </div>
 
@@ -93,17 +95,21 @@
                                         <i class="fas fa-eye"></i>
                                     </a>
 
-                                    <a href="{{ route('contacto.empresa.edit', $empresa->IdEmpresa) }}" class="btn btn-sm btn-primary" title="Editar">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                                    @submenuCan('edit', 'contacto.empresa.index')
+                                        <a href="{{ route('contacto.empresa.edit', $empresa->IdEmpresa) }}" class="btn btn-sm btn-primary" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    @endsubmenuCan
 
-                                    <form action="{{ route('contacto.empresa.destroy', $empresa->IdEmpresa) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar esta empresa?')" title="Eliminar">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    @submenuCan('delete', 'contacto.empresa.index')
+                                        <form action="{{ route('contacto.empresa.destroy', $empresa->IdEmpresa) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar esta empresa?')" title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endsubmenuCan
                                 </td>
                             </tr>
                         @endforeach

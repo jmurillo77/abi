@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Configuracion;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\Menu;
+use App\Models\User;
 
 class InicioController extends Controller
 {
@@ -14,7 +15,19 @@ class InicioController extends Controller
     public function index()
     {
         $TotalMenu = Menu::count();
-        return view('configuracion.dashboard', compact('TotalMenu'));
+
+        $TotalUsuarios = User::count();
+        $UsuariosVerificados = User::whereNotNull('email_verified_at')->count();
+        $UsuariosConRol = User::whereNotNull('IdRol')->count();
+        $UsuariosConPersona = User::whereNotNull('IdPersona')->count();
+
+        return view('configuracion.dashboard', compact(
+            'TotalMenu',
+            'TotalUsuarios',
+            'UsuariosVerificados',
+            'UsuariosConRol',
+            'UsuariosConPersona'
+        ));
     }
 
     /**

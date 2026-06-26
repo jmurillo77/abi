@@ -36,6 +36,12 @@ Route::middleware([
 
     Route::prefix('users')->name('users.')->controller(UserPermissionController::class)->group(function(){
             Route::get('/', 'index')->name('index')->middleware('can:assign-menu-permissions');
+            Route::get('/create', 'create')->name('create')->middleware('can:assign-menu-permissions');
+            Route::post('/', 'store')->name('store')->middleware('can:assign-menu-permissions');
+            Route::get('/{user}', 'show')->name('show')->middleware('can:assign-menu-permissions');
+            Route::get('/{user}/edit', 'userEdit')->name('edit')->middleware('can:assign-menu-permissions');
+            Route::put('/{user}', 'userUpdate')->name('update')->middleware('can:assign-menu-permissions');
+            Route::delete('/{user}', 'destroy')->name('destroy')->middleware('can:assign-menu-permissions');
             Route::get('/{user}/permissions', 'edit')->name('permissions.edit')->middleware('can:assign-menu-permissions');
             Route::get('/{user}/permissions/menu/{menu}/submenus', 'submenusByMenu')->name('permissions.submenus')->middleware('can:assign-menu-permissions');
             Route::put('/{user}/permissions', 'update')->name('permissions.update')->middleware('can:assign-menu-permissions');

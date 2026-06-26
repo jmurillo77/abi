@@ -44,9 +44,11 @@
                 Lista de Personas
             </h3>
 
-            <a href="{{ route('contacto.persona.crear') }}" class="btn btn-primary">
-                <i class="fas fa-user-plus"></i> Nueva Persona
-            </a>
+            @submenuCan('create', 'contacto.persona.index')
+                <a href="{{ route('contacto.persona.crear') }}" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Nueva Persona
+                </a>
+            @endsubmenuCan
         </div>
     </div>
 
@@ -108,24 +110,28 @@
                                 <i class="fas fa-eye"></i>
                             </a>
 
-                            <a href="{{ route('contacto.persona.edit', $persona->IdPersona) }}"
-                               class="btn btn-sm btn-primary"
-                               title="Editar">
-                                <i class="fas fa-edit"></i>
-                            </a>
+                            @submenuCan('edit', 'contacto.persona.index')
+                                <a href="{{ route('contacto.persona.edit', $persona->IdPersona) }}"
+                                   class="btn btn-sm btn-primary"
+                                   title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            @endsubmenuCan
 
-                            <form action="{{ route('contacto.persona.destroy', $persona->IdPersona) }}"
-                                  method="POST"
-                                  class="d-inline">
-                                @csrf
-                                @method('DELETE')
+                            @submenuCan('delete', 'contacto.persona.index')
+                                <form action="{{ route('contacto.persona.destroy', $persona->IdPersona) }}"
+                                      method="POST"
+                                      class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
 
-                                <button class="btn btn-sm btn-danger"
-                                        onclick="return confirm('¿Eliminar este registro?')"
-                                        title="Eliminar">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
+                                    <button class="btn btn-sm btn-danger"
+                                            onclick="return confirm('¿Eliminar este registro?')"
+                                            title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            @endsubmenuCan
 
                         </td>
                     </tr>

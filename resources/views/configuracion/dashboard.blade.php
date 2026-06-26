@@ -29,10 +29,17 @@
 @php
     $cards = [
         [
+            'titulo' => 'Usuarios',
+            'total' => $TotalUsuarios,
+            'color' => 'primary',
+            'icono' => 'fas fa-users-cog',
+            'ruta' => 'configuracion.users.index'
+        ],
+        [
             'titulo' => 'Menu',
             'total' => $TotalMenu,
             'color' => 'info',
-            'icono' => 'fas fa-user',
+            'icono' => 'fas fa-bars',
             'ruta' => 'configuracion.menus.index'
         ],
     ];
@@ -79,8 +86,24 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td>Usuarios</td>
+                                <td>{{ $TotalUsuarios }}</td>
+                            </tr>
+                            <tr>
                                 <td>Menu</td>
                                 <td>{{ $TotalMenu }}</td>
+                            </tr>
+                            <tr>
+                                <td>Usuarios con email verificado</td>
+                                <td>{{ $UsuariosVerificados }}</td>
+                            </tr>
+                            <tr>
+                                <td>Usuarios con rol asignado</td>
+                                <td>{{ $UsuariosConRol }}</td>
+                            </tr>
+                            <tr>
+                                <td>Usuarios con persona vinculada</td>
+                                <td>{{ $UsuariosConPersona }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -97,18 +120,19 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    {{-- <a href="{{ route('contacto.persona.create') }}" class="btn btn-primary btn-block mb-2">
-                        <i class="fas fa-user-plus"></i> Nueva Persona
+                    <a href="{{ route('configuracion.users.index') }}" class="btn btn-primary btn-block mb-2">
+                        <i class="fas fa-users"></i> Gestionar Usuarios
                     </a>
 
-                    <a href="{{ route('contacto.empresa.create') }}" class="btn btn-success btn-block mb-2">
-                        <i class="fas fa-building"></i> Nueva Empresa
+                    <a href="{{ route('configuracion.users.create') }}" class="btn btn-success btn-block mb-2">
+                        <i class="fas fa-user-plus"></i> Nuevo Usuario
                     </a>
 
+                    {{--
                     <a href="{{ route('menu') }}" class="btn btn-secondary btn-block">
                         <i class="fas fa-home"></i> Volver al Menú
                     </a>
-                     --}}
+                    --}}
                 </div>
             </div>
         </div>

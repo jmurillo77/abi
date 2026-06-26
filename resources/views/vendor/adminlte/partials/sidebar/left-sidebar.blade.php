@@ -40,7 +40,7 @@
         }
 
         if (auth()->check()) {
-            $authUser = auth()->user()->loadMissing(['role.submenus']);
+            $authUser = auth()->user()->loadMissing(['role.submenus', 'submenus']);
             $permittedSubmenuIds = $authUser->permittedSubmenus()
                 ->pluck('IdSubMenu')
                 ->unique()

@@ -11,4 +11,9 @@ class Continente extends Model
     protected $connection = 'matriz';  
     protected $table = 'continentes';
     protected $primaryKey = 'IdContinente';
+
+    public function paises()
+    {
+        return $this->hasMany(Pais::class, 'IdContinente', 'IdContinente');
+    }
 }

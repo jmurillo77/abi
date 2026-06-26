@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
+use App\Models\admin\Continente;
 use Illuminate\Http\Request;
 
 class ContinenteController extends Controller
@@ -13,7 +14,7 @@ class ContinenteController extends Controller
     public function index()
     {
         $continentes = Continente::all();
-        return view('admin.continente.index', compact('continentes'));
+        return view('contacto.continente.index', compact('continentes'));
     }
 
     /**

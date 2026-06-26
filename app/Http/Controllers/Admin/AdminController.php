@@ -33,11 +33,9 @@ class AdminController extends Controller
             abort(403);
         }
 
-        $user = User::with(['role.submenus', 'role.menus', 'persona'])->findOrFail($authId);
+        $user = User::with(['role.submenus', 'role.menus', 'menus', 'submenus', 'persona'])->findOrFail($authId);
 
-        $visibleMenuIds = $user->role
-            ? $user->role->menus->pluck('IdMenu')->all()
-            : [];
+        $visibleMenuIds = $user->permittedMenus()->pluck('IdMenu')->all();
 
         $permittedSubmenus = $user->permittedSubmenus();
         $visibleSubmenuIds = $permittedSubmenus->pluck('IdSubMenu')->all();

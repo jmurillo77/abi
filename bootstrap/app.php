@@ -44,6 +44,10 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
+        $middleware->alias([
+            'submenu.permission' => \App\Http\Middleware\EnsureSubmenuActionPermission::class,
+        ]);
+
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
