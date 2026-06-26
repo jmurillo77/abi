@@ -41,7 +41,7 @@
 <div class="container-fluid">
 
     {{-- Tarjetas principales --}}
-    <div class="row">
+    <div class="row mb-3">
         @foreach($cards as $card)
             <div class="col-lg-3 col-md-6 col-sm-12">
                 <div class="small-box bg-{{ $card['color'] }}">

@@ -10,7 +10,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::with('parent')->orderBy('order')->get();
+        $menus = Menu::with('parent')->orderBy('Orden')->get();
         return view('admin.menu.index', compact('menus'));
     }
 
@@ -82,15 +82,16 @@ class MenuController extends Controller
 
     public function editPermissions(string $userId)
     {
-        $user = \App\Models\User::with('role.submenus')->findOrFail($userId);
+        $user = \App\Models\User::with('role.submenus', 'role.menus')->findOrFail($userId);
         abort_if(! $user->role, 422, 'El usuario no tiene un rol asignado.');
 
         $menus = Menu::with(['children' => function ($query) {
             $query->where('Activo', 1)->orderBy('Orden');
         }])->where('Activo', 1)->orderByRaw('COALESCE(Orden, 999999)')->get();
+        $permittedMenuIds = $user->role->menus()->pluck('menus.IdMenu')->all();
         $permittedSubmenuIds = $user->permittedSubmenus()->pluck('IdSubMenu')->all();
 
-        return view('configuracion.menus.permissions', compact('user', 'menus', 'permittedSubmenuIds'));
+        return view('configuracion.menus.permissions', compact('user', 'menus', 'permittedMenuIds', 'permittedSubmenuIds'));
     }
 
     public function updatePermissions(\Illuminate\Http\Request $request, string $userId)
@@ -98,8 +99,10 @@ class MenuController extends Controller
         $user = \App\Models\User::with('role')->findOrFail($userId);
         abort_if(! $user->role, 422, 'El usuario no tiene un rol asignado.');
 
+        $menuIds = array_map('intval', $request->input('menu_permissions', []));
         $submenuIds = array_map('intval', $request->input('permissions', []));
 
+        $user->role->menus()->sync($menuIds);
         $user->role->submenus()->sync($submenuIds);
 
         return redirect()->route('menus.index')->with('success', 'Permisos del rol actualizados');

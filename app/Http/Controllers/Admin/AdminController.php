@@ -33,11 +33,16 @@ class AdminController extends Controller
             abort(403);
         }
 
-        $user = User::with(['role.submenus', 'persona'])->findOrFail($authId);
+        $user = User::with(['role.submenus', 'role.menus', 'persona'])->findOrFail($authId);
 
-        $visibleSubmenuIds = $user->permittedSubmenus()
-            ->pluck('IdSubMenu')
-            ->all();
+        $visibleMenuIds = $user->role
+            ? $user->role->menus->pluck('IdMenu')->all()
+            : [];
+
+        $permittedSubmenus = $user->permittedSubmenus();
+        $visibleSubmenuIds = $permittedSubmenus->pluck('IdSubMenu')->all();
+        $legacyVisibleMenuIds = $permittedSubmenus->pluck('IdMenu')->unique()->all();
+        $hasExplicitMenuPermissions = ! empty($visibleMenuIds);
 
         $menus = Menu::with(['children' => function ($query) {
                 $query->where('Activo', 1)->orderBy('Orden');
@@ -45,8 +50,11 @@ class AdminController extends Controller
             ->where('Activo', 1)
             ->orderByRaw('COALESCE(Orden, 999999)')
             ->get()
-            ->map(function ($menu) use ($visibleSubmenuIds) {
+            ->map(function ($menu) use ($visibleMenuIds, $visibleSubmenuIds, $legacyVisibleMenuIds, $hasExplicitMenuPermissions) {
                 $menu->link = $this->resolveMenuLink($menu->Ruta);
+                $menu->has_menu_access = $hasExplicitMenuPermissions
+                    ? in_array($menu->IdMenu, $visibleMenuIds)
+                    : in_array($menu->IdMenu, $legacyVisibleMenuIds);
                 $menu->visible_children = $menu->children
                     ->filter(function ($child) use ($visibleSubmenuIds) {
                         return in_array($child->IdSubMenu, $visibleSubmenuIds);
@@ -61,7 +69,7 @@ class AdminController extends Controller
                 return $menu;
             })
             ->filter(function ($menu) {
-                return $menu->visible_children->isNotEmpty();
+                return $menu->has_menu_access;
             })
             ->values();
 

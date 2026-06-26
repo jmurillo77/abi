@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Configuracion;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Empresa;
-use App\Models\admin\Persona;
-use App\Models\admin\TelefonoMovil;
 use App\Models\admin\Menu;
 
 class InicioController extends Controller
