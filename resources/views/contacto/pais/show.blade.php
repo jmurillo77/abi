@@ -1,20 +1,20 @@
 @extends('adminlte::page')
 
-@section('title', 'Detalle de Pais')
+@section('title', 'Detalle de País')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-md-6">
             <h1>
-                <i class="fas fa-flag text-primary"></i> Detalle de Pais
+                <i class="fas fa-flag text-primary"></i> Detalle de País
             </h1>
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menú</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contactos</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('contacto.pais.index') }}">Paises</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('contacto.pais.index') }}">Países</a></li>
                 <li class="breadcrumb-item active">Detalle</li>
             </ol>
         </div>
@@ -26,7 +26,7 @@
 <div class="container-fluid">
     <div class="card card-outline card-info shadow">
         <div class="card-header">
-            <h3 class="card-title">Informacion del Pais</h3>
+            <h3 class="card-title">Información del País</h3>
         </div>
 
         <div class="card-body">

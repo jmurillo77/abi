@@ -20,4 +20,14 @@ class Continente extends Model
     {
         return $this->hasMany(Pais::class, 'IdContinente', 'IdContinente');
     }
+
+    public function countries()
+    {
+        return $this->paises();
+    }
+
+    public function provincias()
+    {
+        return $this->hasManyThrough(Provincia::class, Pais::class, 'IdContinente', 'IdPais', 'IdContinente', 'IdPais');
+    }
 }

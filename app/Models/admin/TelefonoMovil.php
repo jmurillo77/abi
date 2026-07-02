@@ -24,10 +24,18 @@ class TelefonoMovil extends Model
     {
         return $this->hasOne(TelefonoTipoOperadora::class, 'IdOperadora', 'IdOperadora');
     }
-    public function personas(){
-        return $this->belongsToMany(Persona::class, 'persona_telefono_movils', 'IdTelefonoMovil', 'IdTelefonoMovil');
+    public function personas()
+    {
+        return $this->belongsToMany(Persona::class, 'persona_telefono_movils', 'IdTelefonoMovil', 'IdPersona');
     }
-    public function campaignwp(){
+
+    public function empresas()
+    {
+        return $this->belongsToMany(Empresa::class, 'empresa_telefono_movils', 'IdTelefonoMovil', 'IdEmpresa');
+    }
+
+    public function campaignwp()
+    {
         return $this->belongsToMany(CampaignWp::class, 'campaign_wp', 'IdCampaign', 'IdCampaign');
     }
 }

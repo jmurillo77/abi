@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menú</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contactos</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.provincia.index') }}">Provincias</a></li>
                 <li class="breadcrumb-item active">Editar</li>
@@ -50,9 +50,9 @@
             </div>
 
             <div class="form-group">
-                <label for="id_pais">Pais</label>
+                <label for="id_pais">País</label>
                 <select id="id_pais" name="id_pais" class="form-control">
-                    <option value="">Seleccione un pais</option>
+                    <option value="">Seleccione un país</option>
                     @foreach($paises as $pais)
                         <option value="{{ $pais->IdPais }}" {{ (string) old('id_pais', $provincia->IdPais) === (string) $pais->IdPais ? 'selected' : '' }}>
                             {{ $pais->Nombre }}

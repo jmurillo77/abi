@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CampaignController;
-use App\Http\Controllers\Admin\CorreoController;
-use App\Http\Controllers\Admin\TelefonomovilController;
 use App\Http\Controllers\Configuracion\MenuController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -24,8 +22,6 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin');
 
     Route::prefix('contacto')->name('contacto.')->group(function () {
-        Route::resource('telefono_movil', TelefonomovilController::class)->only(['index', 'show']);
-        Route::resource('correo', CorreoController::class)->only(['index', 'show']);
         Route::resource('campaign', CampaignController::class)->only(['index', 'show']);
         Route::get('campaign/exporta/{campaign}', [CampaignController::class, 'exporta'])->name('campaign.exporta');
         Route::resource('menus', MenuController::class);

@@ -27,14 +27,17 @@ class MenuController extends Controller
             'Ruta' => 'nullable|string|max:255',
             'Icono' => 'nullable|string|max:100',
             'parent_id' => 'nullable|integer|exists:matriz.menus,IdMenu',
+            'Orden' => 'nullable|integer',
             'order' => 'nullable|integer',
         ]);
 
         $data['parent_id'] = $request->parent_id ?: null;
+        $data['Orden'] = $request->input('Orden', $request->input('order'));
+        unset($data['order']);
 
         Menu::create($data);
 
-        return redirect()->route('menus.index')
+        return redirect()->route('configuracion.menus.index')
             ->with('success', 'Menú creado correctamente');
     }
 
@@ -47,7 +50,7 @@ class MenuController extends Controller
     public function edit(string $id)
     {
         $menu = Menu::findOrFail($id);
-        $parents = Menu::where('IdMenu', '!=', $id)->orderBy('Nombre')->get();
+        $parents = Menu::where('IdMenu', '!=', $id)->orderBy('Titulo')->get();
         return view('admin.menu.actualizar', compact('menu', 'parents'));
     }
 
@@ -60,14 +63,17 @@ class MenuController extends Controller
             'Ruta' => 'nullable|string|max:255',
             'Icono' => 'nullable|string|max:100',
             'parent_id' => 'nullable|integer|exists:matriz.menus,IdMenu',
+            'Orden' => 'nullable|integer',
             'order' => 'nullable|integer',
         ]);
 
         $data['parent_id'] = $request->parent_id ?: null;
+        $data['Orden'] = $request->input('Orden', $request->input('order'));
+        unset($data['order']);
 
         $menu->update($data);
 
-        return redirect()->route('menus.index')
+        return redirect()->route('configuracion.menus.index')
             ->with('success', 'Menú actualizado correctamente');
     }
 
@@ -76,7 +82,7 @@ class MenuController extends Controller
         $menu = Menu::findOrFail($id);
         $menu->delete();
 
-        return redirect()->route('menus.index')
+        return redirect()->route('configuracion.menus.index')
             ->with('success', 'Menú eliminado correctamente');
     }
 
@@ -105,6 +111,6 @@ class MenuController extends Controller
         $user->role->menus()->sync($menuIds);
         $user->role->submenus()->sync($submenuIds);
 
-        return redirect()->route('menus.index')->with('success', 'Permisos del rol actualizados');
+        return redirect()->route('configuracion.menus.index')->with('success', 'Permisos del rol actualizados');
     }
 }

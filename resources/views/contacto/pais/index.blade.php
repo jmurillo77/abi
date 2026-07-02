@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Paises')
+@section('title', 'Países')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.bootstrap4.min.css') }}">
@@ -13,14 +13,14 @@
     <div class="row mb-2">
         <div class="col-md-6">
             <h1>
-                <i class="fas fa-flag text-primary"></i> Gestion de Paises
+                <i class="fas fa-flag text-primary"></i> Gestión de Países
             </h1>
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menú</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contactos</a></li>
-                <li class="breadcrumb-item active">Paises</li>
+                <li class="breadcrumb-item active">Países</li>
             </ol>
         </div>
     </div>
@@ -30,10 +30,10 @@
 @section('content')
 <div class="card card-outline card-primary shadow">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">Listado de Paises</h3>
+        <h3 class="card-title">Listado de Países</h3>
         @submenuCan('create', 'contacto.pais.index')
             <a href="{{ route('contacto.pais.crear') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Nuevo Pais
+                <i class="fas fa-plus"></i> Nuevo País
             </a>
         @endsubmenuCan
     </div>
@@ -62,13 +62,8 @@
 
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="filtroContinente" class="mb-1">Filtrar por continente</label>
-                <select id="filtroContinente" class="form-control form-control-sm">
-                    <option value="">Todos</option>
-                    @foreach($continentesFiltro as $continenteNombre)
-                        <option value="{{ $continenteNombre }}">{{ $continenteNombre }}</option>
-                    @endforeach
-                </select>
+                <label for="filtroContinente" class="mb-1">Continente</label>
+                <select id="filtroContinente" class="form-control form-control-sm"></select>
             </div>
             <div class="col-md-2 d-flex align-items-end mt-2 mt-md-0">
                 <button id="limpiarFiltros" type="button" class="btn btn-outline-secondary btn-sm w-100">
@@ -115,7 +110,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">No hay paises registrados.</td>
+                            <td colspan="4" class="text-center">No hay países registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -138,6 +133,7 @@
 
 <script>
 $(function () {
+    const ubicaciones = @json($ubicaciones);
     const tabla = $('#paises').DataTable({
         responsive: true,
         autoWidth: false,
@@ -152,6 +148,20 @@ $(function () {
             url: 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-ES.json'
         }
     });
+
+    const continenteSelect = $('#filtroContinente');
+
+    const buildOptions = (items, valueKey, labelKey, placeholder) => {
+        const options = [`<option value="">${placeholder}</option>`];
+
+        items.forEach((item) => {
+            options.push(`<option value="${item[valueKey]}">${item[labelKey]}</option>`);
+        });
+
+        return options.join('');
+    };
+
+    continenteSelect.html(buildOptions(ubicaciones, 'Nombre', 'Nombre', 'Todos'));
 
     $('#filtroContinente').on('change', function () {
         const continente = $(this).val();

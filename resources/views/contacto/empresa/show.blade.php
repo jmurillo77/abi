@@ -55,6 +55,12 @@
                                 {{ optional($empresa->correos->first())->Correo ?? 'No registrado' }}
                             </span>
                         </li>
+                        <li class="list-group-item">
+                            <b>Dirección</b>
+                            <span class="float-right text-secondary font-weight-bold">
+                                {{ optional($empresa->direcciones->first())->Nombre ?? 'No registrada' }}
+                            </span>
+                        </li>
                     </ul>
 
                     <div class="d-flex justify-content-between gap-2">
@@ -86,6 +92,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#tab-correos" data-toggle="tab">
                                 <i class="fas fa-envelope text-info mr-1"></i> Correos Electrónicos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tab-direcciones" data-toggle="tab">
+                                <i class="fas fa-map-marker-alt text-warning mr-1"></i> Direcciones
                             </a>
                         </li>
                     </ul>
@@ -148,6 +159,44 @@
                                             <tr>
                                                 <td class="text-center py-4 text-muted">
                                                     <i class="fas fa-info-circle mr-1"></i> Esta empresa no tiene correos electrónicos registrados.
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tab-direcciones">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover m-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Tipo</th>
+                                            <th>Dirección</th>
+                                            <th>Ubicación</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($empresa->direcciones as $direccion)
+                                            <tr>
+                                                <td>{{ $direccion->tipo?->Nombre ?? 'Sin tipo' }}</td>
+                                                <td class="font-weight-bold text-warning">
+                                                    <i class="fas fa-map-marked-alt mr-1"></i>
+                                                    {{ $direccion->Nombre }}
+                                                </td>
+                                                <td>
+                                                    {{ $direccion->parroquia?->Nombre ?? 'Sin parroquia' }} /
+                                                    {{ $direccion->parroquia?->canton?->Nombre ?? 'Sin cantón' }} /
+                                                    {{ $direccion->parroquia?->canton?->provincia?->Nombre ?? 'Sin provincia' }} /
+                                                    {{ $direccion->parroquia?->canton?->provincia?->pais?->Nombre ?? 'Sin país' }} /
+                                                    {{ $direccion->parroquia?->canton?->provincia?->pais?->continente?->Nombre ?? 'Sin continente' }}
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center py-4 text-muted">
+                                                    <i class="fas fa-info-circle mr-1"></i> Esta empresa no tiene direcciones registradas.
                                                 </td>
                                             </tr>
                                         @endforelse

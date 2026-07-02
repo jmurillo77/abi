@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menú</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contactos</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.provincia.index') }}">Provincias</a></li>
                 <li class="breadcrumb-item active">Detalle</li>
@@ -25,13 +25,13 @@
 @section('content')
 <div class="card card-outline card-info shadow">
     <div class="card-header">
-        <h3 class="card-title">Informacion de la Provincia</h3>
+        <h3 class="card-title">Información de la Provincia</h3>
     </div>
 
     <div class="card-body">
         <p><strong>ID:</strong> {{ $provincia->IdProvincia }}</p>
         <p><strong>Nombre:</strong> {{ $provincia->Nombre }}</p>
-        <p><strong>Pais:</strong> {{ $provincia->pais?->Nombre ?? 'Sin pais' }}</p>
+        <p><strong>País:</strong> {{ $provincia->pais?->Nombre ?? 'Sin país' }}</p>
     </div>
 
     <div class="card-footer text-right">

@@ -41,13 +41,13 @@
                 <select name="parent_id" id="parent_id" class="form-control">
                     <option value="">-- Ninguno --</option>
                     @foreach($parents as $parent)
-                        <option value="{{ $parent->IdMenu }}" @selected(old('parent_id') == $parent->IdMenu)>{{ $parent->Nombre }}</option>
+                        <option value="{{ $parent->IdMenu }}" @selected(old('parent_id') == $parent->IdMenu)>{{ $parent->Titulo }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group mb-3">
-                <label for="order">Orden</label>
-                <input type="number" class="form-control" name="order" id="order" value="{{ old('order') }}">
+                <label for="Orden">Orden</label>
+                <input type="number" class="form-control" name="Orden" id="Orden" value="{{ old('Orden') }}">
             </div>
             <button class="btn btn-primary">Guardar</button>
             <a href="{{ route('configuracion.menus.index') }}" class="btn btn-secondary">Cancelar</a>

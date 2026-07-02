@@ -33,6 +33,9 @@ class Persona extends Model
     public function correos(){
         return $this->belongsToMany(Correo::class, 'persona_correos', 'IdPersona', 'IdCorreo');
     }
+    public function direcciones(){
+        return $this->belongsToMany(Direccion::class, 'persona_direccion', 'IdPersona', 'IdDireccion');
+    }
 
     public function users()
     {

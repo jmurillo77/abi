@@ -22,4 +22,9 @@ class Provincia extends Model
     {
         return $this->belongsTo(Pais::class, 'IdPais', 'IdPais');
     }
+
+    public function cantones()
+    {
+        return $this->hasMany(Canton::class, 'IdProvincia', 'IdProvincia');
+    }
 }

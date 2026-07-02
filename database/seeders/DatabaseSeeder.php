@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             TelefonoTipoOperadoraSeeder::class,
+            DireccionTipoSeeder::class,
             ContinenteSeeder::class,
             PaisSeeder::class,
             ProvinciaSeeder::class,

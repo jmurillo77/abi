@@ -64,6 +64,7 @@
                     <th>Apellidos</th>
                     <th>Teléfono</th>
                     <th>Correo</th>
+
                     <th width="150">Acciones</th>
                 </tr>
             </thead>
@@ -74,6 +75,7 @@
                     @php
                         $telefono = optional($persona->telefono_movils->first())->Numero;
                         $correo = optional($persona->correos->first())->Correo;
+                        $direccion = optional($persona->direcciones->first())->Nombre;
                     @endphp
 
                     <tr>
@@ -101,6 +103,8 @@
                                 </span>
                             @endif
                         </td>
+
+                        
 
                         <td class="text-center">
 

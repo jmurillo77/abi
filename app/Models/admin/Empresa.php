@@ -24,4 +24,7 @@ class Empresa extends Model
     public function correos(){
         return $this->belongsToMany(Correo::class, 'empresa_correos', 'IdEmpresa', 'IdCorreo');
     }
+    public function direcciones(){
+        return $this->belongsToMany(Direccion::class, 'empresa_direccion', 'IdEmpresa', 'IdDireccion');
+    }
 }

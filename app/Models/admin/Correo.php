@@ -17,7 +17,13 @@ class Correo extends Model
         'Valido'
     ];
 
-    public function personas(){
+    public function personas()
+    {
         return $this->belongsToMany(Persona::class, 'persona_correos', 'IdCorreo', 'IdPersona');
+    }
+
+    public function empresas()
+    {
+        return $this->belongsToMany(Empresa::class, 'empresa_correos', 'IdCorreo', 'IdEmpresa');
     }
 }

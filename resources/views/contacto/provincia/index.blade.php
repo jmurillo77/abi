@@ -13,12 +13,12 @@
     <div class="row mb-2">
         <div class="col-md-6">
             <h1>
-                <i class="fas fa-map-marked-alt text-primary"></i> Gestion de Provincias
+                <i class="fas fa-map-marked-alt text-primary"></i> Gestión de Provincias
             </h1>
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menú</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contactos</a></li>
                 <li class="breadcrumb-item active">Provincias</li>
             </ol>
@@ -40,6 +40,12 @@
 
     <div class="card-body">
         @php
+            $continentesFiltro = $provincias
+                ->pluck('pais.continente.Nombre')
+                ->filter()
+                ->unique()
+                ->sort()
+                ->values();
             $paisesFiltro = $provincias
                 ->pluck('pais.Nombre')
                 ->filter()
@@ -58,13 +64,12 @@
 
         <div class="row mb-3">
             <div class="col-md-4">
-                <label for="filtroPais" class="mb-1">Filtrar por país</label>
-                <select id="filtroPais" class="form-control form-control-sm">
-                    <option value="">Todos</option>
-                    @foreach($paisesFiltro as $paisNombre)
-                        <option value="{{ $paisNombre }}">{{ $paisNombre }}</option>
-                    @endforeach
-                </select>
+                <label for="filtroContinente" class="mb-1">Continente</label>
+                <select id="filtroContinente" class="form-control form-control-sm"></select>
+            </div>
+            <div class="col-md-4 mt-2 mt-md-0">
+                <label for="filtroPais" class="mb-1">País</label>
+                <select id="filtroPais" class="form-control form-control-sm"></select>
             </div>
             <div class="col-md-2 d-flex align-items-end mt-2 mt-md-0">
                 <button id="limpiarFiltros" type="button" class="btn btn-outline-secondary btn-sm w-100">
@@ -79,7 +84,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
-                        <th>Pais</th>
+                        <th>Continente</th>
+                        <th>País</th>
                         <th width="170">Acciones</th>
                     </tr>
                 </thead>
@@ -88,7 +94,8 @@
                         <tr>
                             <td>{{ $provincia->IdProvincia }}</td>
                             <td>{{ $provincia->Nombre }}</td>
-                            <td>{{ $provincia->pais?->Nombre ?? 'Sin pais' }}</td>
+                            <td>{{ $provincia->pais?->continente?->Nombre ?? 'Sin continente' }}</td>
+                            <td>{{ $provincia->pais?->Nombre ?? 'Sin país' }}</td>
                             <td class="text-center">
                                 <a href="{{ route('contacto.provincia.show', $provincia->IdProvincia) }}" class="btn btn-sm btn-info" title="Ver">
                                     <i class="fas fa-eye"></i>
@@ -111,7 +118,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">No hay provincias registradas.</td>
+                            <td colspan="5" class="text-center">No hay provincias registradas.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -134,6 +141,7 @@
 
 <script>
 $(function () {
+    const ubicaciones = @json($ubicaciones);
     const tabla = $('#provincias').DataTable({
         responsive: true,
         autoWidth: false,
@@ -149,14 +157,50 @@ $(function () {
         }
     });
 
+    const continenteSelect = $('#filtroContinente');
+    const paisSelect = $('#filtroPais');
+
+    const buildOptions = (items, valueKey, labelKey, placeholder) => {
+        const options = [`<option value="">${placeholder}</option>`];
+
+        items.forEach((item) => {
+            options.push(`<option value="${item[valueKey]}">${item[labelKey]}</option>`);
+        });
+
+        return options.join('');
+    };
+
+    const findContinente = (nombre) => ubicaciones.find((continente) => String(continente.Nombre) === String(nombre));
+
+    const renderContinentes = () => {
+        continenteSelect.html(buildOptions(ubicaciones, 'Nombre', 'Nombre', 'Todos'));
+    };
+
+    const renderPaises = (continenteNombre) => {
+        const continente = findContinente(continenteNombre);
+        paisSelect.html(buildOptions(continente?.paises || [], 'Nombre', 'Nombre', 'Todos'));
+    };
+
+    renderContinentes();
+    paisSelect.html(buildOptions([], 'Nombre', 'Nombre', 'Todos'));
+
+    $('#filtroContinente').on('change', function () {
+        const continente = $(this).val();
+        renderPaises(continente);
+        tabla.column(2).search(continente ? '^' + $.fn.dataTable.util.escapeRegex(continente) + '$' : '', true, false).draw();
+        tabla.column(3).search('', true, false).draw();
+    });
+
     $('#filtroPais').on('change', function () {
         const pais = $(this).val();
-        tabla.column(2).search(pais ? '^' + $.fn.dataTable.util.escapeRegex(pais) + '$' : '', true, false).draw();
+        tabla.column(3).search(pais ? '^' + $.fn.dataTable.util.escapeRegex(pais) + '$' : '', true, false).draw();
     });
 
     $('#limpiarFiltros').on('click', function () {
+        $('#filtroContinente').val('');
         $('#filtroPais').val('');
         tabla.search('').columns().search('').draw();
+        paisSelect.html(buildOptions([], 'Nombre', 'Nombre', 'Todos'));
     });
 });
 </script>

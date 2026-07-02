@@ -17,7 +17,11 @@ class PaisController extends Controller
             ->orderBy('Nombre')
             ->get();
 
-        return view('contacto.pais.index', compact('paises'));
+        $ubicaciones = Continente::with('paises')
+            ->orderBy('Nombre')
+            ->get();
+
+        return view('contacto.pais.index', compact('paises', 'ubicaciones'));
     }
 
     public function create()
@@ -41,7 +45,7 @@ class PaisController extends Controller
 
         return redirect()
             ->route('contacto.pais.index')
-            ->with('success', 'Pais creado correctamente.');
+            ->with('success', 'País creado correctamente.');
     }
 
     public function show(string $id)
@@ -80,7 +84,7 @@ class PaisController extends Controller
 
         return redirect()
             ->route('contacto.pais.index')
-            ->with('success', 'Pais actualizado correctamente.');
+            ->with('success', 'País actualizado correctamente.');
     }
 
     public function destroy(string $id)
@@ -92,11 +96,11 @@ class PaisController extends Controller
         } catch (QueryException $exception) {
             return redirect()
                 ->route('contacto.pais.index')
-                ->with('error', 'No se puede eliminar el pais porque tiene registros relacionados.');
+                ->with('error', 'No se puede eliminar el país porque tiene registros relacionados.');
         }
 
         return redirect()
             ->route('contacto.pais.index')
-            ->with('success', 'Pais eliminado correctamente.');
+            ->with('success', 'País eliminado correctamente.');
     }
 }

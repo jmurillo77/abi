@@ -71,6 +71,7 @@
                             @php
                                 $telefono = optional($empresa->telefono_movils->first())->Numero;
                                 $correo = optional($empresa->correos->first())->Correo;
+                                $direccion = optional($empresa->direcciones->first())->Nombre;
                             @endphp
                             <tr>
                                 <td>{{ $empresa->IdEmpresa }}</td>
@@ -90,6 +91,7 @@
                                         <span class="badge badge-secondary">Sin correo</span>
                                     @endif
                                 </td>
+                                
                                 <td class="text-center">
                                     <a href="{{ route('contacto.empresa.show', $empresa->IdEmpresa) }}" class="btn btn-sm btn-info" title="Ver">
                                         <i class="fas fa-eye"></i>

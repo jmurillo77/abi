@@ -136,6 +136,18 @@
                         </a>
                     @endsubmenuCan
 
+                    @submenuCan('view', 'contacto.canton.index')
+                        <a href="{{ route('contacto.canton.index') }}" class="btn btn-info btn-block mb-2">
+                            <i class="fas fa-map"></i> Ir a Cantones
+                        </a>
+                    @endsubmenuCan
+
+                    @submenuCan('view', 'contacto.parroquia.index')
+                        <a href="{{ route('contacto.parroquia.index') }}" class="btn btn-warning btn-block mb-2">
+                            <i class="fas fa-map-pin"></i> Ir a Parroquias
+                        </a>
+                    @endsubmenuCan
+
                     <a href="{{ route('menu') }}" class="btn btn-secondary btn-block">
                         <i class="fas fa-home"></i> Volver al Menú
                     </a>

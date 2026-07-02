@@ -7,7 +7,13 @@ use App\Models\admin\Persona;
 use App\Models\admin\TelefonoMovil;
 use App\Models\admin\TelefonoTipoOperadora;
 use App\Models\admin\Correo;
+use App\Models\admin\Continente;
+use App\Models\admin\Direccion;
+use App\Models\admin\DireccionTipo;
+use App\Models\admin\Parroquia;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class PersonaController extends Controller
 {
@@ -17,7 +23,7 @@ class PersonaController extends Controller
     public function index()
     {
         //$personas = persona::all();
-        $personas = Persona::with(['telefono_movils', 'correos'])->get();
+        $personas = Persona::with(['telefono_movils', 'correos', 'direcciones'])->get();
         return view('contacto.persona.index', compact('personas'));
     }
 
@@ -27,7 +33,10 @@ class PersonaController extends Controller
     public function create()
     {
         $operadoras = TelefonoTipoOperadora::all();
-        return view('contacto.persona.create', compact('operadoras'));
+        $direccionTipos = DireccionTipo::orderBy('Nombre')->get();
+        $ubicaciones = $this->ubicacionesJerarquicas();
+
+        return view('contacto.persona.create', compact('operadoras', 'ubicaciones', 'direccionTipos'));
     }
 
     /**
@@ -45,6 +54,10 @@ class PersonaController extends Controller
             'telefonos.*.id_operadora' => 'nullable|exists:matriz.telefono_tipo_operadoras,IdOperadora',
             'correos' => 'nullable|array',
             'correos.*.correo' => 'nullable|email|max:255',
+            'direcciones' => 'nullable|array',
+            'direcciones.*.nombre' => 'nullable|string|max:200',
+            'direcciones.*.id_direccion_tipo' => 'nullable|exists:matriz.direccion_tipo,IdDireccionTipo',
+            'direcciones.*.id_parroquia' => 'nullable|exists:matriz.parroquia,IdParroquia',
         ]);
 
         $persona = Persona::create([
@@ -94,8 +107,10 @@ class PersonaController extends Controller
             }
         }
 
+        $this->syncDirecciones($persona->IdPersona, $this->persistDirecciones($request->input('direcciones', [])));
+
         return redirect()
-            ->route('contacto.persona.index')
+            ->route('contacto.persona.edit', $persona->IdPersona)
             ->with('success', 'Persona creada correctamente');
     }
 
@@ -104,7 +119,7 @@ class PersonaController extends Controller
      */
     public function show(Persona $persona)
     {
-        //$persona = Persona::findOrFail($IdPersona);
+        $persona->load(['telefono_movils.operadora', 'correos', 'direcciones.tipo', 'direcciones.parroquia.canton.provincia.pais.continente']);
         return view('contacto.persona.show', compact('persona'));
     }
 
@@ -115,14 +130,18 @@ class PersonaController extends Controller
     {
         $persona = Persona::with([
             'telefono_movils',
-            'correos'
+            'correos',
+            'direcciones.tipo',
+            'direcciones.parroquia.canton.provincia.pais.continente'
         ])->findOrFail($id);
 
         $operadoras = TelefonoTipoOperadora::all();
+        $direccionTipos = DireccionTipo::orderBy('Nombre')->get();
+        $ubicaciones = $this->ubicacionesJerarquicas();
 
         return view(
             'contacto.persona.edit',
-            compact('persona', 'operadoras')
+            compact('persona', 'operadoras', 'ubicaciones', 'direccionTipos')
         );
     }
 
@@ -143,9 +162,14 @@ class PersonaController extends Controller
             'correos' => 'nullable|array',
             'correos.*.id' => 'nullable|integer|exists:matriz.correos,IdCorreo',
             'correos.*.correo' => 'nullable|email|max:255',
+            'direcciones' => 'nullable|array',
+            'direcciones.*.id' => 'nullable|integer|exists:matriz.direccion,IdDireccion',
+            'direcciones.*.nombre' => 'nullable|string|max:200',
+            'direcciones.*.id_direccion_tipo' => 'nullable|exists:matriz.direccion_tipo,IdDireccionTipo',
+            'direcciones.*.id_parroquia' => 'nullable|exists:matriz.parroquia,IdParroquia',
         ]);
 
-        $persona = Persona::with(['telefono_movils', 'correos'])->findOrFail($id);
+        $persona = Persona::with(['telefono_movils', 'correos', 'direcciones'])->findOrFail($id);
 
         /*
         |--------------------------------------------------------------------------
@@ -253,9 +277,106 @@ class PersonaController extends Controller
             ->wherePivotNotIn('IdCorreo', $correosIdsActuales)
             ->detach();
 
+        /*
+        |--------------------------------------------------------------------------
+        | DIRECCIONES
+        |--------------------------------------------------------------------------
+        */
+        $this->syncDirecciones($persona->IdPersona, $this->persistDirecciones($request->input('direcciones', [])));
+
         return redirect()
-            ->route('contacto.persona.index')
+            ->route('contacto.persona.edit', $persona->IdPersona)
             ->with('success', 'Persona actualizada correctamente');
+    }
+
+    private function ubicacionesJerarquicas()
+    {
+        return Continente::with('paises.provincias.cantones.parroquias')
+            ->orderBy('Nombre')
+            ->get();
+    }
+
+    private function persistDirecciones(array $direcciones): array
+    {
+        $direccionesIds = [];
+
+        foreach ($direcciones as $index => $direccionData) {
+            $nombre = trim((string) ($direccionData['nombre'] ?? ''));
+            $idDireccionTipo = $direccionData['id_direccion_tipo'] ?? null;
+            $idParroquia = $direccionData['id_parroquia'] ?? null;
+            $hasAnyData = $nombre !== ''
+                || !empty($idDireccionTipo)
+                || !empty($idParroquia)
+                || !empty($direccionData['id_continente'])
+                || !empty($direccionData['id_pais'])
+                || !empty($direccionData['id_provincia'])
+                || !empty($direccionData['id_canton'])
+                || !empty($direccionData['id']);
+
+            if (!$hasAnyData) {
+                continue;
+            }
+
+            if (empty($idDireccionTipo)) {
+                throw ValidationException::withMessages([
+                    "direcciones.$index.id_direccion_tipo" => 'Selecciona un tipo para guardar la dirección.',
+                ]);
+            }
+
+            $payload = [
+                'Nombre' => $nombre !== '' ? $nombre : null,
+                'IdDireccionTipo' => $idDireccionTipo,
+                'IdParroquia' => !empty($idParroquia) ? $idParroquia : null,
+            ];
+
+            if (!empty($direccionData['id'])) {
+                $direccion = Direccion::find($direccionData['id']);
+
+                if ($direccion) {
+                    $direccion->update($payload);
+                    $direccionesIds[] = $direccion->IdDireccion;
+                    continue;
+                }
+            }
+
+            $direccion = Direccion::firstOrCreate($payload);
+            $direccionesIds[] = $direccion->IdDireccion;
+        }
+
+        return array_values(array_unique($direccionesIds));
+    }
+
+    private function syncDirecciones(int $idPersona, array $direccionesIds): void
+    {
+        DB::connection('matriz')->transaction(function () use ($idPersona, $direccionesIds) {
+            $pivot = DB::connection('matriz')->table('persona_direccion');
+
+            $pivot->where('IdPersona', $idPersona)->delete();
+
+            if (empty($direccionesIds)) {
+                return;
+            }
+
+            $now = now();
+            $rows = array_map(function ($idDireccion) use ($idPersona, $now) {
+                return [
+                    'IdPersona' => $idPersona,
+                    'IdDireccion' => $idDireccion,
+                    'Eliminado' => 'N',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }, $direccionesIds);
+
+            $pivot->insert($rows);
+        });
+    }
+
+    private function parroquiasConJerarquia()
+    {
+        return Parroquia::with('canton.provincia.pais.continente')
+            ->orderBy('Nombre')
+            ->get();
     }
 
     /**

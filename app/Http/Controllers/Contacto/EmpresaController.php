@@ -6,8 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\admin\Empresa;
 use App\Models\admin\TelefonoMovil;
 use App\Models\admin\Correo;
+use App\Models\admin\Continente;
+use App\Models\admin\Direccion;
+use App\Models\admin\DireccionTipo;
+use App\Models\admin\Parroquia;
 use App\Models\admin\TelefonoTipoOperadora;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class EmpresaController extends Controller
 {
@@ -16,7 +22,7 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empresas = Empresa::with(['telefono_movils', 'correos'])->get();
+        $empresas = Empresa::with(['telefono_movils', 'correos', 'direcciones'])->get();
         return view('contacto.empresa.index', compact('empresas'));
     }
 
@@ -26,7 +32,10 @@ class EmpresaController extends Controller
     public function create()
     {
         $operadoras = TelefonoTipoOperadora::all();
-        return view('contacto.empresa.create', compact('operadoras'));
+        $direccionTipos = DireccionTipo::orderBy('Nombre')->get();
+        $ubicaciones = $this->ubicacionesJerarquicas();
+
+        return view('contacto.empresa.create', compact('operadoras', 'ubicaciones', 'direccionTipos'));
     }
 
     /**
@@ -42,6 +51,10 @@ class EmpresaController extends Controller
             'telefonos.*.id_operadora' => 'nullable|exists:matriz.telefono_tipo_operadoras,IdOperadora',
             'correos' => 'nullable|array',
             'correos.*.correo' => 'nullable|email|max:255',
+            'direcciones' => 'nullable|array',
+            'direcciones.*.nombre' => 'nullable|string|max:200',
+            'direcciones.*.id_direccion_tipo' => 'nullable|exists:matriz.direccion_tipo,IdDireccionTipo',
+            'direcciones.*.id_parroquia' => 'nullable|exists:matriz.parroquia,IdParroquia',
         ]);
 
         $empresa = Empresa::create([
@@ -87,7 +100,9 @@ class EmpresaController extends Controller
             }
         }
 
-        return redirect()->route('contacto.empresa.show', $empresa->IdEmpresa);
+        $this->syncDirecciones($empresa->IdEmpresa, $this->persistDirecciones($request->input('direcciones', [])));
+
+        return redirect()->route('contacto.empresa.edit', $empresa->IdEmpresa);
     }
 
     /**
@@ -95,7 +110,7 @@ class EmpresaController extends Controller
      */
     public function show(string $id)
     {
-        $empresa = Empresa::with(['telefono_movils', 'correos'])->findOrFail($id);
+        $empresa = Empresa::with(['telefono_movils', 'correos', 'direcciones.tipo', 'direcciones.parroquia.canton.provincia.pais.continente'])->findOrFail($id);
         return view('contacto.empresa.show', compact('empresa'));
     }
 
@@ -104,10 +119,12 @@ class EmpresaController extends Controller
      */
     public function edit(string $id)
     {
-        $empresa = Empresa::with(['telefono_movils', 'correos'])->findOrFail($id);
+        $empresa = Empresa::with(['telefono_movils', 'correos', 'direcciones.tipo', 'direcciones.parroquia.canton.provincia.pais.continente'])->findOrFail($id);
         $operadoras = TelefonoTipoOperadora::all();
+        $direccionTipos = DireccionTipo::orderBy('Nombre')->get();
+        $ubicaciones = $this->ubicacionesJerarquicas();
 
-        return view('contacto.empresa.edit', compact('empresa', 'operadoras'));
+        return view('contacto.empresa.edit', compact('empresa', 'operadoras', 'ubicaciones', 'direccionTipos'));
     }
 
     /**
@@ -115,7 +132,7 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $empresa = Empresa::with(['telefono_movils', 'correos'])->findOrFail($id);
+        $empresa = Empresa::with(['telefono_movils', 'correos', 'direcciones'])->findOrFail($id);
 
         $request->validate([
             'RUC' => 'required|string|max:50',
@@ -127,6 +144,11 @@ class EmpresaController extends Controller
             'correos' => 'nullable|array',
             'correos.*.id' => 'nullable|integer|exists:matriz.correos,IdCorreo',
             'correos.*.correo' => 'nullable|email|max:255',
+            'direcciones' => 'nullable|array',
+            'direcciones.*.id' => 'nullable|integer|exists:matriz.direccion,IdDireccion',
+            'direcciones.*.nombre' => 'nullable|string|max:200',
+            'direcciones.*.id_direccion_tipo' => 'nullable|exists:matriz.direccion_tipo,IdDireccionTipo',
+            'direcciones.*.id_parroquia' => 'nullable|exists:matriz.parroquia,IdParroquia',
         ]);
 
         $empresa->update([
@@ -204,8 +226,100 @@ class EmpresaController extends Controller
             $empresa->correos()->sync($correosIds);
         }
 
-        return redirect()->route('contacto.empresa.show', $empresa->IdEmpresa)
+        $this->syncDirecciones($empresa->IdEmpresa, $this->persistDirecciones($request->input('direcciones', [])));
+
+        return redirect()->route('contacto.empresa.edit', $empresa->IdEmpresa)
             ->with('success', 'Empresa actualizada correctamente');
+    }
+
+    private function ubicacionesJerarquicas()
+    {
+        return Continente::with('paises.provincias.cantones.parroquias')
+            ->orderBy('Nombre')
+            ->get();
+    }
+
+    private function persistDirecciones(array $direcciones): array
+    {
+        $direccionesIds = [];
+
+        foreach ($direcciones as $index => $direccionData) {
+            $nombre = trim((string) ($direccionData['nombre'] ?? ''));
+            $idDireccionTipo = $direccionData['id_direccion_tipo'] ?? null;
+            $idParroquia = $direccionData['id_parroquia'] ?? null;
+            $hasAnyData = $nombre !== ''
+                || !empty($idDireccionTipo)
+                || !empty($idParroquia)
+                || !empty($direccionData['id_continente'])
+                || !empty($direccionData['id_pais'])
+                || !empty($direccionData['id_provincia'])
+                || !empty($direccionData['id_canton'])
+                || !empty($direccionData['id']);
+
+            if (!$hasAnyData) {
+                continue;
+            }
+
+            if (empty($idDireccionTipo)) {
+                throw ValidationException::withMessages([
+                    "direcciones.$index.id_direccion_tipo" => 'Selecciona un tipo para guardar la dirección.',
+                ]);
+            }
+
+            $payload = [
+                'Nombre' => $nombre !== '' ? $nombre : null,
+                'IdDireccionTipo' => $idDireccionTipo,
+                'IdParroquia' => !empty($idParroquia) ? $idParroquia : null,
+            ];
+
+            if (!empty($direccionData['id'])) {
+                $direccion = Direccion::find($direccionData['id']);
+
+                if ($direccion) {
+                    $direccion->update($payload);
+                    $direccionesIds[] = $direccion->IdDireccion;
+                    continue;
+                }
+            }
+
+            $direccion = Direccion::firstOrCreate($payload);
+            $direccionesIds[] = $direccion->IdDireccion;
+        }
+
+        return array_values(array_unique($direccionesIds));
+    }
+
+    private function syncDirecciones(int $idEmpresa, array $direccionesIds): void
+    {
+        DB::connection('matriz')->transaction(function () use ($idEmpresa, $direccionesIds) {
+            $pivot = DB::connection('matriz')->table('empresa_direccion');
+
+            $pivot->where('IdEmpresa', $idEmpresa)->delete();
+
+            if (empty($direccionesIds)) {
+                return;
+            }
+
+            $now = now();
+            $rows = array_map(function ($idDireccion) use ($idEmpresa, $now) {
+                return [
+                    'IdEmpresa' => $idEmpresa,
+                    'IdDireccion' => $idDireccion,
+                    'Eliminado' => 'N',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }, $direccionesIds);
+
+            $pivot->insert($rows);
+        });
+    }
+
+    private function parroquiasConJerarquia()
+    {
+        return Parroquia::with('canton.provincia.pais.continente')
+            ->orderBy('Nombre')
+            ->get();
     }
 
     /**
@@ -216,6 +330,7 @@ class EmpresaController extends Controller
         $empresa = Empresa::findOrFail($id);
         $empresa->telefono_movils()->detach();
         $empresa->correos()->detach();
+        $empresa->direcciones()->detach();
         $empresa->delete();
 
         return redirect()->route('contacto.empresa.index')

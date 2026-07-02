@@ -72,6 +72,11 @@
                     });
             }
         }
+
+        $groupedPermittedSubmenus = $permittedSubmenus
+            ->groupBy(function ($submenu) {
+                return $submenu->menu?->Titulo ?? 'General';
+            });
     @endphp
 
     <div class="sidebar">
@@ -138,21 +143,25 @@
 
                 @each('adminlte::partials.sidebar.menu-item', $searchItems, 'item')
 
-                @if($permittedSubmenus->isNotEmpty())
-                    @foreach($permittedSubmenus as $child)
-                        @php
-                            $childIconRaw = trim((string) ($child->Icono ?? ''));
-                            $childIconParts = array_map('trim', explode('|', $childIconRaw, 2));
-                            $childIconClass = $childIconParts[0] ?? 'far fa-circle';
-                            $childIconColor = $childIconParts[1] ?? '';
-                        @endphp
+                @if($groupedPermittedSubmenus->isNotEmpty())
+                    @foreach($groupedPermittedSubmenus as $menuTitle => $children)
+                        <li class="nav-header text-uppercase text-muted">{{ $menuTitle }}</li>
 
-                        <li class="nav-item">
-                            <a href="{{ $child->link_with_menu }}" class="nav-link {{ request()->fullUrlIs($child->link_with_menu) ? 'active' : '' }}">
-                                <i class="nav-icon {{ $childIconClass }}" @if($childIconColor !== '') style="color: {{ $childIconColor }};" @endif></i>
-                                <p>{{ $child->Titulo }}</p>
-                            </a>
-                        </li>
+                        @foreach($children as $child)
+                            @php
+                                $childIconRaw = trim((string) ($child->Icono ?? ''));
+                                $childIconParts = array_map('trim', explode('|', $childIconRaw, 2));
+                                $childIconClass = $childIconParts[0] ?? 'far fa-circle';
+                                $childIconColor = $childIconParts[1] ?? '';
+                            @endphp
+
+                            <li class="nav-item">
+                                <a href="{{ $child->link_with_menu }}" class="nav-link {{ request()->fullUrlIs($child->link_with_menu) ? 'active' : '' }}">
+                                    <i class="nav-icon {{ $childIconClass }}" @if($childIconColor !== '') style="color: {{ $childIconColor }};" @endif></i>
+                                    <p>{{ $child->Titulo }}</p>
+                                </a>
+                            </li>
+                        @endforeach
                     @endforeach
                 @endif
             </ul>

@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menu</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menú</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.dashboard') }}">Contactos</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('contacto.continente.index') }}">Continentes</a></li>
                 <li class="breadcrumb-item active">Detalle</li>
@@ -25,7 +25,7 @@
 @section('content')
 <div class="card card-outline card-info shadow">
     <div class="card-header">
-        <h3 class="card-title">Informacion del Continente</h3>
+        <h3 class="card-title">Información del Continente</h3>
     </div>
 
     <div class="card-body">

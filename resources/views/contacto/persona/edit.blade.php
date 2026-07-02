@@ -24,12 +24,54 @@
 @section('content')
 <div class="container-fluid">
 
+    @php
+        $direcciones = old('direcciones', $persona->direcciones->map(function ($direccion) {
+            return [
+                'id' => $direccion->IdDireccion,
+                'nombre' => $direccion->Nombre,
+                'id_direccion_tipo' => $direccion->IdDireccionTipo,
+                'id_continente' => $direccion->parroquia?->canton?->provincia?->pais?->continente?->IdContinente,
+                'id_pais' => $direccion->parroquia?->canton?->provincia?->pais?->IdPais,
+                'id_provincia' => $direccion->parroquia?->canton?->provincia?->IdProvincia,
+                'id_canton' => $direccion->parroquia?->canton?->IdCiudad,
+                'id_parroquia' => $direccion->IdParroquia,
+            ];
+        })->toArray());
+
+        if (empty($direcciones)) {
+            $direcciones = [[
+                'id' => '',
+                'nombre' => '',
+                'id_direccion_tipo' => '',
+                'id_continente' => '',
+                'id_pais' => '',
+                'id_provincia' => '',
+                'id_canton' => '',
+                'id_parroquia' => '',
+            ]];
+        }
+    @endphp
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
             <i class="icon fas fa-check"></i> {{ session('success') }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+            <i class="icon fas fa-exclamation-triangle"></i> Revisa los campos marcados. No se pudo guardar la persona.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <ul class="mb-0 mt-2">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
 
@@ -206,6 +248,29 @@
                 </div>
         </div>
 
+        {{-- DIRECCIONES --}}
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card card-outline card-warning">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-map-marker-alt"></i> Direcciones
+                        </h5>
+
+                        <button type="button" id="addDireccion" class="btn btn-success btn-sm">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="direcciones-container"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         {{-- Pie de Formulario / Acciones --}}
         <div class="card-footer bg-transparent border-0 text-right mt-4 px-0">
             <a href="{{ route('contacto.persona.show', $persona->IdPersona) }}" class="btn btn-secondary">
@@ -223,6 +288,10 @@
 <script>
 let telefonoIndex = {{ $persona->telefono_movils->count() }};
 let correoIndex = {{ $persona->correos->count() }};
+let direccionIndex = {{ count($direcciones) }};
+const ubicaciones = @json($ubicaciones);
+const direccionTipos = @json($direccionTipos);
+const direccionesIniciales = @json(array_values($direcciones));
 
 const operadoras = `
 @foreach($operadoras as $operadora)
@@ -231,6 +300,167 @@ const operadoras = `
 </option>
 @endforeach
 `;
+
+function buildOptions(items, selectedValue, valueKey, labelBuilder, placeholder) {
+    const options = [`<option value="">${placeholder}</option>`];
+
+    items.forEach((item) => {
+        const selected = String(selectedValue || '') === String(item[valueKey]) ? 'selected' : '';
+        options.push(`<option value="${item[valueKey]}" ${selected}>${labelBuilder(item)}</option>`);
+    });
+
+    return options.join('');
+}
+
+function findContinente(idContinente) {
+    return ubicaciones.find((continente) => String(continente.IdContinente) === String(idContinente));
+}
+
+function findPais(continente, idPais) {
+    return (continente?.paises || []).find((pais) => String(pais.IdPais) === String(idPais));
+}
+
+function findProvincia(pais, idProvincia) {
+    return (pais?.provincias || []).find((provincia) => String(provincia.IdProvincia) === String(idProvincia));
+}
+
+function findCanton(provincia, idCanton) {
+    return (provincia?.cantones || []).find((canton) => String(canton.IdCiudad) === String(idCanton));
+}
+
+function direccionTemplate(index, canRemove) {
+    return `
+        <div class="direccion-item border rounded p-3 mb-3" data-index="${index}">
+            <input type="hidden" name="direcciones[${index}][id]" class="direccion-id">
+            <div class="row align-items-end">
+                <div class="col-md-3 mb-2">
+                    <label>Dirección</label>
+                    <input type="text" name="direcciones[${index}][nombre]" class="form-control direccion-nombre" placeholder="Calle principal, numeración, referencia">
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label>Tipo</label>
+                    <select name="direcciones[${index}][id_direccion_tipo]" class="form-control direccion-tipo" required></select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label>Continente</label>
+                    <select name="direcciones[${index}][id_continente]" class="form-control direccion-continente"></select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label>País</label>
+                    <select name="direcciones[${index}][id_pais]" class="form-control direccion-pais"></select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label>Provincia</label>
+                    <select name="direcciones[${index}][id_provincia]" class="form-control direccion-provincia"></select>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <label>Cantón</label>
+                    <select name="direcciones[${index}][id_canton]" class="form-control direccion-canton"></select>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label>Parroquia</label>
+                    <select name="direcciones[${index}][id_parroquia]" class="form-control direccion-parroquia"></select>
+                </div>
+                <div class="col-md-1 mb-2 ${canRemove ? '' : 'd-none'}">
+                    <button type="button" class="btn btn-danger btn-sm removeDireccion w-100">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function hydrateDireccionItem(item, values = {}) {
+    item.querySelector('.direccion-id').value = values.id || '';
+    item.querySelector('.direccion-nombre').value = values.nombre || '';
+    const tipoSelect = item.querySelector('.direccion-tipo');
+    tipoSelect.innerHTML = buildOptions(direccionTipos, values.id_direccion_tipo, 'IdDireccionTipo', (tipo) => tipo.Nombre, 'Seleccione un tipo');
+
+    const continenteSelect = item.querySelector('.direccion-continente');
+    const paisSelect = item.querySelector('.direccion-pais');
+    const provinciaSelect = item.querySelector('.direccion-provincia');
+    const cantonSelect = item.querySelector('.direccion-canton');
+    const parroquiaSelect = item.querySelector('.direccion-parroquia');
+
+    const renderContinentes = () => {
+        continenteSelect.innerHTML = buildOptions(ubicaciones, values.id_continente, 'IdContinente', (continente) => continente.Nombre, 'Seleccione un continente');
+    };
+
+    const renderPaises = (selectedContinenteId, selectedPaisId = '') => {
+        const continente = findContinente(selectedContinenteId);
+        paisSelect.innerHTML = buildOptions(continente?.paises || [], selectedPaisId, 'IdPais', (pais) => pais.Nombre, 'Seleccione un país');
+        return continente;
+    };
+
+    const renderProvincias = (continente, selectedPaisId, selectedProvinciaId = '') => {
+        const pais = findPais(continente, selectedPaisId);
+        provinciaSelect.innerHTML = buildOptions(pais?.provincias || [], selectedProvinciaId, 'IdProvincia', (provincia) => provincia.Nombre, 'Seleccione una provincia');
+        return pais;
+    };
+
+    const renderCantones = (pais, selectedProvinciaId, selectedCantonId = '') => {
+        const provincia = findProvincia(pais, selectedProvinciaId);
+        cantonSelect.innerHTML = buildOptions(provincia?.cantones || [], selectedCantonId, 'IdCiudad', (canton) => canton.Nombre, 'Seleccione un cantón');
+        return provincia;
+    };
+
+    const renderParroquias = (provincia, selectedCantonId, selectedParroquiaId = '') => {
+        const canton = findCanton(provincia, selectedCantonId);
+        parroquiaSelect.innerHTML = buildOptions(canton?.parroquias || [], selectedParroquiaId, 'IdParroquia', (parroquia) => parroquia.Nombre, 'Seleccione una parroquia');
+    };
+
+    renderContinentes();
+    const continente = renderPaises(values.id_continente, values.id_pais);
+    const pais = renderProvincias(continente, values.id_pais, values.id_provincia);
+    const provincia = renderCantones(pais, values.id_provincia, values.id_canton);
+    renderParroquias(provincia, values.id_canton, values.id_parroquia);
+
+    continenteSelect.addEventListener('change', function () {
+        const selectedContinente = renderPaises(this.value);
+        const selectedPais = renderProvincias(selectedContinente, '');
+        const selectedProvincia = renderCantones(selectedPais, '');
+        renderParroquias(selectedProvincia, '');
+    });
+
+    paisSelect.addEventListener('change', function () {
+        const continenteSeleccionado = findContinente(continenteSelect.value);
+        const selectedPais = renderProvincias(continenteSeleccionado, this.value);
+        const selectedProvincia = renderCantones(selectedPais, '');
+        renderParroquias(selectedProvincia, '');
+    });
+
+    provinciaSelect.addEventListener('change', function () {
+        const continenteSeleccionado = findContinente(continenteSelect.value);
+        const paisSeleccionado = findPais(continenteSeleccionado, paisSelect.value);
+        const selectedProvincia = renderCantones(paisSeleccionado, this.value);
+        renderParroquias(selectedProvincia, '');
+    });
+
+    cantonSelect.addEventListener('change', function () {
+        const continenteSeleccionado = findContinente(continenteSelect.value);
+        const paisSeleccionado = findPais(continenteSeleccionado, paisSelect.value);
+        const provinciaSeleccionada = findProvincia(paisSeleccionado, provinciaSelect.value);
+        renderParroquias(provinciaSeleccionada, this.value);
+    });
+}
+
+function addDireccion(values = {}) {
+    const container = document.getElementById('direcciones-container');
+    const canRemove = container.children.length > 0;
+    container.insertAdjacentHTML('beforeend', direccionTemplate(direccionIndex, canRemove));
+    const item = container.lastElementChild;
+    hydrateDireccionItem(item, values);
+
+    if (container.children.length === 2) {
+        const firstRemove = container.firstElementChild.querySelector('.col-md-1.mb-2');
+        if (firstRemove) {
+            firstRemove.classList.remove('d-none');
+        }
+    }
+
+    direccionIndex++;
+}
 
 document.getElementById('addTelefono').addEventListener('click', function () {
     let html = `
@@ -295,6 +525,12 @@ document.getElementById('addCorreo').addEventListener('click', function () {
     correoIndex++;
 });
 
+document.getElementById('addDireccion').addEventListener('click', function () {
+    addDireccion();
+});
+
+direccionesIniciales.forEach((direccion) => addDireccion(direccion));
+
 document.addEventListener('click', function(e) {
     if (e.target.closest('.removeTelefono')) {
         e.target.closest('.telefono-item').remove();
@@ -302,6 +538,18 @@ document.addEventListener('click', function(e) {
 
     if (e.target.closest('.removeCorreo')) {
         e.target.closest('.correo-item').remove();
+    }
+
+    if (e.target.closest('.removeDireccion')) {
+        e.target.closest('.direccion-item').remove();
+
+        const container = document.getElementById('direcciones-container');
+        if (container.children.length === 1) {
+            const removeWrapper = container.firstElementChild.querySelector('.col-md-1.mb-2');
+            if (removeWrapper) {
+                removeWrapper.classList.add('d-none');
+            }
+        }
     }
 });
 </script>

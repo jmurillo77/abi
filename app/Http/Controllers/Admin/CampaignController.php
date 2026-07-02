@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\admin\Campaign;
 use App\Models\admin\CampaignWp;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CampaignController extends Controller
 {
@@ -15,7 +16,7 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        $campaigns = Campaign::all();
+        $campaigns = Campaign::with('TipoCampaign')->orderByDesc('IdCampaign')->get();
         return view('admin.campaign.index', compact('campaigns'));
     }
 
@@ -74,7 +75,6 @@ class CampaignController extends Controller
      */
     public function exporta(string $id)
     {
-        $campaign_wp = new CampaignWpExport;
-        return $campaign_wp->download('numeros.xls');
+        return Excel::download(new CampaignWpExport((int) $id), 'numeros.xlsx');
     }
 }

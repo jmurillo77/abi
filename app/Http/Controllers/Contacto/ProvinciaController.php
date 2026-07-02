@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
+use App\Models\admin\Continente;
 use App\Models\admin\Pais;
 use App\Models\admin\Provincia;
 use Illuminate\Database\QueryException;
@@ -13,11 +14,15 @@ class ProvinciaController extends Controller
 {
     public function index()
     {
-        $provincias = Provincia::with('pais')
+        $provincias = Provincia::with('pais.continente')
             ->orderBy('Nombre')
             ->get();
 
-        return view('contacto.provincia.index', compact('provincias'));
+        $ubicaciones = Continente::with('paises.provincias')
+            ->orderBy('Nombre')
+            ->get();
+
+        return view('contacto.provincia.index', compact('provincias', 'ubicaciones'));
     }
 
     public function create()
