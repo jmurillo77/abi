@@ -26,8 +26,9 @@ class DatabaseSeeder extends Seeder
             ContinenteSeeder::class,
             PaisSeeder::class,
             ProvinciaSeeder::class,
-            CantonSeeder::class,
+            CiudadSeeder::class,
             ParroquiaSeeder::class,
+            ProductoSeeder::class,
         ]);
     }
 }

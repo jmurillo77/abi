@@ -11,6 +11,7 @@ use App\Http\Controllers\Contacto\PaisController;
 use App\Http\Controllers\Contacto\ProvinciaController;
 use App\Http\Controllers\Contacto\CantonController;
 use App\Http\Controllers\Contacto\ParroquiaController;
+use App\Http\Controllers\Contacto\ProductoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware([

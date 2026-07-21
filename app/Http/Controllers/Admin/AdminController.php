@@ -1,15 +1,15 @@
 <?php
 
-namespace app\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\admin\Menu;
-use App\Models\admin\Persona;
-use App\Models\admin\TelefonoMovil;
-use App\Models\admin\Correo;
-use App\Models\admin\Empresa;
 use App\Models\admin\Campaign;
+use App\Models\admin\Menu;
+use App\Models\matriz\Correo;
+use App\Models\matriz\Empresa;
+use App\Models\matriz\Persona;
+use App\Models\matriz\TelefonoMovil;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;

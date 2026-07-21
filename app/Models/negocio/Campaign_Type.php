@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Models\admin;
+namespace app\Models\matriz;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

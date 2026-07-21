@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Models\admin;
+namespace App\Models\matriz;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\matriz\Pais;
+use App\Models\matriz\Ciudad;
 
 class Provincia extends Model
 {
@@ -23,8 +25,8 @@ class Provincia extends Model
         return $this->belongsTo(Pais::class, 'IdPais', 'IdPais');
     }
 
-    public function cantones()
+    public function ciudades()
     {
-        return $this->hasMany(Canton::class, 'IdProvincia', 'IdProvincia');
+        return $this->hasMany(Ciudad::class, 'IdProvincia', 'IdProvincia');
     }
 }

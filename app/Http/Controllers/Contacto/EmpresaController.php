@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Empresa;
-use App\Models\admin\TelefonoMovil;
-use App\Models\admin\Correo;
 use App\Models\admin\Continente;
 use App\Models\admin\Direccion;
 use App\Models\admin\DireccionTipo;
 use App\Models\admin\Parroquia;
 use App\Models\admin\TelefonoTipoOperadora;
+use App\Models\matriz\Correo;
+use App\Models\matriz\Empresa;
+use App\Models\matriz\TelefonoMovil;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;

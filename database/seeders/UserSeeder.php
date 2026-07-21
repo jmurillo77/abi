@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     static $data = [
         ['Sara Caceres', 'scaceres@gmail.com', '123456789'],
-        ['Jose Murillo', 'jmurillo77@gmail.com', 'Abc123456'],
+        ['Jose Murillo', 'jmurillo77@gmail.com', '123456789'],
     ];
     public function run(): void
     {

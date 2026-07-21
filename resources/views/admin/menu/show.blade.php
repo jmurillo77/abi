@@ -25,7 +25,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-4">
-        <div class="card card-primary card-outline shadow">
+        <div class="card card-primary card-outline shadow-sm">
             <div class="card-body box-profile">
                 <div class="text-center mb-3">
                     <i class="fas fa-layer-group fa-4x text-secondary"></i>
@@ -63,10 +63,10 @@
                 </ul>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('configuracion.menus.index') }}" class="btn btn-default">
+                    <a href="{{ route('configuracion.menus.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
-                    <a href="{{ route('configuracion.menus.edit', $menu->IdMenu) }}" class="btn btn-warning text-white">
+                    <a href="{{ route('configuracion.menus.edit', $menu->IdMenu) }}" class="btn btn-primary">
                         <i class="fas fa-edit"></i> Editar
                     </a>
                 </div>
@@ -75,7 +75,7 @@
     </div>
 
     <div class="col-md-8">
-        <div class="card card-outline card-secondary shadow">
+        <div class="card card-outline card-secondary shadow-sm">
             <div class="card-header">
                 <h3 class="card-title">Submenús Relacionados</h3>
             </div>

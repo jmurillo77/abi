@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Models\admin;
+namespace App\Models\matriz;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\matriz\Ciudad;
+use App\Models\matriz\Direccion;
+use App\Models\matriz\Provincia;
 
 class Parroquia extends Model
 {
@@ -18,9 +21,9 @@ class Parroquia extends Model
         'IdCiudad',
     ];
 
-    public function canton()
+    public function ciudad()
     {
-        return $this->belongsTo(Canton::class, 'IdCiudad', 'IdCiudad');
+        return $this->belongsTo(Ciudad::class, 'IdCiudad', 'IdCiudad');
     }
 
     public function direcciones()
@@ -32,7 +35,7 @@ class Parroquia extends Model
     {
         return $this->hasOneThrough(
             Provincia::class,
-            Canton::class,
+            Ciudad::class,
             'IdCiudad',
             'IdProvincia',
             'IdCiudad',

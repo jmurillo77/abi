@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Models\admin;
+namespace App\Models\matriz;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\matriz\TelefonoTipoOperadora;
+use App\Models\matriz\Persona;
+use App\Models\matriz\Empresa;
+use App\Models\matriz\CampaignWp;
 
 class TelefonoMovil extends Model
 {

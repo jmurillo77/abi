@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Models\admin;
+namespace App\Models\matriz;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\matriz\DireccionTipo;
+use App\Models\matriz\Parroquia;
+use App\Models\matriz\Persona;
+use App\Models\matriz\Empresa;
 
 class Direccion extends Model
 {

@@ -19,6 +19,12 @@ return Application::configure(basePath: dirname(__DIR__))
                     require base_path('routes/contacto.php');
                 });
             Route::middleware(['web', 'auth'])
+                ->prefix('ventas')
+                ->name('ventas.')
+                ->group(function () {
+                    require base_path('routes/ventas.php');
+                });
+            Route::middleware(['web', 'auth'])
                 ->prefix('configuracion')
                 ->name('configuracion.')
                 ->group(function () {

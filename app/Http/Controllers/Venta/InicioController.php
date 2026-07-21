@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Contacto;
+namespace App\Http\Controllers\Venta;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\matriz\Empresa;
-use App\Models\matriz\Correo;
-use App\Models\matriz\Persona;
-use App\Models\matriz\TelefonoMovil;
+use App\Models\Matriz\Empresa;
+use App\Models\Matriz\Persona;
+use App\Models\Matriz\TelefonoMovil;
+use App\Models\Matriz\Correo;
+use App\Models\negocio\Producto;
 
 class InicioController extends Controller
 {
@@ -16,11 +17,9 @@ class InicioController extends Controller
      */
     public function index()
     {
-        $TotalEmpresa = Empresa::count();
-        $TotalPersona = Persona::count();
-        $TotalTelefono = TelefonoMovil::count();
-        $TotalCorreo = Correo::count();
-        return view('contacto.dashboard', compact('TotalEmpresa','TotalPersona', 'TotalTelefono', 'TotalCorreo'));
+        $TotalProductos = Producto::count();
+        
+        return view('venta.dashboard', compact('TotalProductos'));
     }
 
     /**

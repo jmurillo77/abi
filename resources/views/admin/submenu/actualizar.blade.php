@@ -23,7 +23,7 @@
 @stop
 
 @section('content')
-<div class="card card-warning card-outline shadow-sm">
+<div class="card card-primary card-outline shadow-sm">
     <div class="card-header">
         <h3 class="card-title">Actualizar información del submenú</h3>
     </div>

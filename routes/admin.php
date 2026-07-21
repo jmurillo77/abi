@@ -4,17 +4,6 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CampaignController;
 use Illuminate\Support\Facades\Route;
 
-#Route::middleware([
-#    'auth:sanctum',
-#    config('jetstream.auth_session'),
-#    'verified',
-#])->group(function () {
-#    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-#});
-
-#Auth::routes(); 
-
-
 Route::middleware('auth')->group(function (){
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::prefix('campaign')->name('campaign.')->controller(CampaignController::class)->group(function(){

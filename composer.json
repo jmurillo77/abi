@@ -30,6 +30,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
+            "App\\Models\\admin\\": [
+                "app/Models/matriz/",
+                "app/Models/negocio/"
+            ],
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }

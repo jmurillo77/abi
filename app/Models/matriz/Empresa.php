@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Models\admin;
+namespace App\Models\matriz;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\matriz\TelefonoMovil;
+use App\Models\matriz\Correo;
+use App\Models\matriz\Direccion;
 
 class Empresa extends Model
 {

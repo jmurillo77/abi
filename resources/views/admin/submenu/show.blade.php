@@ -55,10 +55,10 @@
                 </ul>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('configuracion.submenus.index') }}" class="btn btn-default">
+                    <a href="{{ route('configuracion.submenus.index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
-                    <a href="{{ route('configuracion.submenus.edit', $submenu->IdSubMenu) }}" class="btn btn-warning text-white">
+                    <a href="{{ route('configuracion.submenus.edit', $submenu->IdSubMenu) }}" class="btn btn-primary">
                         <i class="fas fa-edit"></i> Editar
                     </a>
                 </div>

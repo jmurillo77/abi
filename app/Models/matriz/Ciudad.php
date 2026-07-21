@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\admin;
+namespace App\Models\matriz;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Canton extends Model
+class Ciudad extends Model
 {
     use HasFactory;
 

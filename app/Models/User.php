@@ -73,7 +73,7 @@ class User extends Authenticatable
 
     public function persona()
     {
-        return $this->belongsTo(\App\Models\admin\Persona::class, 'IdPersona', 'IdPersona');
+        return $this->belongsTo(\App\Models\matriz\Persona::class, 'IdPersona', 'IdPersona');
     }
 
     public function role()
