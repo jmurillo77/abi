@@ -9,9 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('empresa_correos', function (Blueprint $table) {
+        Schema::create('empresa_correos', function (Blueprint $table) {
             $table->id('IdEmpresaCorreo');
             $table->foreignId('IdEmpresa')->references('IdEmpresa')->on('empresas');
             $table->foreignId('IdCorreo')->references('IdCorreo')->on('correos');
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('empresa_correos');
+        Schema::dropIfExists('empresa_correos');
     }
 };

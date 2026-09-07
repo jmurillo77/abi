@@ -10,9 +10,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'negocio';
+
     public function up(): void
     {
-        Schema::create('menu_user', function (Blueprint $table) {
+        Schema::connection(name: 'negocio')->create('menu_user', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menu_user');
+        Schema::connection(name: 'negocio')->dropIfExists('menu_user');
     }
 };

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Configuracion;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\admin\Menu;
+use App\Models\matriz\Menu;
 use App\Models\User;
 
 class InicioController extends Controller

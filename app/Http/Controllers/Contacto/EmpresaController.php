@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Continente;
-use App\Models\admin\Direccion;
-use App\Models\admin\DireccionTipo;
-use App\Models\admin\Parroquia;
-use App\Models\admin\TelefonoTipoOperadora;
+use App\Models\matriz\Continente;
+use App\Models\matriz\Direccion;
+use App\Models\matriz\DireccionTipo;
+use App\Models\matriz\Parroquia;
+use App\Models\matriz\TelefonoTipoOperadora;
 use App\Models\matriz\Correo;
 use App\Models\matriz\Empresa;
 use App\Models\matriz\TelefonoMovil;
@@ -41,6 +41,15 @@ class EmpresaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public static function normalizeIdOperadora($value): int
+    {
+        if ($value === null || trim((string) $value) === '' || (string) $value === '0') {
+            return 1;
+        }
+
+        return (int) $value;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -68,13 +77,15 @@ class EmpresaController extends Controller
                 continue;
             }
 
+            $idOperadora = self::normalizeIdOperadora($telefonoData['id_operadora'] ?? null);
+
             $telefono = TelefonoMovil::firstOrCreate(
                 ['Numero' => $telefonoData['numero']],
-                ['IdOperadora' => $telefonoData['id_operadora'] ?? null]
+                ['IdOperadora' => $idOperadora]
             );
 
-            if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                $telefono->update(['IdOperadora' => $telefonoData['id_operadora']]);
+            if ((int) $telefono->IdOperadora !== $idOperadora) {
+                $telefono->update(['IdOperadora' => $idOperadora]);
             }
 
             $telefonosIds[] = $telefono->IdTelefonoMovil;
@@ -163,6 +174,8 @@ class EmpresaController extends Controller
                     continue;
                 }
 
+                $idOperadora = self::normalizeIdOperadora($telefonoData['id_operadora'] ?? null);
+
                 if (!empty($telefonoData['id'])) {
                     $telefono = TelefonoMovil::find($telefonoData['id']);
 
@@ -176,8 +189,8 @@ class EmpresaController extends Controller
                             }
                         }
 
-                        if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                            $telefono->IdOperadora = $telefonoData['id_operadora'];
+                        if ((int) $telefono->IdOperadora !== $idOperadora) {
+                            $telefono->IdOperadora = $idOperadora;
                         }
 
                         $telefono->save();
@@ -186,11 +199,11 @@ class EmpresaController extends Controller
                 } else {
                     $telefono = TelefonoMovil::firstOrCreate(
                         ['Numero' => $telefonoData['numero']],
-                        ['IdOperadora' => $telefonoData['id_operadora'] ?? null]
+                        ['IdOperadora' => $idOperadora]
                     );
 
-                    if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                        $telefono->update(['IdOperadora' => $telefonoData['id_operadora']]);
+                    if ((int) $telefono->IdOperadora !== $idOperadora) {
+                        $telefono->update(['IdOperadora' => $idOperadora]);
                     }
 
                     $telefonosIds[] = $telefono->IdTelefonoMovil;

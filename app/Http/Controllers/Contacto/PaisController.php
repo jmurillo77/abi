@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Continente;
-use App\Models\admin\Pais;
+use App\Models\matriz\Continente;
+use App\Models\matriz\Pais;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

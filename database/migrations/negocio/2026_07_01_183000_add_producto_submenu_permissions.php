@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -10,10 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (! Schema::connection('matriz')->hasTable('roles')) {
+            return;
+        }
+
+        $menuId = DB::connection('matriz')
+            ->table('menus')
+            ->where('Ruta', 'ventas.dashboard')
+            ->value('IdMenu');
+
+        if ($menuId === null) {
+            $menuId = DB::connection('matriz')
+                ->table('menus')
+                ->where('Titulo', 'Ventas')
+                ->value('IdMenu');
+        }
+
+        if ($menuId === null) {
+            return;
+        }
+
         DB::connection('matriz')->table('submenus')->updateOrInsert(
             ['Ruta' => 'ventas.producto.index'],
             [
-                'IdMenu' => 2,
+                'IdMenu' => (int) $menuId,
                 'Titulo' => 'Productos',
                 'Icono' => 'fas fa-utensils|#16a34a',
                 'Orden' => 10,
@@ -25,20 +46,26 @@ return new class extends Migration
             ->where('Ruta', 'ventas.producto.index')
             ->value('IdSubMenu');
 
-        $roleIds = DB::connection('negocio')->table('roles')
+        if (! Schema::connection('negocio')->hasTable('permiso_menu_rol')) {
+            return;
+        }
+
+        $roleIds = DB::connection('matriz')->table('roles')
             ->where('Activo', 1)
             ->pluck('IdRol');
 
         foreach ($roleIds as $roleId) {
             DB::connection('negocio')->table('permiso_menu_rol')->updateOrInsert(
-                ['IdRol' => $roleId, 'IdMenu' => 2],
+                ['IdRol' => $roleId, 'IdMenu' => (int) $menuId],
                 []
             );
 
-            DB::connection('negocio')->table('permiso_submenu_rol')->updateOrInsert(
-                ['IdRol' => $roleId, 'IdSubMenu' => $submenuId],
-                []
-            );
+            if (Schema::connection('negocio')->hasTable('permiso_submenu_rol')) {
+                DB::connection('negocio')->table('permiso_submenu_rol')->updateOrInsert(
+                    ['IdRol' => $roleId, 'IdSubMenu' => $submenuId],
+                    []
+                );
+            }
         }
     }
 

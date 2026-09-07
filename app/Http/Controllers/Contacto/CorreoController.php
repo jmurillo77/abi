@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
 use App\Models\matriz\Correo;
@@ -20,7 +20,7 @@ class CorreoController extends Controller
             ->orderByDesc('IdCorreo')
             ->get();
 
-        return view('admin.correo.index', compact('correos'));
+        return view('contacto.correo.index', compact('correos'));
     }
 
     /**
@@ -28,7 +28,7 @@ class CorreoController extends Controller
      */
     public function create()
     {
-        return view('admin.correo.agregar');
+        return view('contacto.correo.agregar');
     }
 
     /**
@@ -58,7 +58,7 @@ class CorreoController extends Controller
     {
         $correo = Correo::with(['personas', 'empresas'])->findOrFail($id);
 
-        return view('admin.correo.show', compact('correo'));
+        return view('contacto.correo.show', compact('correo'));
     }
 
     /**
@@ -68,7 +68,7 @@ class CorreoController extends Controller
     {
         $correo = Correo::with(['personas', 'empresas'])->findOrFail($id);
 
-        return view('admin.correo.actualizar', compact('correo'));
+        return view('contacto.correo.actualizar', compact('correo'));
     }
 
     /**

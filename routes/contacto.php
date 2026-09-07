@@ -4,8 +4,8 @@
 use App\Http\Controllers\Contacto\InicioController;
 use App\Http\Controllers\Contacto\EmpresaController;
 use App\Http\Controllers\Contacto\PersonaController;
-use App\Http\Controllers\Admin\CorreoController;
-use App\Http\Controllers\Admin\TelefonomovilController;
+use App\Http\Controllers\Contacto\CorreoController;
+use App\Http\Controllers\Contacto\TelefonomovilController;
 use App\Http\Controllers\Contacto\ContinenteController;
 use App\Http\Controllers\Contacto\PaisController;
 use App\Http\Controllers\Contacto\ProvinciaController;

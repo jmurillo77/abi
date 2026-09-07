@@ -9,9 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('continentes', function (Blueprint $table) {
+        Schema::create('continentes', function (Blueprint $table) {
             $table->id('IdContinente');
             $table->string('Nombre', length: 50)->nullable();
             $table->enum('Eliminado', ['S','N'])->default('N');
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('continentes');
+        Schema::dropIfExists('continentes');
     }
 };

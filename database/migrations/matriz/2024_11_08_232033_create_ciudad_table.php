@@ -11,9 +11,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('ciudad', function (Blueprint $table) {
+        Schema::create('ciudad', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdCiudad');
             $table->string('Nombre', length: 50)->nullable();
@@ -36,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('ciudad');
+        Schema::dropIfExists('ciudad');
     }
 };

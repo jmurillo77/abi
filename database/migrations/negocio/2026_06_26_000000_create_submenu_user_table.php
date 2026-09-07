@@ -10,9 +10,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'negocio';
+
     public function up(): void
     {
-        Schema::create('submenu_user', function (Blueprint $table) {
+        Schema::connection(name: 'negocio')->create('submenu_user', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
 
             $table->id();
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('submenu_user');
+        Schema::connection(name: 'negocio')->dropIfExists('submenu_user');
     }
 };

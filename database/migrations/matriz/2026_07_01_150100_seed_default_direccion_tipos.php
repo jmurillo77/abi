@@ -9,7 +9,7 @@ return new class extends Migration
 
     public function up(): void
     {
-        foreach (['Casa', 'Oficina', 'Otro'] as $nombre) {
+        foreach (['Casa', 'Residencial', 'Comercial', 'Oficina', 'Bodega', 'Sucursal', 'Fabrica', 'Otro'] as $nombre) {
             DB::connection($this->connection)
                 ->table('direccion_tipo')
                 ->updateOrInsert(

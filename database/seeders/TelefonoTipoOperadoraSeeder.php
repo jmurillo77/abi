@@ -20,10 +20,34 @@ class TelefonoTipoOperadoraSeeder extends Seeder
     ];
     public function run(): void
     {
-        foreach (self::$data as $key => $value) {
-            DB::connection(name: 'matriz')->table('telefono_tipo_operadoras')->insert([
-                'Nombre' => $value[0],
-            ]);
+        $table = DB::connection('matriz')->table('telefono_tipo_operadoras');
+
+        foreach (self::$data as $value) {
+            $nombre = trim((string) $value[0]);
+
+            $table->updateOrInsert(
+                ['Nombre' => $nombre],
+                ['Nombre' => $nombre]
+            );
+        }
+
+        $duplicates = $table
+            ->select('IdOperadora', 'Nombre')
+            ->whereNotNull('Nombre')
+            ->orderBy('IdOperadora')
+            ->get()
+            ->groupBy(fn ($row) => strtolower(trim((string) $row->Nombre)));
+
+        foreach ($duplicates as $nombre => $rows) {
+            if (count($rows) <= 1) {
+                continue;
+            }
+
+            $idsToDelete = $rows->pluck('IdOperadora')->skip(1)->values()->all();
+
+            if (! empty($idsToDelete)) {
+                $table->whereIn('IdOperadora', $idsToDelete)->delete();
+            }
         }
     }
 }

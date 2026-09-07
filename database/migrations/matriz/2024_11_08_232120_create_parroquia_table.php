@@ -11,9 +11,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('parroquia', function (Blueprint $table) {
+        Schema::create('parroquia', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdParroquia');
             $table->string('Nombre', length: 50)->nullable();
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla de Provincias');
+            $table->comment('Tabla de Parroquias');
         });
     }
 
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('parroquia');
+        Schema::dropIfExists('parroquia');
     }
 };

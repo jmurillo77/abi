@@ -339,7 +339,7 @@ function direccionTemplate(index, canRemove) {
                 </div>
                 <div class="col-md-3 mb-2">
                     <label>Tipo</label>
-                    <select name="direcciones[${index}][id_direccion_tipo]" class="form-control direccion-tipo" required></select>
+                    <select name="direcciones[${index}][id_direccion_tipo]" class="form-control direccion-tipo"></select>
                 </div>
                 <div class="col-md-4 mb-2">
                     <label>Continente</label>

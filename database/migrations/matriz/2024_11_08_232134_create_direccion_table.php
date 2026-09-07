@@ -11,12 +11,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('direccion', function (Blueprint $table) {
+        Schema::create('direccion', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdDireccion');
             $table->string('Nombre', length: 200)->nullable();
+            $table->foreignId('IdDireccionTipo')->nullable()->constrained('direccion_tipo', 'IdDireccionTipo');
             $table->foreignId('IdParroquia')->nullable()->references('IdParroquia')->on(new Expression($MatrizDB.'.parroquia'));
             $table->enum('Eliminado', ['S','N'])->default('N');
             $table->string('cUser')->nullable();
@@ -36,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('direccion');
+        Schema::dropIfExists('direccion');
     }
 };

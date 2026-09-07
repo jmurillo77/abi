@@ -16,7 +16,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('menu') }}">Menú</a> </li>
                     <li class="breadcrumb-item"><a href="{{ route('campaign.index') }}">Campañas</a></li>
                     <li class="breadcrumb-item active">{{$campaign->IdCampaign}} | {{$campaign->Nombre}} </li>
                 </ol>

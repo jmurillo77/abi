@@ -9,10 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('telefono_fijo', function (Blueprint $table) {
-            $MatrizDB = DB::connection('matriz')->getDatabaseName();
+        Schema::create('telefono_fijo', function (Blueprint $table) {
             $table->id('IdTelefonoFijo');
             $table->string('Numero', length: 10)->unique();
             $table->enum('PhoneValido', ['0', '1'])->default('1');
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('telefono_fijo');
+        Schema::dropIfExists('telefono_fijo');
     }
 };

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\admin\Submenu;
+use App\Models\matriz\Submenu;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

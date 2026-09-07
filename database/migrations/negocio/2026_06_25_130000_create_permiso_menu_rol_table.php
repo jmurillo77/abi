@@ -19,25 +19,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection($this->connection)->create('permiso_menu_rol', function (Blueprint $table) {
-            $matrizDB = DB::connection('matriz')->getDatabaseName();
+        if (! Schema::connection($this->connection)->hasTable('permiso_menu_rol')) {
+            Schema::connection($this->connection)->create('permiso_menu_rol', function (Blueprint $table) {
+                $matrizDB = DB::connection('matriz')->getDatabaseName();
 
-            $table->unsignedBigInteger('IdRol');
-            $table->unsignedBigInteger('IdMenu');
+                $table->unsignedBigInteger('IdRol');
+                $table->unsignedBigInteger('IdMenu');
 
-            $table->primary(['IdRol', 'IdMenu']);
-            $table->index('IdMenu');
+                $table->primary(['IdRol', 'IdMenu']);
+                $table->index('IdMenu');
 
-            $table->foreign('IdRol')
-                ->references('IdRol')
-                ->on('roles')
-                ->cascadeOnDelete();
+                if (Schema::connection('matriz')->hasTable('roles')) {
+                    $table->foreign('IdRol')
+                        ->references('IdRol')
+                        ->on(DB::raw("{$matrizDB}.roles"))
+                        ->cascadeOnDelete();
+                }
 
-            $table->foreign('IdMenu')
-                ->references('IdMenu')
-                ->on(DB::raw("{$matrizDB}.menus"))
-                ->cascadeOnDelete();
-        });
+                $table->foreign('IdMenu')
+                    ->references('IdMenu')
+                    ->on(DB::raw("{$matrizDB}.menus"))
+                    ->cascadeOnDelete();
+            });
+        }
     }
 
     /**

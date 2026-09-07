@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\TelefonoTipoOperadora;
-use App\Models\admin\Continente;
-use App\Models\admin\Direccion;
-use App\Models\admin\DireccionTipo;
-use App\Models\admin\Parroquia;
+use App\Models\matriz\TelefonoTipoOperadora;
+use App\Models\matriz\Continente;
+use App\Models\matriz\Direccion;
+use App\Models\matriz\DireccionTipo;
+use App\Models\matriz\Parroquia;
 use App\Models\matriz\Correo;
 use App\Models\matriz\Persona;
 use App\Models\matriz\TelefonoMovil;
@@ -42,6 +42,15 @@ class PersonaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public static function normalizeIdOperadora($value): int
+    {
+        if ($value === null || trim((string) $value) === '' || (string) $value === '0') {
+            return 1;
+        }
+
+        return (int) $value;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -73,13 +82,15 @@ class PersonaController extends Controller
                 continue;
             }
 
+            $idOperadora = self::normalizeIdOperadora($telefonoData['id_operadora'] ?? null);
+
             $telefono = TelefonoMovil::firstOrCreate(
                 ['Numero' => $telefonoData['numero']],
-                ['IdOperadora' => $telefonoData['id_operadora'] ?? null]
+                ['IdOperadora' => $idOperadora]
             );
 
-            if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                $telefono->update(['IdOperadora' => $telefonoData['id_operadora']]);
+            if ((int) $telefono->IdOperadora !== $idOperadora) {
+                $telefono->update(['IdOperadora' => $idOperadora]);
             }
 
             $telefonosIds[] = $telefono->IdTelefonoMovil;
@@ -202,6 +213,8 @@ class PersonaController extends Controller
                     continue;
                 }
 
+                $idOperadora = self::normalizeIdOperadora($telefonoData['id_operadora'] ?? null);
+
                 if (!empty($telefonoData['id'])) {
                     $telefono = TelefonoMovil::find($telefonoData['id']);
 
@@ -215,8 +228,8 @@ class PersonaController extends Controller
                             }
                         }
 
-                        if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                            $telefono->IdOperadora = $telefonoData['id_operadora'];
+                        if ((int) $telefono->IdOperadora !== $idOperadora) {
+                            $telefono->IdOperadora = $idOperadora;
                         }
 
                         $telefono->save();
@@ -225,11 +238,11 @@ class PersonaController extends Controller
                 } else {
                     $telefono = TelefonoMovil::firstOrCreate(
                         ['Numero' => $telefonoData['numero']],
-                        ['IdOperadora' => $telefonoData['id_operadora'] ?? null]
+                        ['IdOperadora' => $idOperadora]
                     );
 
-                    if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                        $telefono->update(['IdOperadora' => $telefonoData['id_operadora']]);
+                    if ((int) $telefono->IdOperadora !== $idOperadora) {
+                        $telefono->update(['IdOperadora' => $idOperadora]);
                     }
 
                     $telefonosIds[] = $telefono->IdTelefonoMovil;
@@ -317,15 +330,9 @@ class PersonaController extends Controller
                 continue;
             }
 
-            if (empty($idDireccionTipo)) {
-                throw ValidationException::withMessages([
-                    "direcciones.$index.id_direccion_tipo" => 'Selecciona un tipo para guardar la dirección.',
-                ]);
-            }
-
             $payload = [
                 'Nombre' => $nombre !== '' ? $nombre : null,
-                'IdDireccionTipo' => $idDireccionTipo,
+                'IdDireccionTipo' => !empty($idDireccionTipo) ? $idDireccionTipo : null,
                 'IdParroquia' => !empty($idParroquia) ? $idParroquia : null,
             ];
 

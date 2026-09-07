@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\admin\Campaign;
-use App\Models\admin\Menu;
+use App\Models\negocio\Campaign;
+use App\Models\matriz\Menu;
 use App\Models\matriz\Correo;
 use App\Models\matriz\Empresa;
 use App\Models\matriz\Persona;

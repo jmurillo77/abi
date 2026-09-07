@@ -4,15 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 return new class extends Migration
 {
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('persona_telefono_movils', function (Blueprint $table) {
-            $MatrizDB = DB::connection('matriz')->getDatabaseName();
+        Schema::create('persona_telefono_movils', function (Blueprint $table) {
+            
             $table->id('IdPersonaTelefono');
             $table->foreignId('IdPersona')->references('IdPersona')->on('personas');
             $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on('telefono_movils');
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('persona_telefono_movils');
+        Schema::dropIfExists('persona_telefono_movils');
     }
 };

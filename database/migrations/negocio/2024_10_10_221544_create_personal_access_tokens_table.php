@@ -9,6 +9,8 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'negocio';
+    
     public function up(): void
     {
         Schema::create('personal_access_tokens', function (Blueprint $table) {

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Configuracion;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
-use App\Models\admin\Menu;
-use App\Models\admin\Submenu;
+use App\Models\matriz\Menu;
+use App\Models\matriz\Submenu;
 use App\Models\matriz\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +49,7 @@ class UserPermissionController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:negocio.users,email',
             'password' => 'required|string|min:8|confirmed',
-            'IdRol' => 'nullable|integer|exists:negocio.roles,IdRol',
+            'IdRol' => 'nullable|integer|exists:matriz.roles,IdRol',
             'IdPersona' => 'nullable|integer|exists:matriz.personas,IdPersona',
         ]);
 
@@ -103,7 +103,7 @@ class UserPermissionController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:negocio.users,email,'.$user->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'IdRol' => 'nullable|integer|exists:negocio.roles,IdRol',
+            'IdRol' => 'nullable|integer|exists:matriz.roles,IdRol',
             'IdPersona' => 'nullable|integer|exists:matriz.personas,IdPersona',
         ]);
 
