@@ -19,11 +19,15 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         foreach (self::$data as $key => $value) {
-            DB::table('users')->insert([
-                'name' => $value[0],
-                'email' => $value[1],
-                'password' => Hash::make($value[2]),
-            ]);
+            $exists = DB::table('users')->where('email', $value[1])->exists();
+
+            if (! $exists) {
+                DB::table('users')->insert([
+                    'name' => $value[0],
+                    'email' => $value[1],
+                    'password' => Hash::make($value[2]),
+                ]);
+            }
         }
     }
 }

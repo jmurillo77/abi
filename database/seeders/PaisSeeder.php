@@ -231,7 +231,11 @@ class PaisSeeder extends Seeder
                 $payload['IdPais'] = $value[2];
             }
 
-            DB::connection(name: 'matriz')->table('pais')->insert($payload);
+            $exists = DB::connection('matriz')->table('pais')->where('Nombre', $value[0])->exists();
+
+            if (! $exists) {
+                DB::connection(name: 'matriz')->table('pais')->insert($payload);
+            }
         }
     }
 }

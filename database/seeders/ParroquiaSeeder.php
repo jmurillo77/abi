@@ -44,11 +44,15 @@ class ParroquiaSeeder extends Seeder
     public function run(): void
     {
         foreach (self::$data as $key => $value) {
-            DB::connection(name: 'matriz')->table('parroquia')->insert([
-                'IdParroquia' => $value[0],
-                'Nombre' => $value[1],
-                'IdCiudad' => $value[2],
-            ]);
+            $exists = DB::connection('matriz')->table('parroquia')->where('IdParroquia', $value[0])->exists();
+
+            if (! $exists) {
+                DB::connection(name: 'matriz')->table('parroquia')->insert([
+                    'IdParroquia' => $value[0],
+                    'Nombre' => $value[1],
+                    'IdCiudad' => $value[2],
+                ]);
+            }
         }
     }
 }

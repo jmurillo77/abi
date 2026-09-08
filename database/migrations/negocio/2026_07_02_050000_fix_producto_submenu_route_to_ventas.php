@@ -10,6 +10,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (! DB::connection('matriz')->getSchemaBuilder()->hasTable('submenus')) {
+            return;
+        }
+
         DB::connection('matriz')->table('submenus')
             ->where('Ruta', 'contacto.producto.index')
             ->update(['Ruta' => 'ventas.producto.index']);

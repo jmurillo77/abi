@@ -18,7 +18,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! Schema::connection($this->connection)->hasColumn('submenus', 'Icono')) {
+        if (Schema::connection($this->connection)->hasTable('submenus') && ! Schema::connection($this->connection)->hasColumn('submenus', 'Icono')) {
             Schema::connection($this->connection)->table('submenus', function (Blueprint $table) {
                 $table->string('Icono', 120)->nullable()->after('Titulo');
             });

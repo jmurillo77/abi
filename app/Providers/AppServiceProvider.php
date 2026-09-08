@@ -24,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->loadMigrationsFrom([
+            database_path('migrations'),
+            database_path('migrations/negocio'),
+            database_path('migrations/matriz'),
+        ]);
+
         Vite::prefetch(concurrency: 3);
 
         Livewire::component('profile.update-profile-information-form', \App\Livewire\Profile\UpdateProfileInformationForm::class);

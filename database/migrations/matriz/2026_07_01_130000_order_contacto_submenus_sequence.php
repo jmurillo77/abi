@@ -9,6 +9,10 @@ return new class extends Migration
 
     public function up(): void
     {
+        if (! DB::connection($this->connection)->getSchemaBuilder()->hasTable('submenus')) {
+            return;
+        }
+
         $orderedRoutes = [
             'contacto.continente.index' => 1,
             'contacto.pais.index' => 2,

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::connection('matriz')->create('menus', function (Blueprint $table) {
             $table->id('IdMenu');
             $table->string('Titulo', 255);
             $table->string('Ruta', 255)->nullable();
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menus');
+        Schema::connection('matriz')->dropIfExists('menus');
     }
 };
