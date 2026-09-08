@@ -19,7 +19,7 @@ return new class extends Migration
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdDireccion');
             $table->string('Nombre', length: 200)->nullable();
-            $table->foreignId('IdDireccionTipo')->nullable()->constrained('direccion_tipo', 'IdDireccionTipo');
+            $table->unsignedBigInteger('IdDireccionTipo')->nullable();
             $table->foreignId('IdParroquia')->nullable()->references('IdParroquia')->on(new Expression($MatrizDB.'.parroquia'));
             $table->enum('Eliminado', ['S','N'])->default('N');
             $table->string('cUser')->nullable();
