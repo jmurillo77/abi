@@ -44,9 +44,15 @@
 
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>Fecha de Nacimiento</b> 
+                            <b>Fecha de Nacimiento</b>
                             <span class="float-right text-secondary font-weight-bold">
                                 {{ $persona->FechaNacimiento ? date('d/m/Y', strtotime($persona->FechaNacimiento)) : 'No registrada' }}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            <b><i class="fas fa-building text-muted"></i> Lugar de trabajo</b>
+                            <span class="float-right text-secondary font-weight-bold">
+                                {{ $persona->empresa?->RazonSocial ?? 'No registrado' }}
                             </span>
                         </li>
                     </ul>

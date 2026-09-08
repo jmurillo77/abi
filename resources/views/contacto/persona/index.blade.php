@@ -64,6 +64,7 @@
                     <th>Apellidos</th>
                     <th>Teléfono</th>
                     <th>Correo</th>
+                    <th>Lugar de trabajo</th>
 
                     <th width="150">Acciones</th>
                 </tr>
@@ -104,7 +105,15 @@
                             @endif
                         </td>
 
-                        
+                        <td>
+                            @if($persona->empresa)
+                                {{ $persona->empresa->RazonSocial }}
+                            @else
+                                <span class="badge badge-light">
+                                    Sin lugar de trabajo
+                                </span>
+                            @endif
+                        </td>
 
                         <td class="text-center">
 

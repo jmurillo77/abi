@@ -13,7 +13,6 @@ use App\Models\matriz\Empresa;
 use App\Models\matriz\TelefonoMovil;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class EmpresaController extends Controller
 {
@@ -55,8 +54,8 @@ class EmpresaController extends Controller
         $request->validate([
             'RUC' => 'required|string|max:50',
             'RazonSocial' => 'required|string|max:255',
-            'telefonos' => 'required|array|min:1',
-            'telefonos.*.numero' => 'required|max:20|distinct',
+            'telefonos' => 'nullable|array',
+            'telefonos.*.numero' => 'nullable|max:20|distinct',
             'telefonos.*.id_operadora' => 'nullable|exists:matriz.telefono_tipo_operadoras,IdOperadora',
             'correos' => 'nullable|array',
             'correos.*.correo' => 'nullable|email|max:255',
@@ -72,7 +71,7 @@ class EmpresaController extends Controller
         ]);
 
         $telefonosIds = [];
-        foreach ($request->telefonos as $telefonoData) {
+        foreach ($request->input('telefonos', []) as $telefonoData) {
             if (empty($telefonoData['numero'])) {
                 continue;
             }
@@ -273,15 +272,9 @@ class EmpresaController extends Controller
                 continue;
             }
 
-            if (empty($idDireccionTipo)) {
-                throw ValidationException::withMessages([
-                    "direcciones.$index.id_direccion_tipo" => 'Selecciona un tipo para guardar la dirección.',
-                ]);
-            }
-
             $payload = [
                 'Nombre' => $nombre !== '' ? $nombre : null,
-                'IdDireccionTipo' => $idDireccionTipo,
+                'IdDireccionTipo' => !empty($idDireccionTipo) ? $idDireccionTipo : null,
                 'IdParroquia' => !empty($idParroquia) ? $idParroquia : null,
             ];
 
