@@ -69,6 +69,12 @@
                             <span class="float-right">{{ \Illuminate\Support\Carbon::parse($cliente->persona->FechaNacimiento)->format('d/m/Y') }}</span>
                         </li>
                     @endif
+                    @if(!$esEmpresa)
+                        <li class="list-group-item">
+                            <b><i class="fas fa-building text-muted"></i> Lugar de trabajo</b>
+                            <span class="float-right">{{ $cliente->persona?->empresa?->RazonSocial ?? 'No registrado' }}</span>
+                        </li>
+                    @endif
                 </ul>
 
                 @submenuCan('edit', 'ventas.cliente.index')

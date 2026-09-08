@@ -34,8 +34,9 @@ class ClienteController extends Controller
         $direccionTipos = DireccionTipo::orderBy('Nombre')->get();
         $ubicaciones = $this->ubicacionesJerarquicas();
         $rutas = $this->rutasDisponibles();
+        $empresas = Empresa::orderBy('RazonSocial')->get();
 
-        return view('contacto.cliente.create', compact('operadoras', 'direccionTipos', 'ubicaciones', 'rutas'));
+        return view('contacto.cliente.create', compact('operadoras', 'direccionTipos', 'ubicaciones', 'rutas', 'empresas'));
     }
 
     public static function normalizeIdOperadora($value): int
@@ -109,6 +110,7 @@ class ClienteController extends Controller
             'nombres' => 'required|max:100',
             'apellidos' => 'required|max:100',
             'fecha_nacimiento' => 'nullable|date',
+            'id_empresa' => 'nullable|exists:matriz.empresas,IdEmpresa',
             'telefonos' => 'nullable|array',
             'telefonos.*.numero' => 'nullable|max:20|distinct',
             'telefonos.*.id_operadora' => 'nullable|exists:matriz.telefono_tipo_operadoras,IdOperadora',
@@ -128,6 +130,7 @@ class ClienteController extends Controller
             'Nombres' => $request->nombres,
             'Apellidos' => $request->apellidos,
             'FechaNacimiento' => $request->fecha_nacimiento ?: null,
+            'IdEmpresa' => $request->id_empresa ?: null,
         ]);
 
         $telefonosIds = $this->guardarTelefonos($request->input('telefonos', []));
@@ -169,6 +172,7 @@ class ClienteController extends Controller
             'persona.direcciones.tipo',
             'persona.direcciones.parroquia.ciudad',
             'persona.direcciones.ruta',
+            'persona.empresa',
             'empresa.telefono_movils.operadora',
             'empresa.correos',
             'empresa.direcciones.tipo',
@@ -187,6 +191,7 @@ class ClienteController extends Controller
             'persona.direcciones.tipo',
             'persona.direcciones.parroquia.ciudad.provincia.pais.continente',
             'persona.direcciones.ruta',
+            'persona.empresa',
             'empresa.telefono_movils.operadora',
             'empresa.correos',
             'empresa.direcciones.tipo',
@@ -198,8 +203,9 @@ class ClienteController extends Controller
         $direccionTipos = DireccionTipo::orderBy('Nombre')->get();
         $ubicaciones = $this->ubicacionesJerarquicas();
         $rutas = $this->rutasParaFormulario($cliente);
+        $empresas = Empresa::orderBy('RazonSocial')->get();
 
-        return view('contacto.cliente.edit', compact('cliente', 'operadoras', 'direccionTipos', 'ubicaciones', 'rutas'));
+        return view('contacto.cliente.edit', compact('cliente', 'operadoras', 'direccionTipos', 'ubicaciones', 'rutas', 'empresas'));
     }
 
     public function update(Request $request, string $id)
@@ -264,6 +270,7 @@ class ClienteController extends Controller
             'nombres' => ['required', 'max:100'],
             'apellidos' => ['required', 'max:100'],
             'fecha_nacimiento' => ['nullable', 'date'],
+            'id_empresa' => ['nullable', 'exists:matriz.empresas,IdEmpresa'],
             'telefonos' => ['nullable', 'array'],
             'telefonos.*.numero' => ['nullable', 'max:20', 'distinct'],
             'telefonos.*.id_operadora' => ['nullable', 'exists:matriz.telefono_tipo_operadoras,IdOperadora'],
@@ -284,6 +291,7 @@ class ClienteController extends Controller
             'Nombres' => $request->nombres,
             'Apellidos' => $request->apellidos,
             'FechaNacimiento' => $request->fecha_nacimiento ?: null,
+            'IdEmpresa' => $request->id_empresa ?: null,
         ]);
 
         $telefonosIds = $this->guardarTelefonos($request->input('telefonos', []));
