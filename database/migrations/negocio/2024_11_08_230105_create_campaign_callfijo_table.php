@@ -11,9 +11,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'negocio';
+
     public function up(): void
     {
-        Schema::create('campaign_callfijo', function (Blueprint $table) {
+        Schema::connection(name: 'negocio')->create('campaign_callfijo', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdCampaignCallFijo');
             $table->foreignId('IdCampaign')->references('IdCampaign')->on("campaign");
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaign_callfijo');
+        Schema::connection(name: 'negocio')->dropIfExists('campaign_callfijo');
     }
 };

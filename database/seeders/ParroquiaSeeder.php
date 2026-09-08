@@ -13,46 +13,44 @@ class ParroquiaSeeder extends Seeder
      */
     static array $data = [
         // Catalogo base de parroquias, alineado con CiudadSeeder.
-        [1, 'Centro Cuenca', 1],
-        [2, 'Centro Guaranda', 2],
-        [3, 'Centro Azogues', 3],
-        [4, 'Centro Tulcan', 4],
-        [5, 'Centro Riobamba', 5],
-        [6, 'Centro Latacunga', 6],
-        [7, 'Centro Machala', 7],
-        [8, 'Centro Esmeraldas', 8],
-        [9, 'Centro Puerto Baquerizo Moreno', 9],
-        [10, 'Centro Guayaquil', 10],
-        [11, 'Centro Ibarra', 11],
-        [12, 'Centro Loja', 12],
-        [13, 'Centro Babahoyo', 13],
-        [14, 'Centro Portoviejo', 14],
-        [15, 'Centro Macas', 15],
-        [16, 'Centro Tena', 16],
-        [17, 'Centro Nueva Loja', 17],
-        [18, 'Centro Puyo', 18],
-        [19, 'Centro Quito', 19],
-        [20, 'Centro Santa Elena', 20],
-        [21, 'Centro Santo Domingo', 21],
-        [22, 'Centro Puerto Francisco de Orellana', 22],
-        [23, 'Centro Ambato', 23],
-        [24, 'Centro Zamora', 24],
-        [25, 'Centro Milagro', 25],
-        [26, 'Centro Playas', 26],
+        [1, 'Cuenca', 1],
+        [2, 'Guaranda', 2],
+        [3, 'Azogues', 3],
+        [4, 'Tulcan', 4],
+        [5, 'Riobamba', 5],
+        [6, 'Latacunga', 6],
+        [7, 'Machala', 7],
+        [8, 'Esmeraldas', 8],
+        [9, 'Puerto Baquerizo Moreno', 9],
+        [10, 'Guayaquil', 10],
+        [11, 'Ibarra', 11],
+        [12, 'Loja', 12],
+        [13, 'Babahoyo', 13],
+        [14, 'Portoviejo', 14],
+        [15, 'Macas', 15],
+        [16, 'Tena', 16],
+        [17, 'Nueva Loja', 17],
+        [18, 'Puyo', 18],
+        [19, 'Quito', 19],
+        [20, 'Santa Elena', 20],
+        [21, 'Santo Domingo', 21],
+        [22, 'Puerto Francisco de Orellana', 22],
+        [23, 'Ambato', 23],
+        [24, 'Zamora', 24],
+        [25, 'Milagro', 25],
+        [26, 'Playas', 26],
     ];
 
     public function run(): void
     {
-        foreach (self::$data as $key => $value) {
-            $exists = DB::connection('matriz')->table('parroquia')->where('IdParroquia', $value[0])->exists();
-
-            if (! $exists) {
-                DB::connection(name: 'matriz')->table('parroquia')->insert([
-                    'IdParroquia' => $value[0],
+        foreach (self::$data as $value) {
+            DB::connection('matriz')->table('parroquia')->updateOrInsert(
+                ['IdParroquia' => $value[0]],
+                [
                     'Nombre' => $value[1],
                     'IdCiudad' => $value[2],
-                ]);
-            }
+                ]
+            );
         }
     }
 }

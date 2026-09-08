@@ -130,6 +130,24 @@
                             <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
+
+                    <div class="form-group col-md-8 position-relative">
+                        <label for="empresaBuscar"><i class="fas fa-building text-muted"></i> Lugar de trabajo</label>
+                        <div class="input-group">
+                            <input type="text" id="empresaBuscar" class="form-control @error('id_empresa') is-invalid @enderror"
+                                   placeholder="Buscar empresa por razón social o RUC..." autocomplete="off">
+                            <div class="input-group-append">
+                                <button type="button" id="empresaLimpiar" class="btn btn-outline-secondary" title="Quitar selección">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="id_empresa" name="id_empresa" value="{{ old('id_empresa', $persona->IdEmpresa) }}">
+                        <div id="empresaResultados" class="list-group position-absolute w-100 shadow-sm" style="z-index:1000; max-height:220px; overflow-y:auto; display:none;"></div>
+                        @error('id_empresa')
+                            <span class="invalid-feedback d-block"><strong>{{ $message }}</strong></span>
+                        @enderror
+                    </div>
                 </div>
             </div>
         </div>
@@ -293,6 +311,73 @@ const ubicaciones = @json($ubicaciones);
 const direccionTipos = @json($direccionTipos);
 const direccionesIniciales = @json(array_values($direcciones));
 
+// --- Búsqueda y selección de empresa (lugar de trabajo) ---
+const empresasData = @json($empresas->map(fn ($e) => ['id' => $e->IdEmpresa, 'nombre' => (string) $e->RazonSocial, 'ruc' => (string) $e->RUC]));
+const empresaBuscar = document.getElementById('empresaBuscar');
+const empresaResultados = document.getElementById('empresaResultados');
+const idEmpresaInput = document.getElementById('id_empresa');
+
+function etiquetaEmpresa(empresa) {
+    return empresa.nombre + (empresa.ruc ? ' (' + empresa.ruc + ')' : '');
+}
+
+function renderResultadosEmpresa(lista) {
+    if (lista.length === 0) {
+        empresaResultados.innerHTML = '<div class="list-group-item text-muted">Sin coincidencias</div>';
+    } else {
+        empresaResultados.innerHTML = lista.slice(0, 15).map((e) => `
+            <button type="button" class="list-group-item list-group-item-action" data-id="${e.id}">${etiquetaEmpresa(e)}</button>
+        `).join('');
+    }
+    empresaResultados.style.display = 'block';
+}
+
+empresaBuscar.addEventListener('input', function () {
+    idEmpresaInput.value = '';
+    const texto = this.value.trim().toLowerCase();
+
+    if (texto.length === 0) {
+        empresaResultados.style.display = 'none';
+        return;
+    }
+
+    const filtrados = empresasData.filter((e) => e.nombre.toLowerCase().includes(texto) || e.ruc.toLowerCase().includes(texto));
+    renderResultadosEmpresa(filtrados);
+});
+
+empresaBuscar.addEventListener('focus', function () {
+    if (this.value.trim().length > 0) {
+        empresaResultados.style.display = 'block';
+    }
+});
+
+document.getElementById('empresaLimpiar').addEventListener('click', function () {
+    idEmpresaInput.value = '';
+    empresaBuscar.value = '';
+    empresaResultados.style.display = 'none';
+});
+
+document.addEventListener('click', function (e) {
+    if (!e.target.closest('#empresaResultados') && e.target !== empresaBuscar) {
+        empresaResultados.style.display = 'none';
+    }
+
+    if (e.target.closest('#empresaResultados button')) {
+        const btn = e.target.closest('button');
+        const empresa = empresasData.find((e) => String(e.id) === btn.dataset.id);
+        idEmpresaInput.value = empresa.id;
+        empresaBuscar.value = etiquetaEmpresa(empresa);
+        empresaResultados.style.display = 'none';
+    }
+});
+
+if (idEmpresaInput.value) {
+    const empresaInicial = empresasData.find((e) => String(e.id) === String(idEmpresaInput.value));
+    if (empresaInicial) {
+        empresaBuscar.value = etiquetaEmpresa(empresaInicial);
+    }
+}
+
 const operadoras = `
 @foreach($operadoras as $operadora)
 <option value="{{ $operadora->IdOperadora }}">
@@ -339,7 +424,7 @@ function direccionTemplate(index, canRemove) {
                 </div>
                 <div class="col-md-3 mb-2">
                     <label>Tipo</label>
-                    <select name="direcciones[${index}][id_direccion_tipo]" class="form-control direccion-tipo" required></select>
+                    <select name="direcciones[${index}][id_direccion_tipo]" class="form-control direccion-tipo"></select>
                 </div>
                 <div class="col-md-4 mb-2">
                     <label>Continente</label>

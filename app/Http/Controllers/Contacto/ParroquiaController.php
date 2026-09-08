@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Canton;
-use App\Models\admin\Continente;
-use App\Models\admin\Parroquia;
+use App\Models\matriz\Ciudad as Canton;
+use App\Models\matriz\Continente;
+use App\Models\matriz\Parroquia;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

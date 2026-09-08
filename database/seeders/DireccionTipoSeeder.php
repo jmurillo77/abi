@@ -12,43 +12,29 @@ class DireccionTipoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::connection('matriz')->table('direccion_tipo')->insert([
-            [
-                'Nombre' => 'Residencial',
-                'Eliminado' => 'N',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'Nombre' => 'Comercial',
-                'Eliminado' => 'N',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'Nombre' => 'Oficina',
-                'Eliminado' => 'N',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'Nombre' => 'Bodega',
-                'Eliminado' => 'N',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'Nombre' => 'Sucursal',
-                'Eliminado' => 'N',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'Nombre' => 'Fabrica',
-                'Eliminado' => 'N',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        $tipos = [
+            'Casa',
+            'Residencial',
+            'Comercial',
+            'Oficina',
+            'Bodega',
+            'Sucursal',
+            'Fabrica',
+            'Otro',
+        ];
+
+        foreach ($tipos as $nombre) {
+            DB::connection('matriz')
+                ->table('direccion_tipo')
+                ->updateOrInsert(
+                    ['Nombre' => $nombre],
+                    [
+                        'Nombre' => $nombre,
+                        'Eliminado' => 'N',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                );
+        }
     }
 }

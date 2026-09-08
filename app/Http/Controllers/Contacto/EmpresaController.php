@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Continente;
-use App\Models\admin\Direccion;
-use App\Models\admin\DireccionTipo;
-use App\Models\admin\Parroquia;
-use App\Models\admin\TelefonoTipoOperadora;
+use App\Models\matriz\Continente;
+use App\Models\matriz\Direccion;
+use App\Models\matriz\DireccionTipo;
+use App\Models\matriz\Parroquia;
+use App\Models\matriz\TelefonoTipoOperadora;
 use App\Models\matriz\Correo;
 use App\Models\matriz\Empresa;
 use App\Models\matriz\TelefonoMovil;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class EmpresaController extends Controller
 {
@@ -41,13 +40,22 @@ class EmpresaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public static function normalizeIdOperadora($value): int
+    {
+        if ($value === null || trim((string) $value) === '' || (string) $value === '0') {
+            return 1;
+        }
+
+        return (int) $value;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
             'RUC' => 'required|string|max:50',
             'RazonSocial' => 'required|string|max:255',
-            'telefonos' => 'required|array|min:1',
-            'telefonos.*.numero' => 'required|max:20|distinct',
+            'telefonos' => 'nullable|array',
+            'telefonos.*.numero' => 'nullable|max:20|distinct',
             'telefonos.*.id_operadora' => 'nullable|exists:matriz.telefono_tipo_operadoras,IdOperadora',
             'correos' => 'nullable|array',
             'correos.*.correo' => 'nullable|email|max:255',
@@ -63,18 +71,20 @@ class EmpresaController extends Controller
         ]);
 
         $telefonosIds = [];
-        foreach ($request->telefonos as $telefonoData) {
+        foreach ($request->input('telefonos', []) as $telefonoData) {
             if (empty($telefonoData['numero'])) {
                 continue;
             }
 
+            $idOperadora = self::normalizeIdOperadora($telefonoData['id_operadora'] ?? null);
+
             $telefono = TelefonoMovil::firstOrCreate(
                 ['Numero' => $telefonoData['numero']],
-                ['IdOperadora' => $telefonoData['id_operadora'] ?? null]
+                ['IdOperadora' => $idOperadora]
             );
 
-            if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                $telefono->update(['IdOperadora' => $telefonoData['id_operadora']]);
+            if ((int) $telefono->IdOperadora !== $idOperadora) {
+                $telefono->update(['IdOperadora' => $idOperadora]);
             }
 
             $telefonosIds[] = $telefono->IdTelefonoMovil;
@@ -163,6 +173,8 @@ class EmpresaController extends Controller
                     continue;
                 }
 
+                $idOperadora = self::normalizeIdOperadora($telefonoData['id_operadora'] ?? null);
+
                 if (!empty($telefonoData['id'])) {
                     $telefono = TelefonoMovil::find($telefonoData['id']);
 
@@ -176,8 +188,8 @@ class EmpresaController extends Controller
                             }
                         }
 
-                        if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                            $telefono->IdOperadora = $telefonoData['id_operadora'];
+                        if ((int) $telefono->IdOperadora !== $idOperadora) {
+                            $telefono->IdOperadora = $idOperadora;
                         }
 
                         $telefono->save();
@@ -186,11 +198,11 @@ class EmpresaController extends Controller
                 } else {
                     $telefono = TelefonoMovil::firstOrCreate(
                         ['Numero' => $telefonoData['numero']],
-                        ['IdOperadora' => $telefonoData['id_operadora'] ?? null]
+                        ['IdOperadora' => $idOperadora]
                     );
 
-                    if (!empty($telefonoData['id_operadora']) && $telefono->IdOperadora !== $telefonoData['id_operadora']) {
-                        $telefono->update(['IdOperadora' => $telefonoData['id_operadora']]);
+                    if ((int) $telefono->IdOperadora !== $idOperadora) {
+                        $telefono->update(['IdOperadora' => $idOperadora]);
                     }
 
                     $telefonosIds[] = $telefono->IdTelefonoMovil;
@@ -260,15 +272,9 @@ class EmpresaController extends Controller
                 continue;
             }
 
-            if (empty($idDireccionTipo)) {
-                throw ValidationException::withMessages([
-                    "direcciones.$index.id_direccion_tipo" => 'Selecciona un tipo para guardar la dirección.',
-                ]);
-            }
-
             $payload = [
                 'Nombre' => $nombre !== '' ? $nombre : null,
-                'IdDireccionTipo' => $idDireccionTipo,
+                'IdDireccionTipo' => !empty($idDireccionTipo) ? $idDireccionTipo : null,
                 'IdParroquia' => !empty($idParroquia) ? $idParroquia : null,
             ];
 

@@ -40,16 +40,14 @@ class ProvinciaSeeder extends Seeder
     ];
     public function run(): void
     {
-        foreach (self::$data as $key => $value) {
-            $exists = DB::connection('matriz')->table('provincia')->where('IdProvincia', $value[0])->exists();
-
-            if (! $exists) {
-                DB::connection(name: 'matriz')->table('provincia')->insert([
-                    'IdProvincia' => $value[0],
+        foreach (self::$data as $value) {
+            DB::connection('matriz')->table('provincia')->updateOrInsert(
+                ['IdProvincia' => $value[0]],
+                [
                     'Nombre' => $value[1],
                     'IdPais' => $value[2],
-                ]);
-            }
+                ]
+            );
         }
     }
 }

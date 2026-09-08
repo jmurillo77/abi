@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\admin\CampaignWp;
+use App\Models\matriz\CampaignWp;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Collection;
 

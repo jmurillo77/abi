@@ -29,4 +29,9 @@ class Provincia extends Model
     {
         return $this->hasMany(Ciudad::class, 'IdProvincia', 'IdProvincia');
     }
+
+    public function cantones()
+    {
+        return $this->ciudades();
+    }
 }

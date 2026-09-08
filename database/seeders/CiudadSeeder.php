@@ -42,16 +42,14 @@ class CiudadSeeder extends Seeder
     ];
     public function run(): void
     {
-        foreach (self::$data as $key => $value) {
-            $exists = DB::connection('matriz')->table('ciudad')->where('IdCiudad', $value[0])->exists();
-
-            if (! $exists) {
-                DB::connection(name: 'matriz')->table('ciudad')->insert([
-                    'IdCiudad' => $value[0],
+        foreach (self::$data as $value) {
+            DB::connection('matriz')->table('ciudad')->updateOrInsert(
+                ['IdCiudad' => $value[0]],
+                [
                     'Nombre' => $value[1],
                     'IdProvincia' => $value[2],
-                ]);
-            }
+                ]
+            );
         }
     }
 }

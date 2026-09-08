@@ -9,9 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('direccion_tipo', function (Blueprint $table) {
+        Schema::create('direccion_tipo', function (Blueprint $table) {
             $table->id('IdDireccionTipo');
             $table->string('Nombre', length: 50)->nullable();
             $table->enum('Eliminado', ['S','N'])->default('N');
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('direccion_tipo');
+        Schema::dropIfExists('direccion_tipo');
     }
 };

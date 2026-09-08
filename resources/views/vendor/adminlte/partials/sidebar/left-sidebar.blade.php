@@ -48,7 +48,7 @@
                 ->all();
 
             if (! empty($permittedSubmenuIds)) {
-                $permittedSubmenus = \App\Models\admin\Submenu::query()
+                $permittedSubmenus = \App\Models\matriz\Submenu::query()
                     ->with('menu')
                     ->whereIn('IdSubMenu', $permittedSubmenuIds)
                     ->whereNotNull('IdMenu')

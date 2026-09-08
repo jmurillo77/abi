@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Continente;
+use App\Models\matriz\Continente;
 use Illuminate\Http\Request;
 
 class ContinenteController extends Controller

@@ -9,10 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('persona_direccion', function (Blueprint $table) {
-            $table->id();
+        Schema::connection($this->connection)->create('persona_direccion', function (Blueprint $table) {
+            $table->id('IdPersonaDireccion');
+            $table->unsignedBigInteger('IdPersona');
+            $table->unsignedBigInteger('IdDireccion');
+            $table->foreign('IdPersona')->references('IdPersona')->on('personas')->cascadeOnDelete();
+            $table->foreign('IdDireccion')->references('IdDireccion')->on('direccion')->cascadeOnDelete();
             $table->enum('Eliminado', ['S','N'])->default('N');
             $table->string('cUser')->nullable();
             $table->string('uUser')->nullable();
@@ -31,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('persona_direccion');
+        Schema::connection($this->connection)->dropIfExists('persona_direccion');
     }
 };

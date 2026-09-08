@@ -3,17 +3,17 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('personas', function (Blueprint $table) {
-            $MatrizDB = DB::connection('matriz')->getDatabaseName();
+        Schema::create('personas', function (Blueprint $table) {
             $table->id('IdPersona');
             $table->string('DNI', length: 10)->unique()->nullable();
             $table->string('Nombres', length: 100)->nullable();
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('personas');
+        Schema::dropIfExists('personas');
     }
 };

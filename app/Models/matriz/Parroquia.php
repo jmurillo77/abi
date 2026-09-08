@@ -26,6 +26,11 @@ class Parroquia extends Model
         return $this->belongsTo(Ciudad::class, 'IdCiudad', 'IdCiudad');
     }
 
+    public function canton()
+    {
+        return $this->ciudad();
+    }
+
     public function direcciones()
     {
         return $this->hasMany(Direccion::class, 'IdParroquia', 'IdParroquia');

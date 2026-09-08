@@ -9,9 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('empresa_telefono_movils', function (Blueprint $table) {
+        Schema::create('empresa_telefono_movils', function (Blueprint $table) {
             $table->id('IdEmpresaTelefono');
             $table->foreignId('IdEmpresa')->references('IdEmpresa')->on('empresas');
             $table->foreignId('IdTelefonoMovil')->references('IdTelefonoMovil')->on('telefono_movils');
@@ -23,7 +24,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
-            $table->comment('Tabla Empresa Correo');
+            $table->comment('Tabla Empresa Telefono Movil');
         });
     }
 
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('empresa_telefono_movils');
+        Schema::dropIfExists('empresa_telefono_movils');
     }
 };

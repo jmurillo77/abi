@@ -9,9 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('correos', function (Blueprint $table) {
+        Schema::create('correos', function (Blueprint $table) {
             $table->id('IdCorreo');
             $table->string('Correo', length: 200)->unique();
             $table->enum('Valido', ['0', '1'])->default('1');
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('correos');
+        Schema::dropIfExists('correos');
     }
 };

@@ -11,11 +11,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'negocio';
+
     public function up(): void
     {
-        Schema::create('campaign_email', function (Blueprint $table) {
+        Schema::connection(name: 'negocio')->create('campaign_email', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
-            $table->id('CampaignEmail');
+            $table->id('IdCampaignEmail');
             $table->foreignId('IdCampaign')->references('IdCampaign')->on("campaign");
             $table->foreignId('IdCorreo')->references('IdCorreo')->on(new Expression($MatrizDB.'.correos'));
             $table->timestamps();
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaign_email');
+        Schema::connection(name: 'negocio')->dropIfExists('campaign_email');
     }
 };

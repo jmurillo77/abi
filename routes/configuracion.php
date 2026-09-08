@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Configuracion\InicioController;
 use App\Http\Controllers\Configuracion\MenuController;
+use App\Http\Controllers\Configuracion\RoleController;
 use App\Http\Controllers\Configuracion\SubmenuController;
 use App\Http\Controllers\Configuracion\UserPermissionController;
 
@@ -13,7 +14,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', [InicioController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [InicioController::class, 'index'])->name('dashboard')->middleware('can:assign-menu-permissions');
+
     Route::prefix('menus')->name('menus.')->controller(MenuController::class)->group(function(){
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
@@ -33,6 +35,21 @@ Route::middleware([
             Route::put('/{submenu}', 'update')->name('update');
             Route::delete('/{submenu}', 'destroy')->name('destroy');
         });
+
+    
+    Route::prefix('roles')->name('roles.')->controller(RoleController::class)->group(function () {
+        Route::get('/', 'index')->name('index')->middleware('can:assign-menu-permissions');
+        Route::get('/create', 'create')->name('create')->middleware('can:assign-menu-permissions');
+        Route::post('/', 'store')->name('store')->middleware('can:assign-menu-permissions');
+
+        Route::get('/{role}', 'show')->name('show')->middleware('can:assign-menu-permissions');
+        Route::get('/{role}/edit', 'edit')->name('edit')->middleware('can:assign-menu-permissions');
+        Route::put('/{role}', 'update')->name('update')->middleware('can:assign-menu-permissions');
+        Route::delete('/{role}', 'destroy')->name('destroy')->middleware('can:assign-menu-permissions');
+
+        Route::get('/{role}/submenus', 'submenus')->name('submenus')->middleware('can:assign-menu-permissions');
+        Route::put('/{role}/submenus', 'updateSubmenus')->name('submenus.update')->middleware('can:assign-menu-permissions');
+    });
 
     Route::prefix('users')->name('users.')->controller(UserPermissionController::class)->group(function(){
             Route::get('/', 'index')->name('index')->middleware('can:assign-menu-permissions');

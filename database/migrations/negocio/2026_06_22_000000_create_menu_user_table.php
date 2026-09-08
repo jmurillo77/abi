@@ -10,21 +10,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'negocio';
+
     public function up(): void
     {
-        if (! Schema::hasTable('menu_user')) {
-            Schema::create('menu_user', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-                $table->unsignedBigInteger('menu_id');
-                $table->boolean('can_view')->default(true);
-                $table->boolean('can_create')->default(false);
-                $table->boolean('can_edit')->default(false);
-                $table->boolean('can_delete')->default(false);
-                $table->timestamps();
-                $table->unique(['user_id', 'menu_id']);
-            });
-        }
+        Schema::connection(name: 'negocio')->create('menu_user', function (Blueprint $table) {
+            $MatrizDB = DB::connection('matriz')->getDatabaseName();
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->unsignedBigInteger('menu_id');
+            $table->foreign('menu_id')->references('IdMenu')->on(DB::raw("{$MatrizDB}.menus"))->cascadeOnDelete();
+            $table->boolean('can_view')->default(true);
+            $table->boolean('can_create')->default(false);
+            $table->boolean('can_edit')->default(false);
+            $table->boolean('can_delete')->default(false);
+            $table->timestamps();
+            $table->unique(['user_id', 'menu_id']);
+        });
     }
 
     /**
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menu_user');
+        Schema::connection(name: 'negocio')->dropIfExists('menu_user');
     }
 };

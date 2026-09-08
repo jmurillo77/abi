@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Configuracion;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\Menu;
-use App\Models\admin\Submenu;
+use App\Models\matriz\Menu;
+use App\Models\matriz\Submenu;
 use Illuminate\Http\Request;
 
 class SubmenuController extends Controller

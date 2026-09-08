@@ -9,9 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'negocio';
+    
     public function up(): void
     {
-        Schema::create('campaign', function (Blueprint $table) {
+        Schema::connection(name: 'negocio')->create('campaign', function (Blueprint $table) {
             $table->id('IdCampaign');
             $table->string('Nombre', length: 100);
             $table->foreignId('IdCampaignType')->references('IdCampaignType')->on("campaign_type");
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaign');
+        Schema::connection(name: 'negocio')->dropIfExists('campaign');
     }
 };

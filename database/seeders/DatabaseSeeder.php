@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,14 +13,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $currentDatabase = DB::connection()->getDatabaseName();
+        $matrizDatabase = config('database.connections.matriz.database');
+        $negocioDatabase = config('database.connections.negocio.database');
 
-        /*User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);*/
+        if ($currentDatabase === $negocioDatabase) {
+            $this->call([
+                UserSeeder::class,
+                RoleMenuPermissionSeeder::class,
+                RoleSubmenuPermissionSeeder::class,
+                /*ProductoSeeder::class,*/
+            ]);
+
+            return;
+        }
+
         $this->call([
-            UserSeeder::class,
+            PersonaSeeder::class,
+            RoleSeeder::class,
             TelefonoTipoOperadoraSeeder::class,
             DireccionTipoSeeder::class,
             ContinenteSeeder::class,
@@ -28,7 +38,8 @@ class DatabaseSeeder extends Seeder
             ProvinciaSeeder::class,
             CiudadSeeder::class,
             ParroquiaSeeder::class,
-            ProductoSeeder::class,
+            MenuSeeder::class,
+            SubmenuSeeder::class,
         ]);
     }
 }

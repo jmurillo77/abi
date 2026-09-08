@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Contacto;
 
 use App\Http\Controllers\Controller;
-use App\Models\admin\TelefonoTipoOperadora;
 use App\Models\matriz\TelefonoMovil;
+use App\Models\matriz\TelefonoTipoOperadora;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

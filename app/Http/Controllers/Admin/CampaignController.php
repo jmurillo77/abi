@@ -4,8 +4,8 @@ namespace app\Http\Controllers\admin;
 
 use App\Exports\CampaignWpExport;
 use App\Http\Controllers\Controller;
-use App\Models\admin\Campaign;
-use App\Models\admin\CampaignWp;
+use App\Models\negocio\Campaign;
+use App\Models\matriz\CampaignWp;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 

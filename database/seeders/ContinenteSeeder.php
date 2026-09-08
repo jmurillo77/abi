@@ -12,18 +12,19 @@ class ContinenteSeeder extends Seeder
      * Run the database seeds.
      */
     static $data = [
-        ['America'],
-        ['Europa'],
         ['Africa'],
+        ['America'],
         ['Asia'],
+        ['Europa'],     
         ['Oceania'],
     ];
     public function run(): void
     {
-        foreach (self::$data as $key => $value) {
-            DB::connection(name: 'matriz')->table('continentes')->insert([
-                'Nombre' => $value[0],
-            ]);
+        foreach (self::$data as $value) {
+            DB::connection('matriz')->table('continentes')->updateOrInsert(
+                ['Nombre' => $value[0]],
+                []
+            );
         }
     }
 }

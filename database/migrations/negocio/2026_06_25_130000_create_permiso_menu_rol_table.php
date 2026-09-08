@@ -21,11 +21,25 @@ return new class extends Migration
     {
         if (! Schema::connection($this->connection)->hasTable('permiso_menu_rol')) {
             Schema::connection($this->connection)->create('permiso_menu_rol', function (Blueprint $table) {
+                $matrizDB = DB::connection('matriz')->getDatabaseName();
+
                 $table->unsignedBigInteger('IdRol');
                 $table->unsignedBigInteger('IdMenu');
 
                 $table->primary(['IdRol', 'IdMenu']);
                 $table->index('IdMenu');
+
+                if (Schema::connection('matriz')->hasTable('roles')) {
+                    $table->foreign('IdRol')
+                        ->references('IdRol')
+                        ->on(DB::raw("{$matrizDB}.roles"))
+                        ->cascadeOnDelete();
+                }
+
+                $table->foreign('IdMenu')
+                    ->references('IdMenu')
+                    ->on(DB::raw("{$matrizDB}.menus"))
+                    ->cascadeOnDelete();
             });
         }
     }

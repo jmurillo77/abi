@@ -11,9 +11,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'matriz';
+
     public function up(): void
     {
-        Schema::connection(name: 'matriz')->create('telefono_movils', function (Blueprint $table) {
+        Schema::create('telefono_movils', function (Blueprint $table) {
             $MatrizDB = DB::connection('matriz')->getDatabaseName();
             $table->id('IdTelefonoMovil');
             $table->string('Numero', length: 10)->unique();
@@ -37,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'matriz')->dropIfExists('telefono_movils');
+        Schema::dropIfExists('telefono_movils');
     }
 };

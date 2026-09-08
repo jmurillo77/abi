@@ -11,6 +11,8 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+    protected $connection = 'negocio';
+    
     public function up(): void
     {
         Schema::connection(name: 'negocio')->create('clientes', function (Blueprint $table) {
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection(name: 'mysql')->dropIfExists('clientes');
+        Schema::connection(name: 'negocio')->dropIfExists('clientes');
     }
 };
