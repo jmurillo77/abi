@@ -7,6 +7,7 @@ use App\Models\matriz\TelefonoTipoOperadora;
 use App\Models\matriz\Continente;
 use App\Models\matriz\Direccion;
 use App\Models\matriz\DireccionTipo;
+use App\Models\matriz\Empresa;
 use App\Models\matriz\Parroquia;
 use App\Models\matriz\Correo;
 use App\Models\matriz\Persona;
@@ -23,7 +24,7 @@ class PersonaController extends Controller
     public function index()
     {
         //$personas = persona::all();
-        $personas = Persona::with(['telefono_movils', 'correos', 'direcciones'])->get();
+        $personas = Persona::with(['telefono_movils', 'correos', 'direcciones', 'empresa'])->get();
         return view('contacto.persona.index', compact('personas'));
     }
 
@@ -35,8 +36,9 @@ class PersonaController extends Controller
         $operadoras = TelefonoTipoOperadora::all();
         $direccionTipos = DireccionTipo::orderBy('Nombre')->get();
         $ubicaciones = $this->ubicacionesJerarquicas();
+        $empresas = Empresa::orderBy('RazonSocial')->get();
 
-        return view('contacto.persona.create', compact('operadoras', 'ubicaciones', 'direccionTipos'));
+        return view('contacto.persona.create', compact('operadoras', 'ubicaciones', 'direccionTipos', 'empresas'));
     }
 
     /**
@@ -58,6 +60,7 @@ class PersonaController extends Controller
             'nombres' => 'required|max:100',
             'apellidos' => 'required|max:100',
             'fecha_nacimiento' => 'nullable|date',
+            'id_empresa' => 'nullable|exists:matriz.empresas,IdEmpresa',
             'telefonos' => 'required|array|min:1',
             'telefonos.*.numero' => 'required|max:20|distinct',
             'telefonos.*.id_operadora' => 'nullable|exists:matriz.telefono_tipo_operadoras,IdOperadora',
@@ -74,6 +77,7 @@ class PersonaController extends Controller
             'Nombres' => $request->nombres,
             'Apellidos' => $request->apellidos,
             'FechaNacimiento' => $request->fecha_nacimiento ?: null,
+            'IdEmpresa' => $request->id_empresa ?: null,
         ]);
 
         $telefonosIds = [];
@@ -130,7 +134,7 @@ class PersonaController extends Controller
      */
     public function show(Persona $persona)
     {
-        $persona->load(['telefono_movils.operadora', 'correos', 'direcciones.tipo', 'direcciones.parroquia.canton.provincia.pais.continente']);
+        $persona->load(['telefono_movils.operadora', 'correos', 'direcciones.tipo', 'direcciones.parroquia.canton.provincia.pais.continente', 'empresa']);
         return view('contacto.persona.show', compact('persona'));
     }
 
@@ -143,16 +147,18 @@ class PersonaController extends Controller
             'telefono_movils',
             'correos',
             'direcciones.tipo',
-            'direcciones.parroquia.canton.provincia.pais.continente'
+            'direcciones.parroquia.canton.provincia.pais.continente',
+            'empresa'
         ])->findOrFail($id);
 
         $operadoras = TelefonoTipoOperadora::all();
         $direccionTipos = DireccionTipo::orderBy('Nombre')->get();
         $ubicaciones = $this->ubicacionesJerarquicas();
+        $empresas = Empresa::orderBy('RazonSocial')->get();
 
         return view(
             'contacto.persona.edit',
-            compact('persona', 'operadoras', 'ubicaciones', 'direccionTipos')
+            compact('persona', 'operadoras', 'ubicaciones', 'direccionTipos', 'empresas')
         );
     }
 
@@ -166,6 +172,7 @@ class PersonaController extends Controller
             'nombres' => 'required',
             'apellidos' => 'required',
             'fecha_nacimiento' => 'nullable|date',
+            'id_empresa' => 'nullable|exists:matriz.empresas,IdEmpresa',
             'telefonos' => 'nullable|array',
             'telefonos.*.id' => 'nullable|integer|exists:matriz.telefono_movils,IdTelefonoMovil',
             'telefonos.*.numero' => 'required_with:telefonos.*.id|max:20|distinct',
@@ -192,6 +199,7 @@ class PersonaController extends Controller
             'Nombres' => $request->nombres,
             'Apellidos' => $request->apellidos,
             'FechaNacimiento' => $request->fecha_nacimiento ?: null,
+            'IdEmpresa' => $request->id_empresa ?: null,
         ]);
 
         /*

@@ -17,7 +17,8 @@ class Persona extends Model
         'DNI',
         'Nombres',
         'Apellidos',
-        'FechaNacimiento'
+        'FechaNacimiento',
+        'IdEmpresa'
     ];
 
     protected function casts(): array{
@@ -35,6 +36,13 @@ class Persona extends Model
     }
     public function direcciones(){
         return $this->belongsToMany(Direccion::class, 'persona_direccion', 'IdPersona', 'IdDireccion');
+    }
+
+    /**
+     * Empresa donde trabaja esta persona (lugar de trabajo).
+     */
+    public function empresa(){
+        return $this->belongsTo(Empresa::class, 'IdEmpresa', 'IdEmpresa');
     }
 
     public function users()
