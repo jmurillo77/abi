@@ -45,6 +45,11 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Detrás del balanceador/CDN del proveedor cloud que termina TLS y
+        // reenvía por HTTP; sin esto Laravel genera URLs de assets en http://
+        // aunque el navegador cargue la página por https:// (contenido mixto).
+        $middleware->trustProxies(at: '*');
+
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
