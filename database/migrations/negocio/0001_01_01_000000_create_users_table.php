@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Expression;
 
 return new class extends Migration
 {
@@ -16,9 +14,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::connection(name: 'negocio')->create('users', function (Blueprint $table) {
-            $MatrizDB = DB::connection('matriz')->getDatabaseName();
+            // La FK hacia matriz.personas se agrega en una migración posterior
+            // (2026_09_08_000000_add_foreign_key_idpersona_to_users_table), porque
+            // 'personas' vive en otra base de datos y su tabla todavía no existe
+            // en este punto de una instalación nueva (orden global por timestamp).
             $table->id();
-            $table->foreignId('IdPersona')->nullable()->references('IdPersona')->on(new Expression($MatrizDB.'.personas'));
+            $table->foreignId('IdPersona')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('Avatar')->nullable();

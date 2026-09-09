@@ -22,6 +22,10 @@ return new class extends Migration
         // no puede referenciar una tabla fuera de la conexión actual, así que la FK
         // cruzada se agrega con SQL crudo y el nombre de base totalmente calificado
         // (mismo patrón ya usado por clientes.IdPersona/IdEmpresa hacia matriz).
+        if (! Schema::connection('negocio')->hasTable('rutas')) {
+            return;
+        }
+
         if (! $this->foreignKeyExists('direccion_idruta_foreign')) {
             $negocioDb = DB::connection('negocio')->getDatabaseName();
 

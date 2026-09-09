@@ -4,8 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\PersonaController;
-use App\Http\Controllers\Admin\TelefonomovilController;
-use App\Http\Controllers\Admin\CorreoController;
+use App\Http\Controllers\Contacto\CorreoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware([
