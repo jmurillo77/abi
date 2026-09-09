@@ -91,9 +91,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="dni">DNI / Documento</label>
-                        <input type="text" id="dni" name="dni" 
-                               class="form-control bg-white @error('dni') is-invalid @enderror" 
-                               value="{{ old('dni', $persona->DNI) }}" readonly>
+                        <input type="text" id="dni" name="dni"
+                               class="form-control {{ $persona->DNI ? 'bg-white' : '' }} @error('dni') is-invalid @enderror"
+                               value="{{ old('dni', $persona->DNI) }}" maxlength="20" {{ $persona->DNI ? 'readonly' : '' }}>
+                        @if(!$persona->DNI)
+                            <small class="form-text text-muted">Esta persona no tiene documento registrado; puedes asignarle uno.</small>
+                        @endif
                         @error('dni')
                             <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
                         @enderror

@@ -14,6 +14,7 @@ use App\Models\matriz\Persona;
 use App\Models\matriz\TelefonoMovil;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class PersonaController extends Controller
@@ -168,7 +169,7 @@ class PersonaController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'dni' => 'nullable|max:20',
+            'dni' => ['nullable', 'max:20', Rule::unique('matriz.personas', 'DNI')->ignore($id, 'IdPersona')],
             'nombres' => 'required',
             'apellidos' => 'required',
             'fecha_nacimiento' => 'nullable|date',
