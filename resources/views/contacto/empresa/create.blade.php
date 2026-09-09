@@ -60,7 +60,7 @@
                             style="color: #0d4a87;"></i></span>
                     <input type="text" name="RUC" class="form-control form-control-lg @error('RUC') is-invalid @enderror"
                         placeholder="RUC" aria-label="RUC" aria-describedby="basic-addon1"
-                        value="{{ old('RUC') }}" required>
+                        value="{{ old('RUC') }}">
                     @error('RUC')
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror

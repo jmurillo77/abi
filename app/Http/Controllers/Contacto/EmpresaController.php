@@ -52,7 +52,7 @@ class EmpresaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'RUC' => 'required|string|max:50',
+            'RUC' => 'nullable|string|max:50',
             'RazonSocial' => 'required|string|max:255',
             'telefonos' => 'nullable|array',
             'telefonos.*.numero' => 'nullable|max:20|distinct',
@@ -66,7 +66,7 @@ class EmpresaController extends Controller
         ]);
 
         $empresa = Empresa::create([
-            'RUC' => $request->RUC,
+            'RUC' => $request->RUC ?: null,
             'RazonSocial' => $request->RazonSocial,
         ]);
 
@@ -145,7 +145,7 @@ class EmpresaController extends Controller
         $empresa = Empresa::with(['telefono_movils', 'correos', 'direcciones'])->findOrFail($id);
 
         $request->validate([
-            'RUC' => 'required|string|max:50',
+            'RUC' => 'nullable|string|max:50',
             'RazonSocial' => 'required|string|max:255',
             'telefonos' => 'nullable|array',
             'telefonos.*.id' => 'nullable|integer|exists:matriz.telefono_movils,IdTelefonoMovil',
@@ -162,7 +162,7 @@ class EmpresaController extends Controller
         ]);
 
         $empresa->update([
-            'RUC' => $request->RUC,
+            'RUC' => $request->RUC ?: null,
             'RazonSocial' => $request->RazonSocial,
         ]);
 
