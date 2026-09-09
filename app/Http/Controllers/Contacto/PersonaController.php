@@ -56,13 +56,13 @@ class PersonaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'dni' => 'required|max:20|unique:matriz.personas,DNI',
+            'dni' => 'nullable|max:20|unique:matriz.personas,DNI',
             'nombres' => 'required|max:100',
             'apellidos' => 'required|max:100',
             'fecha_nacimiento' => 'nullable|date',
             'id_empresa' => 'nullable|exists:matriz.empresas,IdEmpresa',
-            'telefonos' => 'required|array|min:1',
-            'telefonos.*.numero' => 'required|max:20|distinct',
+            'telefonos' => 'nullable|array',
+            'telefonos.*.numero' => 'nullable|max:20|distinct',
             'telefonos.*.id_operadora' => 'nullable|exists:matriz.telefono_tipo_operadoras,IdOperadora',
             'correos' => 'nullable|array',
             'correos.*.correo' => 'nullable|email|max:255',
@@ -73,7 +73,7 @@ class PersonaController extends Controller
         ]);
 
         $persona = Persona::create([
-            'DNI' => $request->dni,
+            'DNI' => $request->dni ?: null,
             'Nombres' => $request->nombres,
             'Apellidos' => $request->apellidos,
             'FechaNacimiento' => $request->fecha_nacimiento ?: null,
@@ -81,7 +81,7 @@ class PersonaController extends Controller
         ]);
 
         $telefonosIds = [];
-        foreach ($request->telefonos as $telefonoData) {
+        foreach ($request->input('telefonos', []) as $telefonoData) {
             if (empty($telefonoData['numero'])) {
                 continue;
             }
@@ -168,7 +168,7 @@ class PersonaController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'dni' => 'required',
+            'dni' => 'nullable|max:20',
             'nombres' => 'required',
             'apellidos' => 'required',
             'fecha_nacimiento' => 'nullable|date',
@@ -195,7 +195,7 @@ class PersonaController extends Controller
         |--------------------------------------------------------------------------
         */
         $persona->update([
-            'DNI' => $request->dni,
+            'DNI' => $request->dni ?: null,
             'Nombres' => $request->nombres,
             'Apellidos' => $request->apellidos,
             'FechaNacimiento' => $request->fecha_nacimiento ?: null,

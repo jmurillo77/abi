@@ -64,7 +64,7 @@
             {{-- Datos personales --}}
             <div class="form-group">
                 <label>Documento</label>
-                <input type="text" name="dni" class="form-control" value="{{ old('dni') }}" required>
+                <input type="text" name="dni" class="form-control" value="{{ old('dni') }}">
             </div>
 
             <div class="form-row">
